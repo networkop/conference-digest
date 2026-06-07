@@ -1,0 +1,74 @@
+name: Conference Digest
+
+on:
+  schedule:
+    # Every two weeks, Monday 08:00 UTC (cron has no native fortnightly;
+    # this runs weekly and the state machine no-ops when nothing is new,
+    # so effectively you only get issues when there's something to digest).
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+    inputs:
+      conference:
+        description: 'Registry key to force (e.g. nsdi-2025). Leave blank for normal scan.'
+        required: false
+        default: ''
+
+permissions:
+  contents: write   # commit prompts/ and state.json
+  issues: write     # open the "ready" issue
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate prompts and update state
+        id: generate
+        run: |
+          if [ -n "${{ github.event.inputs.conference }}" ]; then
+            python scripts/generate_digest_prompt.py --conference "${{ github.event.inputs.conference }}"
+          else
+            python scripts/generate_digest_prompt.py
+          fi
+
+      - name: Commit prompts and state
+        run: |
+          git config user.name  "conference-digest-bot"
+          git config user.email "actions@github.com"
+          git add prompts/ conferences/state.json run_summary.json
+          if git diff --cached --quiet; then
+            echo "nothing to commit"
+          else
+            git commit -m "digest run: update prompts and state ($(date -u +%F))"
+            git push
+          fi
+
+      - name: Build issue content
+        if: steps.generate.outputs.notify == 'true'
+        run: python scripts/build_issue.py
+
+      - name: Open issue
+        if: steps.generate.outputs.notify == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const title = fs.readFileSync('issue_title.txt', 'utf8').trim();
+            const body  = fs.readFileSync('issue_body.md', 'utf8');
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body,
+              labels: ['digest'],
+            });

@@ -1,0 +1,129 @@
+# Conference registry.
+#
+# Each entry describes one *edition* of a conference (a specific year's event).
+# The orchestrator selects an edition for digesting when:
+#   - its `end_date` is in the past (artifacts are usually published post-event), AND
+#   - it has not already been digested (inferred: no digests/<key>.md exists), AND
+#   - the fetcher successfully retrieves real program content.
+#
+# An edition that is past but whose artifacts are not yet published stays
+# `pending` and is retried on every subsequent scheduled run until it succeeds
+# or crosses the stall threshold (see conferences/state.json + orchestrator).
+#
+# FIELDS
+#   key        Unique slug. Also the prompt/digest filename stem. No spaces.
+#   name       Human-readable conference + year.
+#   type       One of: academic | standards | vendor | operator | security
+#              Drives how the universal prompt tells Claude to read the program.
+#   end_date   ISO date (YYYY-MM-DD) the event ended. Selection is based on this.
+#   fetcher    Which fetcher module handles it: usenix | ietf | sched
+#   program_url
+#              The machine-or-human-readable program endpoint the fetcher pulls.
+#   manual_fallback_url
+#              Page for YOU to open and paste in if auto-fetch is blocked.
+#              (USENIX and Sched can bot-block; this is the escape hatch.)
+#   notes      Free text; surfaced in the prompt's front matter.
+#
+# To add next year's edition, copy the block and bump key/name/end_date/url.
+
+conferences:
+
+  # ----------------------------------------------------------------------- #
+  # USENIX  (academic). Static program pages carry title + authors + abstract.
+  # The site bot-blocks; fetcher uses browser-like headers, then falls back to
+  # manual paste. URL pattern: /conference/<event><yy>/technical-sessions
+  # ----------------------------------------------------------------------- #
+
+  - key: nsdi-2025
+    name: "NSDI '25 (22nd USENIX Symposium on Networked Systems Design and Implementation)"
+    type: academic
+    end_date: 2025-04-30
+    fetcher: usenix
+    program_url: "https://www.usenix.org/conference/nsdi25/technical-sessions"
+    manual_fallback_url: "https://www.usenix.org/conference/nsdi25/technical-sessions"
+    notes: "Philadelphia, PA. Core networking research: datacenter, transport, verification, ML systems."
+
+  - key: usenix-security-2025
+    name: "USENIX Security '25 (34th USENIX Security Symposium)"
+    type: academic
+    end_date: 2025-08-15
+    fetcher: usenix
+    program_url: "https://www.usenix.org/conference/usenixsecurity25/technical-sessions"
+    manual_fallback_url: "https://www.usenix.org/conference/usenixsecurity25/technical-sessions"
+    notes: "Systems & network security, identity, authentication, applied crypto. Verify exact end_date against the event page."
+
+  - key: srecon-2025-americas
+    name: "SREcon25 Americas"
+    type: operator
+    end_date: 2025-03-27
+    fetcher: usenix
+    program_url: "https://www.usenix.org/conference/srecon25americas/program"
+    manual_fallback_url: "https://www.usenix.org/conference/srecon25americas/program"
+    notes: "Reliability/ops angle. Note: SREcon uses /program not /technical-sessions; fetcher handles both. Verify date/slug."
+
+  # ----------------------------------------------------------------------- #
+  # IETF  (standards). Open JSON API at datatracker.ietf.org/api/v1 (no key,
+  # no bot-block). No search endpoint: fetcher walks meeting -> sessions ->
+  # WG active drafts and assembles titles + abstracts. Substance lives in the
+  # drafts, not the thin session records.
+  # ----------------------------------------------------------------------- #
+
+  - key: ietf-122
+    name: "IETF 122 (Bangkok)"
+    type: standards
+    end_date: 2025-03-21
+    fetcher: ietf
+    program_url: "https://datatracker.ietf.org/meeting/122/agenda.json"
+    manual_fallback_url: "https://datatracker.ietf.org/meeting/122/agenda"
+    notes: "Filter to WGs relevant to networking/security/identity (e.g. oauth, scitt, wimse, rats, masque, tls, dnsop, ipsecme, anima, savnet)."
+
+  - key: ietf-123
+    name: "IETF 123 (Madrid)"
+    type: standards
+    end_date: 2025-07-25
+    fetcher: ietf
+    program_url: "https://datatracker.ietf.org/meeting/123/agenda.json"
+    manual_fallback_url: "https://datatracker.ietf.org/meeting/123/agenda"
+    notes: "Same WG focus list as IETF 122."
+
+  # ----------------------------------------------------------------------- #
+  # KubeCon / CNCF  (vendor/community, on Sched). The session-management API
+  # needs an ORGANIZER key we do not have, BUT the public schedule is plain
+  # HTML and needs no key. Fetcher parses the public site. Same bot-block
+  # risk + manual fallback as USENIX. This unlocks the whole CNCF cluster
+  # later (CiliumCon, eBPF Day, OSS) which all run on Sched.
+  # ----------------------------------------------------------------------- #
+
+  - key: kubecon-eu-2025
+    name: "KubeCon + CloudNativeCon Europe 2025 (London)"
+    type: vendor
+    end_date: 2025-04-04
+    fetcher: sched
+    program_url: "https://kccnceu2025.sched.com/list/descriptions/"
+    manual_fallback_url: "https://kccnceu2025.sched.com/"
+    notes: "London. Networking/eBPF/identity tracks; CiliumCon + eBPF Day co-located (separate Sched instances, add later). Verify the sched subdomain."
+
+  - key: kubecon-na-2025
+    name: "KubeCon + CloudNativeCon North America 2025"
+    type: vendor
+    end_date: 2025-11-14
+    fetcher: sched
+    program_url: "https://kccncna2025.sched.com/list/descriptions/"
+    manual_fallback_url: "https://kccncna2025.sched.com/"
+    notes: "Verify sched subdomain + exact end_date when scheduling near the event."
+
+  # ----------------------------------------------------------------------- #
+  # SIGCOMM  (academic). Static HTML, no JS wall, no bot-block observed.
+  # Program is a day->session table at /sigcomm/<year>/program/papers-info/
+  # with title, authors, full abstract, ACM DL PDF, and YouTube video per
+  # paper. Richest source of the set. URL pattern is stable year to year.
+  # ----------------------------------------------------------------------- #
+
+  - key: sigcomm-2025
+    name: "ACM SIGCOMM 2025 (Coimbra)"
+    type: academic
+    end_date: 2025-09-11
+    fetcher: sigcomm
+    program_url: "https://conferences.sigcomm.org/sigcomm/2025/program/papers-info/"
+    manual_fallback_url: "https://conferences.sigcomm.org/sigcomm/2025/program/papers-info/"
+    notes: "39th edition. Flagship data-comm research: datacenter, transport, measurement, hardware, NetAI. Per-paper video links included."
