@@ -23,6 +23,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history so git pull --rebase works
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -45,21 +47,24 @@ jobs:
         run: |
           git config user.name  "conference-digest-bot"
           git config user.email "actions@github.com"
-          git add prompts/ conferences/state.json run_summary.json
+          # run_summary.json is ephemeral (read by the issue step in this same
+          # job) and intentionally NOT committed — committing it every run made
+          # main churn and race with itself.
+          git add prompts/ conferences/state.json
           if git diff --cached --quiet; then
             echo "nothing to commit"
             exit 0
           fi
           git commit -m "digest run: update prompts and state ($(date -u +%F))"
-          # The remote may have advanced between checkout and now (e.g. a
-          # concurrent push or run). Rebase onto latest main and retry the
-          # push a few times before giving up.
+          # The remote may have advanced between checkout and now. Rebase onto
+          # latest main and retry the push a few times before giving up.
           for attempt in 1 2 3; do
             if git push; then
               echo "pushed on attempt $attempt"
               exit 0
             fi
             echo "push rejected (attempt $attempt); rebasing onto origin/main"
+            git fetch origin main
             git pull --rebase origin main
           done
           echo "push failed after retries" >&2
