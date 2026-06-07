@@ -48,10 +48,22 @@ jobs:
           git add prompts/ conferences/state.json run_summary.json
           if git diff --cached --quiet; then
             echo "nothing to commit"
-          else
-            git commit -m "digest run: update prompts and state ($(date -u +%F))"
-            git push
+            exit 0
           fi
+          git commit -m "digest run: update prompts and state ($(date -u +%F))"
+          # The remote may have advanced between checkout and now (e.g. a
+          # concurrent push or run). Rebase onto latest main and retry the
+          # push a few times before giving up.
+          for attempt in 1 2 3; do
+            if git push; then
+              echo "pushed on attempt $attempt"
+              exit 0
+            fi
+            echo "push rejected (attempt $attempt); rebasing onto origin/main"
+            git pull --rebase origin main
+          done
+          echo "push failed after retries" >&2
+          exit 1
 
       - name: Build issue content
         if: steps.generate.outputs.notify == 'true'
