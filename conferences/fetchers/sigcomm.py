@@ -63,9 +63,27 @@ class SigcommFetcher(Fetcher):
 
         text, count = self._parse(resp.text)
         if count == 0:
+            # Diagnostic: local parses fine but CI may receive a different page
+            # (consent shell, JS stub, geo/CDN variant). Surface what we got so
+            # the run log explains a zero-parse instead of hiding it.
+            body = resp.text
+            import sys
+            print(
+                f"[sigcomm] zero parse | status={resp.status_code} "
+                f"len={len(body)} "
+                f"has<table>={'<table' in body} has<tr>={'<tr' in body} "
+                f"style_italic={'style_italic' in body} "
+                f"session-={'id=\"session-' in body} "
+                f"finalurl={resp.url}",
+                file=sys.stderr,
+            )
+            print("[sigcomm] first 800 chars:\n" + body[:800], file=sys.stderr)
             return FetchResult(
                 status=NOT_PUBLISHED,
-                detail="page reachable but no paper rows parsed (program not up yet?)",
+                detail=(
+                    f"reachable but 0 paper rows; len={len(body)} "
+                    f"table={'<table' in body} italic={'style_italic' in body}"
+                ),
                 source_url=url,
             )
         return FetchResult(
