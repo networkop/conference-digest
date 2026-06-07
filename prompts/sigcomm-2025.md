@@ -1,10 +1,24 @@
+>>> HOW TO RUN THIS <<<
+Produce the digest below and SAVE IT as a markdown file at exactly:
+    digests/sigcomm-2025.md
+If you have access to the conference-digest repository (e.g. via a
+filesystem connector), write the file there directly. Otherwise, output
+the file contents so it can be saved to that path. Use that exact
+filename — it is how the pipeline marks this conference done.
+Do not also paste the digest into chat if you wrote the file; a brief
+confirmation is enough.
+================================================================
+
 You are helping a product manager triage conference talks. The PM has 15+
 years of experience spanning physical and software networking, network
-security, and digital identity. They work in cloud-native networking and
-infrastructure (eBPF, Cilium, Kubernetes networking, Gateway API, service
-mesh, IPAM, BGP/datapath internals) and track adjacent developments in
-network security and in identity/authentication (passkeys/FIDO, OAuth, OIDC,
-SPIFFE/SPIRE, workload and agentic identity).
+security, and digital identity. Their core interests are: physical datacenter
+networking (optics, switching, topology, RDMA/lossless fabrics, cabling,
+DC/WAN interconnect), software and cloud-native networking (eBPF, Cilium,
+Kubernetes networking, Gateway API, service mesh, IPAM, BGP/datapath
+internals), network security, and identity/authentication (passkeys/FIDO,
+OAuth, OIDC, SPIFFE/SPIRE, workload and agentic identity). Physical DC and WAN
+systems work is CORE to this PM, not adjacent — do not down-rank a paper for
+being about hardware, optics, or datacenter fabric.
 
 Below is the program for ACM SIGCOMM 2025 (Coimbra) (academic). Read it and produce a digest
 of the talks/papers/sessions most worth their attention.
@@ -32,18 +46,34 @@ of the talks/papers/sessions most worth their attention.
 
 Group selected items into three relevance tiers:
 
-- Core: directly relevant to cloud-native networking, network security, or
-  identity as the PM works on them today.
+- Core: directly relevant to the PM's core interests as listed above
+  (physical DC networking, cloud-native networking, network security, or
+  identity) as they work on them today.
 - Adjacent: relevant to the broader field; useful context or near-term
   influence.
-- Wildcard: 2-4 items that aren't an obvious fit but are genuinely novel or
-  signal where the field is heading. Be willing to surprise.
+- Wildcard: 2-4 items that are NOT a direct fit for the PM's core interests
+  but are worth their attention anyway because the work is genuinely novel or
+  signals where the field is heading (a new technique, a surprising result, an
+  emerging subfield). A Wildcard should make the PM think "I wouldn't have
+  searched for this, but I'm glad I saw it." Do not pad this tier — if there
+  are only two true wildcards, list two.
 
-For each selected item provide:
-- Title and speaker(s)/author(s) with affiliation
-- One sentence on what it ACTUALLY covers (not the marketing abstract)
-- Why it matters to this PM, or why it's a wildcard
-- The tier (Core / Adjacent / Wildcard)
+For each selected item provide, in this structure:
+- **Title** and speaker(s)/author(s) with affiliation, and the tier.
+- **Links**: reference links to the paper, slides, and recording where the
+  program provides them (the program text below includes pdf:/video: links per
+  item when available — use those exact URLs; omit a link if not present rather
+  than guessing).
+- **Why**: why this matters — the problem it addresses and why it's worth the
+  PM's time.
+- **What**: what the work actually is — the core contribution or finding, in
+  plain terms (not the marketing abstract).
+- **How**: how it works — the key technical approach or mechanism.
+- **Where applicable**: the environment this applies to, and any specifics that
+  constrain it. Explicitly flag if it is org-specific (e.g. "Alibaba-specific
+  production setup", "requires Broadcom Tomahawk silicon", "assumes a
+  single-operator WAN") versus broadly applicable. If it's a general technique,
+  say so.
 
 Then a short "Themes" section (3-6 bullets) naming patterns across the
 program: what the field is collectively paying attention to this cycle.
@@ -71,8 +101,7 @@ generated: 2026-06-07
 registry_key: sigcomm-2025
 ---
 
-Then the digest as markdown (tiers as sections, Themes at the end). This file
-will be committed to the repo as digests/sigcomm-2025.md.
+Then the digest as markdown (tiers as sections, Themes at the end).
 
 ============================ PROGRAM TEXT ============================
 
