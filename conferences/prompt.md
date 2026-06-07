@@ -71,8 +71,7 @@ generated: {DATE}
 registry_key: {KEY}
 ---
 
-Then the digest as markdown (tiers as sections, Themes at the end). This file
-will be committed to the repo as digests/{KEY}.md.
+Then the digest as markdown (tiers as sections, Themes at the end).
 
 ============================ PROGRAM TEXT ============================
 

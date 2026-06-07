@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
-"""Render run_summary.json into a GitHub Issue title + body (markdown).
+"""Render run_summary.json into a set of per-conference GitHub issues.
 
-Writes issue_title.txt and issue_body.md for the workflow's github-script step
-to consume. Keeps the prompt OUT of the body (prompts can be large); instead it
-links to the committed prompts/<key>.md and tells you what to do.
+Writes issues.json: a list of {key, title, body, labels} objects, one per
+conference that needs attention (ready / manual / stalled). The workflow's
+github-script step loops over this and opens one issue each, idempotently
+(it skips a conference that already has an open issue with the same conf label).
+
+Each issue carries a label "conf:<key>" so the close-workflow can find and
+close it when digests/<key>.md lands on main.
+
+"waiting" conferences get NO issue (they're just silently retried next run).
 """
 
 import json
@@ -13,54 +19,70 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 summary = json.loads((ROOT / "run_summary.json").read_text(encoding="utf-8"))
 
-ready = summary.get("ready", [])
-manual = summary.get("manual", [])
-waiting = summary.get("waiting", [])
-stalled = summary.get("stalled", [])
+today = date.today().isoformat()
+issues = []
 
-title = f"Conference digests ready — {date.today().isoformat()} ({len(ready)} ready)"
 
-lines = []
-lines.append(f"_Run mode: **{summary.get('mode')}** · generated {summary.get('generated')}_")
-lines.append("")
+def conf_label(key: str) -> str:
+    return f"conf:{key}"
 
-if ready:
-    lines.append("## ✅ Ready to digest")
-    lines.append("Open the prompt file, copy it whole, paste into Claude Desktop, "
-                 "then commit the result to `digests/<key>.md`.")
-    lines.append("")
-    for r in ready:
-        lines.append(f"- **{r['name']}** — `{r['items']}` items  ")
-        lines.append(f"  prompt: [`prompts/{r['key']}.md`](../blob/main/prompts/{r['key']}.md) "
-                     f"→ commit to `digests/{r['key']}.md`")
-    lines.append("")
 
-if manual:
-    lines.append("## ✋ Needs manual fetch (auto-fetch blocked)")
-    lines.append("The site blocked automated retrieval. Open the page, copy the program, "
-                 "and paste it where the prompt says `{PROGRAM_TEXT}`.")
-    lines.append("")
-    for r in manual:
-        lines.append(f"- **{r['name']}** — attempt {r['attempts']}: {r['detail']}  ")
-        if r.get("manual_url"):
-            lines.append(f"  page: {r['manual_url']}")
-    lines.append("")
+for r in summary.get("ready", []):
+    key = r["key"]
+    body = (
+        f"**{r['name']}** — {r['items']} items parsed.\n\n"
+        "Ready to digest. Open the prompt, run it (in Claude Desktop with repo "
+        "access, or paste it), and commit the result to "
+        f"`digests/{key}.md`.\n\n"
+        f"Prompt: [`prompts/{key}.md`](../blob/main/prompts/{key}.md)\n\n"
+        f"This issue closes automatically once `digests/{key}.md` is committed "
+        "to `main`."
+    )
+    issues.append(
+        {
+            "key": key,
+            "title": f"Digest ready: {r['name']}",
+            "body": body,
+            "labels": ["digest", conf_label(key)],
+        }
+    )
 
-if stalled:
-    lines.append("## ⚠️ Stalled — fetcher likely needs adjusting")
-    lines.append(f"These have failed {summary['counts'].get('stalled', '?')}+ times. "
-                 "The site structure or URL probably changed.")
-    lines.append("")
-    for r in stalled:
-        lines.append(f"- **{r['name']}** — {r['attempts']} attempts: {r['detail']}")
-    lines.append("")
+for r in summary.get("manual", []):
+    key = r["key"]
+    body = (
+        f"**{r['name']}** — auto-fetch blocked (attempt {r['attempts']}).\n\n"
+        f"{r['detail']}\n\n"
+        "Open the page below, copy the program, and paste it where the prompt "
+        f"says `{{PROGRAM_TEXT}}`, then run and commit to `digests/{key}.md`.\n\n"
+    )
+    if r.get("manual_url"):
+        body += f"Page: {r['manual_url']}\n"
+    issues.append(
+        {
+            "key": key,
+            "title": f"Manual fetch needed: {r['name']}",
+            "body": body,
+            "labels": ["digest", "manual", conf_label(key)],
+        }
+    )
 
-if waiting:
-    lines.append("## ⏳ Waiting on publication (will retry)")
-    for r in waiting:
-        lines.append(f"- {r['name']} — {r['detail']}")
-    lines.append("")
+for r in summary.get("stalled", []):
+    key = r["key"]
+    body = (
+        f"**{r['name']}** — {r['attempts']} failed fetch attempts.\n\n"
+        f"{r['detail']}\n\n"
+        "The site structure or URL has probably changed; the fetcher likely "
+        "needs adjusting. (This issue will not auto-close until a digest is "
+        "committed.)"
+    )
+    issues.append(
+        {
+            "key": key,
+            "title": f"Fetcher stalled: {r['name']}",
+            "body": body,
+            "labels": ["digest", "stalled", conf_label(key)],
+        }
+    )
 
-(ROOT / "issue_title.txt").write_text(title + "\n", encoding="utf-8")
-(ROOT / "issue_body.md").write_text("\n".join(lines), encoding="utf-8")
-print("issue title:", title)
+(ROOT / "issues.json").write_text(json.dumps(issues, indent=2) + "\n", encoding="utf-8")
+print(f"prepared {len(issues)} issue(s): {[i['key'] for i in issues]}")

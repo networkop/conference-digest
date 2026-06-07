@@ -1,0 +1,81 @@
+name: Close Digest Issue
+
+# When a digest file lands on main, close the matching per-conference issue.
+# The link between digest and issue is the "conf:<key>" label, where <key> is
+# the digest filename stem (digests/<key>.md).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'digests/*.md'
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  close:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # need history to diff the push
+
+      - name: Find newly added digests and close their issues
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { execSync } = require('child_process');
+
+            // Files added/modified in this push (before..after).
+            const before = context.payload.before;
+            const after = context.payload.after;
+            let changed = [];
+            try {
+              // If 'before' is all-zeros (new branch), fall back to last commit.
+              const range = /^0+$/.test(before) ? `${after}~1 ${after}` : `${before} ${after}`;
+              const out = execSync(`git diff --name-only ${range}`, { encoding: 'utf8' });
+              changed = out.split('\n').filter(Boolean);
+            } catch (e) {
+              console.log('diff failed, falling back to last commit:', e.message);
+              const out = execSync(`git show --name-only --pretty=format: ${after}`, { encoding: 'utf8' });
+              changed = out.split('\n').filter(Boolean);
+            }
+
+            const digestFiles = changed.filter(f => f.startsWith('digests/') && f.endsWith('.md'));
+            if (digestFiles.length === 0) {
+              console.log('no digest files in this push');
+              return;
+            }
+
+            for (const f of digestFiles) {
+              const key = f.replace(/^digests\//, '').replace(/\.md$/, '');
+              const label = `conf:${key}`;
+              const open = await github.rest.issues.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                labels: label,
+              });
+              if (open.data.length === 0) {
+                console.log(`no open issue for ${key} (label ${label})`);
+                continue;
+              }
+              for (const issue of open.data) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  body: `Digest committed at \`${f}\` — closing automatically.`,
+                });
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  state: 'closed',
+                });
+                console.log(`closed #${issue.number} for ${key}`);
+              }
+            }

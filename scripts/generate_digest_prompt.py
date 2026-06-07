@@ -80,7 +80,7 @@ def parse_date(s) -> date:
 
 def build_prompt(entry: dict, program_text: str, source_url: str) -> str:
     template = PROMPT_TEMPLATE.read_text(encoding="utf-8")
-    return (
+    body = (
         template.replace("{CONFERENCE}", entry["name"])
         .replace("{TYPE}", entry["type"])
         .replace("{SOURCE_URL}", source_url)
@@ -88,6 +88,26 @@ def build_prompt(entry: dict, program_text: str, source_url: str) -> str:
         .replace("{DATE}", date.today().isoformat())
         .replace("{PROGRAM_TEXT}", program_text)
     )
+    # Run-note prepended for whoever executes this prompt. Kept separate from
+    # the prompt proper so the triage instructions stay portable. When pasted
+    # into a Claude session with filesystem/repo access, this tells it to write
+    # the result to the right path; in a plain chat it's a harmless instruction
+    # to output a file with that name.
+    key = entry["key"]
+    sep = "=" * 64
+    run_note = (
+        ">>> HOW TO RUN THIS <<<\n"
+        "Produce the digest below and SAVE IT as a markdown file at exactly:\n"
+        f"    digests/{key}.md\n"
+        "If you have access to the conference-digest repository (e.g. via a\n"
+        "filesystem connector), write the file there directly. Otherwise, output\n"
+        "the file contents so it can be saved to that path. Use that exact\n"
+        "filename — it is how the pipeline marks this conference done.\n"
+        "Do not also paste the digest into chat if you wrote the file; a brief\n"
+        "confirmation is enough.\n"
+        f"{sep}\n\n"
+    )
+    return run_note + body
 
 
 def select(registry: list[dict], only_key: str | None) -> list[dict]:
