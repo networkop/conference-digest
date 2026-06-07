@@ -68,12 +68,13 @@ class SigcommFetcher(Fetcher):
             # the run log explains a zero-parse instead of hiding it.
             body = resp.text
             import sys
+            has_session_id = ('id="session-' in body)
             print(
                 f"[sigcomm] zero parse | status={resp.status_code} "
                 f"len={len(body)} "
-                f"has<table>={'<table' in body} has<tr>={'<tr' in body} "
+                f"has_table={'<table' in body} has_tr={'<tr' in body} "
                 f"style_italic={'style_italic' in body} "
-                f"session-={'id=\"session-' in body} "
+                f"session_id={has_session_id} "
                 f"finalurl={resp.url}",
                 file=sys.stderr,
             )
