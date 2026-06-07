@@ -1,8 +1,8 @@
 {
   "sigcomm-2025": {
-    "status": "pending",
-    "attempts": 1,
-    "last_attempt": "2026-06-07T16:26:01.475546+00:00",
-    "last_error": "page reachable but no paper rows parsed (program not up yet?)"
+    "status": "published",
+    "attempts": 0,
+    "last_attempt": "2026-06-07T16:51:01.269270+00:00",
+    "last_error": ""
   }
 }
