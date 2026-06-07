@@ -1,0 +1,22 @@
+{
+  "generated": "2026-06-07T16:08:39.808868+00:00",
+  "mode": "manual",
+  "counts": {
+    "ready": 0,
+    "waiting": 1,
+    "manual": 0,
+    "stalled": 0
+  },
+  "ready": [],
+  "waiting": [
+    {
+      "key": "sigcomm-2025",
+      "name": "ACM SIGCOMM 2025 (Coimbra)",
+      "attempts": 1,
+      "detail": "page reachable but no paper rows parsed (program not up yet?)",
+      "manual_url": "https://conferences.sigcomm.org/sigcomm/2025/program/papers-info/"
+    }
+  ],
+  "manual": [],
+  "stalled": []
+}
