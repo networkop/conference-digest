@@ -91,17 +91,33 @@ program: what the field is collectively paying attention to this cycle.
 
 ## Output format
 
-Begin the output with this YAML front matter block, filled in:
+Target renderer is GitHub (GitHub-Flavored Markdown viewed in a repo). Use only
+syntax GitHub renders reliably, and follow these rules:
 
----
+- Headings with `#`/`##`/`###`; bold with `**...**`; italics with `*...*`.
+- Bullet lists with `-`. Put a blank line before every list and before every
+  heading, or GitHub won't render them correctly.
+- Keep nested-list indentation at two spaces per level; avoid deeper nesting.
+- All links as `[text](url)` — never bare URLs. Use the exact pdf:/video: URLs
+  from the program text.
+- No raw HTML except the metadata comment below. Do not use heading IDs,
+  footnotes, definition lists, or other non-GFM extensions.
+- You may use tables and `code spans` where they genuinely help, since GitHub
+  supports them; don't force them.
+
+Begin the output with this metadata, wrapped in an HTML comment so it does not
+show in the rendered view but stays in the source:
+
+<!--
 conference: ACM SIGCOMM 2025 (Coimbra)
 type: academic
 source_url: https://conferences.sigcomm.org/sigcomm/2025/program/papers-info/
-generated: 2026-06-07
+generated: 2026-06-08
 registry_key: sigcomm-2025
----
+-->
 
-Then the digest as markdown (tiers as sections, Themes at the end).
+Then the digest as markdown (tiers as `##` sections, Themes as a final `##`
+section).
 
 ============================ PROGRAM TEXT ============================
 
