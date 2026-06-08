@@ -16,5 +16,41 @@
     "attempts": 0,
     "last_attempt": "2026-06-08T19:37:49.918693+00:00",
     "last_error": ""
+  },
+  "usenix-security-2025": {
+    "status": "local_required",
+    "attempts": 0,
+    "last_attempt": "2026-06-08T09:43:31.623649+00:00",
+    "last_error": ""
+  },
+  "srecon-2025-americas": {
+    "status": "local_required",
+    "attempts": 0,
+    "last_attempt": "2026-06-08T09:43:31.623649+00:00",
+    "last_error": ""
+  },
+  "ietf-122": {
+    "status": "published",
+    "attempts": 0,
+    "last_attempt": "2026-06-08T09:43:31.623649+00:00",
+    "last_error": ""
+  },
+  "ietf-123": {
+    "status": "published",
+    "attempts": 0,
+    "last_attempt": "2026-06-08T09:43:31.623649+00:00",
+    "last_error": ""
+  },
+  "kubecon-eu-2025": {
+    "status": "manual",
+    "attempts": 1,
+    "last_attempt": "2026-06-08T09:43:31.623649+00:00",
+    "last_error": "Sched returned 403 / challenge; open the schedule and paste it manually."
+  },
+  "kubecon-na-2025": {
+    "status": "manual",
+    "attempts": 1,
+    "last_attempt": "2026-06-08T09:43:31.623649+00:00",
+    "last_error": "Sched returned 403 / challenge; open the schedule and paste it manually."
   }
 }
