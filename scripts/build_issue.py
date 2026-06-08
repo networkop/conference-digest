@@ -39,28 +39,38 @@ def run_prompt_instructions(key: str) -> str:
 def local_fetch_instructions(key: str, program_url: str) -> str:
     return (
         "This source blocks automated fetches from CI (datacenter IPs get a "
-        "403), so the prompt must be generated **from your own machine**:\n\n"
-        "```bash\n"
-        "cd conference-digest\n"
-        f"python3 scripts/generate_digest_prompt.py --conference {key}\n"
-        "```\n\n"
-        f"That writes `prompts/{key}.md`. Then run that prompt (read it in a "
-        "Claude session with repo access, or paste it) and commit the result to "
-        f"`digests/{key}.md`.\n\n"
-        f"Program page: {program_url}"
+        "403), so generate the prompt **from your own machine**:\n\n"
+        "1. Fetch the program and build the prompt:\n"
+        "   ```bash\n"
+        "   cd conference-digest\n"
+        f"   python3 scripts/generate_digest_prompt.py --conference {key}\n"
+        "   ```\n"
+        f"   This writes `prompts/{key}.md`.\n"
+        "2. Run the digest: in a Claude session with filesystem access to this "
+        f"repo, tell it: \"Read `prompts/{key}.md` and follow its instructions.\"\n"
+        f"3. Commit the result as `digests/{key}.md` (that auto-closes this issue).\n\n"
+        f"_Fallback, only if your machine is also blocked: open {program_url}, copy "
+        f"the program, and paste it into `prompts/{key}.md` where it says "
+        "`{PROGRAM_TEXT}` before running step 2._"
     )
 
 
 def manual_paste_instructions(key: str, manual_url: str) -> str:
     return (
-        "Automated fetch reached the site but was blocked or returned nothing "
-        "parseable. Fetch the program by hand:\n\n"
-        f"1. Open the program page: {manual_url}\n"
-        "2. Copy the session/paper list.\n"
-        f"3. Run `python3 scripts/generate_digest_prompt.py --conference {key}` "
-        "locally if your machine isn't blocked, OR paste the copied program text "
-        f"into the prompt where it says `{{PROGRAM_TEXT}}`.\n"
-        f"4. Run the prompt and commit the result to `digests/{key}.md`."
+        "Automated fetch reached the site but returned nothing parseable. Try a "
+        "local run first — it usually works from a non-datacenter IP:\n\n"
+        "1. Fetch and build the prompt locally:\n"
+        "   ```bash\n"
+        "   cd conference-digest\n"
+        f"   python3 scripts/generate_digest_prompt.py --conference {key}\n"
+        "   ```\n"
+        f"   If that writes `prompts/{key}.md` with real content, continue.\n"
+        "2. Run the digest: tell a repo-connected Claude session: "
+        f"\"Read `prompts/{key}.md` and follow its instructions.\"\n"
+        f"3. Commit the result as `digests/{key}.md`.\n\n"
+        f"_Fallback, if the local run also comes back empty: open {manual_url}, "
+        f"copy the program, paste it into `prompts/{key}.md` where it says "
+        "`{PROGRAM_TEXT}`, then do step 2._"
     )
 
 
