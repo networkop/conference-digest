@@ -98,11 +98,37 @@ class UsenixFetcher(Fetcher):
                 # probably a nav/heading false positive; skip
                 continue
 
+            # Links: USENIX is open access. The title links to the paper's
+            # presentation page (which carries the free PDF + slides). Capture
+            # that page URL, plus any direct .pdf link in the node, so the
+            # digesting session can fetch the full paper to enrich the digest.
+            page_url = ""
+            title_link = title_el.find("a") if hasattr(title_el, "find") else None
+            if title_link is None:
+                title_link = node.find("a", href=True)
+            if title_link and title_link.get("href"):
+                href = title_link["href"]
+                page_url = href if href.startswith("http") else f"https://www.usenix.org{href}"
+
+            pdf_url = ""
+            for a in node.find_all("a", href=True):
+                if a["href"].lower().endswith(".pdf"):
+                    h = a["href"]
+                    pdf_url = h if h.startswith("http") else f"https://www.usenix.org{h}"
+                    break
+
             seen_titles.add(title)
             count += 1
             lines.append(f"### {title}")
             if authors:
                 lines.append(f"Authors: {authors}")
+            meta = []
+            if pdf_url:
+                meta.append(f"pdf: {pdf_url}")
+            if page_url:
+                meta.append(f"page: {page_url}")
+            if meta:
+                lines.append(" | ".join(meta))
             if abstract:
                 lines.append(abstract)
             lines.append("")

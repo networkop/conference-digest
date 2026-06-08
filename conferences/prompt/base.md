@@ -16,6 +16,33 @@ of the talks/papers/sessions most worth their attention.
 
 {TYPE_GUIDANCE}
 
+## Enriching from the source material (best effort)
+
+The program text gives you a title, authors, and an abstract per item, and
+often links (`pdf:`, `page:`, `video:`). The abstract alone is thin — the full
+paper has the methodology, real results, and limitations that make the What /
+How / Where-applicable sections accurate instead of guessed.
+
+If you have a tool to fetch URLs, then for EACH selected item (Core, Adjacent,
+and Wildcard) try to retrieve the fuller source before writing it up:
+
+- Prefer a `pdf:` link; else fetch the `page:` link (often has the full text or
+  a longer description); a `video:` link is a last resort, don't transcribe it.
+- Use what you retrieve to ground What/How/Where-applicable in the paper's
+  actual contributions, evaluation, and stated constraints.
+
+This is strictly best-effort. Many links fail or are paywalled:
+
+- If a fetch fails, is paywalled, returns only an abstract, or you have no fetch
+  tool, just fall back to the abstract already in the program text. That is
+  fine and expected — do not stall or skip the item.
+- NEVER invent paper contents, numbers, or findings from a failed or partial
+  fetch. If you only had the abstract, write from the abstract.
+- Note when an item's write-up is based only on the abstract, e.g. end its
+  What line with "(from abstract only)", so the reader knows the depth.
+- Do not let enrichment change which items you select or their tier; selection
+  is from the program. Enrichment only deepens the write-up.
+
 ## What to produce
 
 Group selected items into three relevance tiers:
