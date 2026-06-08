@@ -8,7 +8,13 @@
   "nsdi-2025": {
     "status": "published",
     "attempts": 0,
-    "last_attempt": "2026-06-08T07:10:44.701042+00:00",
+    "last_attempt": "2026-06-08T08:10:22.771873+00:00",
+    "last_error": ""
+  },
+  "kubecon-na-2025": {
+    "status": "published",
+    "attempts": 0,
+    "last_attempt": "2026-06-08T19:37:49.918693+00:00",
     "last_error": ""
   }
 }
