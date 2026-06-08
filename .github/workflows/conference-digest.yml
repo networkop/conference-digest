@@ -74,7 +74,7 @@ jobs:
         if: steps.generate.outputs.notify == 'true'
         run: python scripts/build_issue.py
 
-      - name: Open issues
+      - name: Upsert issues
         if: steps.generate.outputs.notify == 'true'
         uses: actions/github-script@v7
         with:
@@ -83,7 +83,7 @@ jobs:
             const issues = JSON.parse(fs.readFileSync('issues.json', 'utf8'));
             for (const it of issues) {
               const confLabel = it.labels.find(l => l.startsWith('conf:'));
-              // idempotency: skip if an OPEN issue with this conf label exists
+              // Find an existing OPEN issue for this conference (by conf label).
               const existing = await github.rest.issues.listForRepo({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -91,15 +91,25 @@ jobs:
                 labels: confLabel,
               });
               if (existing.data.length > 0) {
-                console.log(`skip ${it.key}: open issue #${existing.data[0].number} already exists`);
-                continue;
+                // Update body + labels in place (status may have changed).
+                const num = existing.data[0].number;
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: num,
+                  title: it.title,
+                  body: it.body,
+                  labels: it.labels,
+                });
+                console.log(`updated #${num} for ${it.key} (${it.labels.join(',')})`);
+              } else {
+                const created = await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: it.title,
+                  body: it.body,
+                  labels: it.labels,
+                });
+                console.log(`opened #${created.data.number} for ${it.key}`);
               }
-              const created = await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: it.title,
-                body: it.body,
-                labels: it.labels,
-              });
-              console.log(`opened #${created.data.number} for ${it.key}`);
             }

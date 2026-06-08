@@ -107,25 +107,29 @@ def build_prompt(entry: dict, program_text: str, source_url: str) -> str:
         .replace("{PROGRAM_TEXT}", program_text)
     )
     # Run-note prepended for whoever executes this prompt. Kept separate from
-    # the prompt proper so the triage instructions stay portable. When pasted
-    # into a Claude session with filesystem/repo access, this tells it to write
-    # the result to the right path; in a plain chat it's a harmless instruction
-    # to output a file with that name.
+    # the prompt proper so the triage instructions stay portable.
     key = entry["key"]
     sep = "=" * 64
     run_note = (
         ">>> HOW TO RUN THIS <<<\n"
+        f"This is the digest prompt for {key}. If you are a Claude session with\n"
+        "filesystem access to the conference-digest repo, you can read this same\n"
+        f"file directly from `prompts/{key}.md` instead of having it pasted.\n"
         "Produce the digest below and SAVE IT as a markdown file at exactly:\n"
         f"    digests/{key}.md\n"
-        "If you have access to the conference-digest repository (e.g. via a\n"
-        "filesystem connector), write the file there directly. Otherwise, output\n"
-        "the file contents so it can be saved to that path. Use that exact\n"
-        "filename — it is how the pipeline marks this conference done.\n"
-        "Do not also paste the digest into chat if you wrote the file; a brief\n"
-        "confirmation is enough.\n"
+        "Write the file into the repo directly if you can; otherwise output the\n"
+        "file contents so it can be saved to that path. Use that exact filename —\n"
+        "it is how the pipeline marks this conference done. If you wrote the file,\n"
+        "a brief confirmation is enough; don't also paste the whole digest.\n"
         f"{sep}\n\n"
     )
     return run_note + body
+
+
+def in_ci() -> bool:
+    # GitHub Actions (and most CI) set these. Used to decide whether to skip
+    # fetching run_location:local sources that bot-block datacenter IPs.
+    return os.environ.get("GITHUB_ACTIONS") == "true" or os.environ.get("CI") == "true"
 
 
 def select(registry: list[dict], only_key: str | None) -> list[dict]:
@@ -154,15 +158,46 @@ def main() -> int:
     registry = load_registry()
     state = load_state()
     now = datetime.now(timezone.utc).isoformat()
+    ci = in_ci()
+    forced = bool(args.conference)
 
     selected = select(registry, args.conference)
-    results = {"ready": [], "waiting": [], "manual": [], "stalled": []}
+
+    # Every selected conference is an OPEN WORK ITEM and gets a status record,
+    # regardless of whether fetch succeeds. The issue layer ensures an issue
+    # exists for each and updates its body from this status. status is one of:
+    #   ready          prompt written, ready to run
+    #   waiting        fetch reached the source but nothing to parse yet
+    #   local_required run_location:local and we're in CI -> must fetch locally
+    #   manual         fetch blocked (bot challenge); paste the page in by hand
+    #   stalled        too many failed attempts; fetcher likely needs fixing
+    items = []
 
     for entry in selected:
         key = entry["key"]
+        run_location = entry.get("run_location", "auto")
         st = state.setdefault(
             key, {"status": "pending", "attempts": 0, "last_attempt": None, "last_error": ""}
         )
+
+        base_rec = {
+            "key": key,
+            "name": entry["name"],
+            "type": entry["type"],
+            "run_location": run_location,
+            "program_url": entry.get("program_url", ""),
+            "manual_url": entry.get("manual_fallback_url", ""),
+        }
+
+        # local-only source in CI: don't even attempt the fetch (it will 403).
+        # The work item still exists; the issue will carry local instructions.
+        if run_location == "local" and ci and not forced:
+            st["last_attempt"] = now
+            st["status"] = "local_required"
+            items.append({**base_rec, "status": "local_required",
+                          "attempts": st.get("attempts", 0),
+                          "detail": "source bot-blocks CI; fetch locally"})
+            continue
 
         fetcher = get_fetcher(entry["fetcher"])
         try:
@@ -181,48 +216,46 @@ def main() -> int:
             st["status"] = "published"
             st["attempts"] = 0
             st["last_error"] = ""
-            results["ready"].append(
-                {"key": key, "name": entry["name"], "items": res.item_count, "detail": res.detail}
-            )
+            items.append({**base_rec, "status": "ready",
+                          "items": res.item_count, "attempts": 0,
+                          "detail": res.detail})
         else:
             st["attempts"] += 1
             st["last_error"] = res.detail
             stalled = st["attempts"] >= STALL_THRESHOLD
-            st["status"] = "stalled" if stalled else "pending"
-            bucket = "stalled" if stalled else ("manual" if res.status == MANUAL_FALLBACK else "waiting")
-            results[bucket].append(
-                {
-                    "key": key,
-                    "name": entry["name"],
-                    "attempts": st["attempts"],
-                    "detail": res.detail,
-                    "manual_url": entry.get("manual_fallback_url", ""),
-                }
-            )
+            if stalled:
+                status = "stalled"
+            elif res.status == MANUAL_FALLBACK:
+                status = "manual"
+            else:
+                status = "waiting"
+            st["status"] = status
+            items.append({**base_rec, "status": status,
+                          "attempts": st["attempts"], "detail": res.detail})
 
     save_state(state)
 
+    by_status: dict[str, int] = {}
+    for it in items:
+        by_status[it["status"]] = by_status.get(it["status"], 0) + 1
+
     summary = {
         "generated": now,
-        "mode": "manual" if args.conference else "scheduled",
-        "counts": {k: len(v) for k, v in results.items()},
-        **results,
+        "mode": "manual" if forced else "scheduled",
+        "in_ci": ci,
+        "counts": by_status,
+        "items": items,
     }
     RUN_SUMMARY.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
 
     # human-readable log
-    print(f"[{summary['mode']}] ready={len(results['ready'])} "
-          f"waiting={len(results['waiting'])} manual={len(results['manual'])} "
-          f"stalled={len(results['stalled'])}")
-    for r in results["ready"]:
-        print(f"  READY    {r['key']}: {r['items']} items")
-    for r in results["manual"]:
-        print(f"  MANUAL   {r['key']}: {r['detail']}")
-    for r in results["stalled"]:
-        print(f"  STALLED  {r['key']}: {r['attempts']} attempts - {r['detail']}")
+    print(f"[{summary['mode']}{' / ci' if ci else ''}] {len(items)} open item(s): {by_status}")
+    for it in items:
+        extra = f" ({it['items']} items)" if it.get("items") else ""
+        print(f"  {it['status'].upper():14} {it['key']}{extra} - {it['detail']}")
 
-    # signal for the workflow: open an issue only if there's something to say
-    notify = bool(results["ready"] or results["manual"] or results["stalled"])
+    # The issue layer always runs when there is at least one open work item.
+    notify = bool(items)
     if "GITHUB_OUTPUT" in os.environ:
         with open(os.environ["GITHUB_OUTPUT"], "a") as f:
             f.write(f"notify={'true' if notify else 'false'}\n")

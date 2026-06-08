@@ -22,6 +22,12 @@
 #   manual_fallback_url
 #              Page for YOU to open and paste in if auto-fetch is blocked.
 #              (USENIX and Sched can bot-block; this is the escape hatch.)
+#   run_location
+#              Optional: 'auto' (default) or 'local'. 'local' means the source
+#              bot-blocks datacenter IPs (GitHub Actions), so CI must NOT fetch
+#              it — you fetch it from your own machine with
+#              `python3 scripts/generate_digest_prompt.py --conference <key>`.
+#              The issue is still opened by CI; its body gives local instructions.
 #   notes      Free text; surfaced in the prompt's front matter.
 #
 # To add next year's edition, copy the block and bump key/name/end_date/url.
@@ -39,6 +45,7 @@ conferences:
     type: academic
     end_date: 2025-04-30
     fetcher: usenix
+    run_location: local
     program_url: "https://www.usenix.org/conference/nsdi25/technical-sessions"
     manual_fallback_url: "https://www.usenix.org/conference/nsdi25/technical-sessions"
     notes: "Philadelphia, PA. Core networking research: datacenter, transport, verification, ML systems."
@@ -48,6 +55,7 @@ conferences:
     type: academic
     end_date: 2025-08-15
     fetcher: usenix
+    run_location: local
     program_url: "https://www.usenix.org/conference/usenixsecurity25/technical-sessions"
     manual_fallback_url: "https://www.usenix.org/conference/usenixsecurity25/technical-sessions"
     notes: "Systems & network security, identity, authentication, applied crypto. Verify exact end_date against the event page."
@@ -57,6 +65,7 @@ conferences:
     type: operator
     end_date: 2025-03-27
     fetcher: usenix
+    run_location: local
     program_url: "https://www.usenix.org/conference/srecon25americas/program"
     manual_fallback_url: "https://www.usenix.org/conference/srecon25americas/program"
     notes: "Reliability/ops angle. Note: SREcon uses /program not /technical-sessions; fetcher handles both. Verify date/slug."
