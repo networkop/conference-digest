@@ -131,7 +131,7 @@ show in the rendered view but stays in the source:
 conference: IETF 122 (Bangkok)
 type: standards
 source_url: https://datatracker.ietf.org/meeting/122/agenda.json
-generated: 2026-06-08
+generated: 2026-06-15
 registry_key: ietf-122
 -->
 
@@ -569,27 +569,19 @@ This document outlines a new challenge for the ACME protocol,
    challenge-solving for a single domain.
 
 ### Automated Certificate Management Environment (ACME) Extension for Public Key Challenges  (draft-geng-acme-public-key)
-The current ACME protocol [RFC8555] requires applicants to submit a
-   PKCS#10 Certificate Signing Request (CSR) during the finalization
-   phase.  The construction, ASN.1 encoding, and transmission of the CSR
-   impose additional implementation burdens on both the client
-   (especially resource-constrained devices) and the server.  Moreover,
-   the CSR cannot prevent a public key from being replaced by an
-   intermediary at the protocol level.
-
-   This document introduces the "pk-01" challenge extension based on the
-   ACME protocol.  Its core mechanism is as follows: the applicant
-   declares the public key to be authenticated during the "newOrder"
-   phase and completes the Proof of Possession (PoP) by signing with the
-   private key during the challenge phase.  Since the public key is
-   declared when the order is created and verified during the challenge
-   phase, there is no need to submit a CSR during the finalization
-   phase; the ACME server can issue the certificate directly based on
-   the verified public key, thereby eliminating the CSR at the protocol
-   level.
-
-   The "pk-01" challenge supports two verification modes via the
-   pop_mode field:
+The Automatic Certificate Management Environment (ACME) [RFC8555]
+   requires a PKCS#10 Certificate Signing Request (CSR) at the
+   finalization stage.  This document defines a new ACME challenge type,
+   "pk-01", that allows a client to prove possession of a private key
+   directly, without constructing a CSR.  The primary motivation is to
+   support key types that cannot generate CSR self-signatures, notably
+   post-quantum Key Encapsulation Mechanism (KEM) keys.  The client
+   declares the public key via a popKey field in the "newOrder" request;
+   the server attaches the "pk-01" challenge to existing identifier
+   authorizations.  When all required authorizations are satisfied, the
+   ACME server issues a certificate using the validated public key and
+   the authorized identifiers, eliminating the need for a CSR in the
+   finalization stage.
 
 ### Automated Certificate Management Environment (ACME) Profiles Extension  (draft-aaron-acme-profiles)
 This document defines how an ACME Server may offer a selection of
@@ -1321,6 +1313,14 @@ RFC 6514 describes the BGP encodings and procedures for exchanging
    This document updates and obsoletes RFC 6514.  The original authors
    of RFC 6514 are listed at the end of this document.
 
+### BGP Encodings and Procedures for Multicast in MPLS/BGP IP VPNs  (draft-ietf-bess-rfc6514bis)
+RFC 6514 describes the BGP encodings and procedures for exchanging
+   the information elements required by Multicast in MPLS/BGP IP VPNs,
+   as specified in RFC 6513.
+
+   This document updates and obsoletes RFC 6514.  The original authors
+   of RFC 6514 are listed at the end of this document.
+
 ### EVPN Interoperability Modes  (draft-ietf-bess-evpn-modes-interop)
 Ethernet VPN (EVPN) provides different functional modes in the area
    of Service Interface, Integrated Route and Bridge (IRB) and IRB Core
@@ -1685,9 +1685,6 @@ Virtual Subnet is a BGP/MPLS IP VPN-based subnet extension solution
 
 ### IP Prefix Advertisement in Ethernet VPN (EVPN)  (draft-ietf-bess-evpn-prefix-advertisement)
 The BGP MPLS-based Ethernet VPN (EVPN) (RFC 7432) mechanism provides a flexible control plane that allows intra-subnet connectivity in an MPLS and/or Network Virtualization Overlay (NVO) (RFC 7365) network.  In some networks, there is also a need for dynamic and efficient inter-subnet connectivity across Tenant Systems and end devices that can be physical or virtual and do not necessarily participate in dynamic routing protocols.  This document defines a new EVPN route type for the advertisement of IP prefixes and explains some use-case examples where this new route type is used.
-
-### Multicast VPN State Damping  (draft-ietf-bess-multicast-damping)
-This document describes procedures to damp Multicast VPN (MVPN) routing state changes and control the effect of the churn due to the multicast dynamicity in customer sites.  The procedures described in this document are applicable to BGP-based multicast VPN and help avoid uncontrolled control-plane load increase in the core routing infrastructure.  The new procedures proposed were inspired by BGP unicast route damping principles that have been adapted to multicast.
 
 ## Working Group: cose
 ### CBOR Object Signing and Encryption (COSE): AES-CTR and AES-CBC  (draft-ietf-cose-aes-ctr-and-cbc)
@@ -2640,9 +2637,7 @@ Autonomous System (AS) path prepending is a tool to manipulate the
 
 ### A YANG Data Model for BMP  (draft-ietf-grow-bmp-yang)
 This document defines a YANG data model for the configuration and
-   monitoring of the BGP Monitoring Protocol (BMP).  The data model
-   covers the base BMP protocol defined in [RFC7854] and includes
-   support for the Loc-RIB extension defined in [RFC9069].
+   monitoring of the BGP Monitoring Protocol (BMP).
 
 ### Currently Used Terminology in Global Routing Operations  (draft-fiebig-grow-routing-ops-terms)
 Operating the global routing ecosystem entails a divers set of
@@ -4083,6 +4078,12 @@ This document registers Post-Quantum (PQ) and Post-Quantum/
    Object Signing and Encryption (JOSE), building on the Hybrid Public
    Key Encryption (HPKE) framework.
 
+### JOSE HPKE PQ & PQ/T Algorithm Registrations  (draft-ietf-jose-hpke-pq-pqt)
+This document registers Post-Quantum (PQ) and Post-Quantum/
+   Traditional (PQ/T) hybrid algorithm identifiers for use with JSON
+   Object Signing and Encryption (JOSE), building on the Hybrid Public
+   Key Encryption (HPKE) framework.
+
 ## Working Group: lamps
 ### DNS Certification Authority Authorization (CAA) Resource Record  (draft-hoffman-andrews-caa-simplification)
 The Certification Authority Authorization (CAA) DNS Resource Record
@@ -4317,17 +4318,6 @@ This document specifies the derivation of the content-encryption key
    algorithm identifier or the content-authenticated-encryption
    algorithm identifier.
 
-### Secure/Multipurpose Internet Mail Extensions (S/MIME) Version 4.0 Certificate Handling  (draft-turner-lamps-rfc8550bis)
-This document specifies conventions for X.509 certificate usage by
-   Secure/Multipurpose Internet Mail Extensions (S/MIME) v4.0 agents.
-   S/MIME provides a method to send and receive secure MIME messages,
-   and certificates are an integral part of S/MIME agent processing.  S/
-   MIME agents validate certificates as described in RFC 5280 ("Internet
-   X.509 Public Key Infrastructure Certificate and Certificate
-   Revocation List (CRL) Profile").  S/MIME agents must meet the
-   certificate-processing requirements in this document as well as those
-   in RFC 5280.  This document obsoletes RFC 5750.
-
 ### Secure/Multipurpose Internet Mail Extensions (S/MIME) Version 4.0 Message Specification  (draft-turner-lamps-rfc8551bis)
 This document defines Secure/Multipurpose Internet Mail Extensions
    (S/MIME) version 4.0.  S/MIME provides a consistent way to send and
@@ -4525,6 +4515,9 @@ This document updates RFC 8410 to clarify existing and specify
    support the Ed25519, Ed448, X25519, and X448 Elliptic Curve
    Cryptography algorithms.
 
+### X.509 Certificate General-Purpose Extended Key Usage (EKU) for Document Signing  (draft-ietf-lamps-documentsigning-eku)
+RFC 5280 specifies several extended key purpose identifiers (KeyPurposeIds) for X.509 certificates.  This document defines a general-purpose Document-Signing KeyPurposeId for inclusion in the Extended Key Usage (EKU) extension of X.509 public key certificates.  Document-Signing applications may require that the EKU extension be present and that a Document-Signing KeyPurposeId be indicated in order for the certificate to be acceptable to that Document-Signing application.
+
 ## Working Group: masque
 ### The CONNECT-UDP HTTP Method  (draft-schinazi-masque-connect-udp)
 This document describes the CONNECT-UDP HTTP method.  CONNECT-UDP is
@@ -4658,7 +4651,7 @@ The mechanism to proxy UDP in HTTP only allows each UDP proxying
    request to transmit to a specific host and port.  This is well suited
    for UDP client-server protocols such as HTTP/3, but is not sufficient
    for some UDP peer-to-peer protocols like WebRTC.  This document
-   proposes an extension to UDP proxying in HTTP that enables such use-
+   defines an extension to UDP proxying in HTTP that enables such use-
    cases.
 
 ## Working Group: nvo3
