@@ -131,7 +131,7 @@ show in the rendered view but stays in the source:
 conference: IETF 122 (Bangkok)
 type: standards
 source_url: https://datatracker.ietf.org/meeting/122/agenda.json
-generated: 2026-06-15
+generated: 2026-06-22
 registry_key: ietf-122
 -->
 
@@ -748,6 +748,11 @@ This document defines an authority token profile for the validation
    challenge mechanism, and token format necessary to authorize a client
    to request a certificate containing these constraints.
 
+### Automated Certificate Management Environment (ACME) Device Attestation Extension  (draft-ietf-acme-device-attest)
+This document specifies new identifiers and a challenge for the
+   Automated Certificate Management Environment (ACME) protocol which
+   allows validating the identity of a device using attestation.
+
 ### Automatic Certificate Management Environment (ACME) with OpenID Federation 1.0  (draft-ietf-acme-openid-federation)
 The Automatic Certificate Management Environment (ACME) protocol
    allows server operators to obtain TLS certificates for their
@@ -764,11 +769,6 @@ The Automatic Certificate Management Environment (ACME) protocol
    OpenID Federation Entity can be issued by an X.509 Certification
    Authority through the ACME protocol to the organizations which are
    part of a federation built on top of OpenID Federation 1.0.
-
-### Automated Certificate Management Environment (ACME) Device Attestation Extension  (draft-ietf-acme-device-attest)
-This document specifies new identifiers and a challenge for the
-   Automated Certificate Management Environment (ACME) protocol which
-   allows validating the identity of a device using attestation.
 
 ## Working Group: add
 ### DHCP and Router Advertisement Options for the Discovery of Network-designated Resolvers (DNR)  (draft-ietf-add-dnr)
@@ -5177,7 +5177,7 @@ JSON Web Tokens, also known as JWTs, are URL-safe JSON-based security
    provide actionable guidance leading to secure implementation and
    deployment of JWTs.
 
-   This BCP specification furthermore replaces the existing JWT BCP
+   This BCP specification furthermore obsoletes the existing JWT BCP
    specification RFC 8725 to provide additional actionable guidance
    covering threats and attacks that have been discovered since RFC 8725
    was published.
@@ -6723,14 +6723,14 @@ This document analyzes the problem space and provides a gap analysis
    future improvements.
 
 ### General Source Address Validation Capabilities  (draft-ietf-savnet-general-sav-capabilities)
-The SAV rules of existing source address validation (SAV) mechanisms,
-   are derived from other core data structures, e.g., FIB-based uRPF,
-   which are not dedicatedly designed for source filtering.  Therefore
-   there are some limitations related to deployable scenarios and
-   traffic handling policies.
+The SAV rules of existing source address validation (SAV) mechanisms
+   are derived from other core data structures (e.g., FIB-based uRPF)
+   that are not dedicatedly designed for source filtering.
+   Consequently, these mechanisms have limitations in deployable
+   scenarios and traffic handling policies.
 
-   To overcome these limitations, this document introduces the general
-   SAV capabilities from data plane perspective.  How to implement the
+   To overcome these limitations, this document introduces general SAV
+   capabilities from a data plane perspective.  How to implement the
    capabilities and how to generate SAV rules are not in the scope of
    this document.
 
