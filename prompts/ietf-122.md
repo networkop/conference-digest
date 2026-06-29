@@ -131,7 +131,7 @@ show in the rendered view but stays in the source:
 conference: IETF 122 (Bangkok)
 type: standards
 source_url: https://datatracker.ietf.org/meeting/122/agenda.json
-generated: 2026-06-22
+generated: 2026-06-29
 registry_key: ietf-122
 -->
 
@@ -1115,40 +1115,24 @@ This document defines the Constrained Bootstrapping Remote Secure Key
    (CoAPS).  This document Updates RFC 8995 and RFC 9148.
 
 ### BRSKI discovery and variations  (draft-ietf-anima-brski-discovery)
-Bootstrapping Remote Secure Key Infrastructure (BRSKI) is a protocol
-   to enroll pledge devices automatically and secure with a registrar of
-   an owner, relying also on proxies to facilitate the communication and
-   Manufacturer Authorized Signing Authorities (MASA) and Certificate
-   Authorities (CA) to enable the enrollment.
+This document specifies procedures for variations of the
+   "Bootstrapping Remote Secure Key Infrastructure" (BRSKI) series of
+   protocols to automatically announce, discover and select responders
+   using different discovery mechanisms such as DNS-SD, GRASP or CORE-
+   LF.  Different variations are not interoperable so initiators need to
+   be able to find responders supporting the variation(s) they support.
+   Procedures for BRSKI proxies are defined that allow proxying of
+   traffic for any current and future variation.  Procedures to discover
+   BRSKI Pledges by their identifier are defined.
 
-   This document specifies how to make BRSKI communications
-   autoconfiguring, extensible and resilient in the face of simultaneous
-   use of different variations of the BRSKI protocol (BRSKI, BRSKI-AE,
-   BRSKI-PRM, constrained BRSKI, stateless constrained BRSKI proxies).
-   This document specifies a data model, IANA registry and BRSKI
-   component procedures to achieve this.
+   All procedures are defined such that they rely on IANA defined tables
+   through which not only well specified but also possible but not yet
+   validated variations of BRSKI or additional discovery mechanisms can
+   be supported simply by adding entries to the IANA tables.
 
-   This document does not define any new discovery methods.  Instead,
-   its data model allows signaling of all current (and future)
-   variations of the BRSKI family of protocols consistently via
-   different existing network discovery mechanisms: DNS-SD, CoAP
-   discovery (CORE-LF) and GRASP.  Additional/future discovery
-   mechanisms can also be supported through the IANA registry.
-
-   Automatic resiliency and load-sharing are enabled through the use of
-   discovery mechanisms and the provisioning of multiple instances of
-   BRSKI components such as registrars and Join Proxies.  This document
-   specifies the procedures to support load-sharing and (fast) failover
-   under failure and recovery of redundant components.
-
-   Future-proof deployments of BRSKI require Join Proxies that
-   automatically support any current and future BRSKI variation.  This
-   document specifies the procedures by which Join Proxies can support
-   this through specific Join Proxy protocol behavior and the use of
-   discovery mechanisms.
-
-   The specification of discovery of pledges by their IDevID as
-   introduced by BRSKI-PRM is refined in this document.
+   Many of the procedures and mechanisms covered by this document may
+   equally be applied to discovery of other protocols, especially when
+   they have non-interoperable variations.
 
 ### Join Proxy for Onboarding of Constrained Network Elements  (draft-ietf-anima-constrained-join-proxy)
 This document supports the constrained Bootstrapping Remote Secure
@@ -4014,7 +3998,7 @@ This document updates [RFC7518] to deprecate the JWS algorithm "none"
    and the JWE algorithm "RSA1_5".  These algorithms have known security
    weaknesses.  It also updates the Review Instructions for Designated
    Experts to establish baseline security requirements that future
-   algorithm registrations should meet.
+   algorithm registrations are expected to meet.
 
 ### JSON Proof Token and CBOR Proof Token  (draft-ietf-jose-json-proof-token)
 JSON Proof Token (JPT) is a compact, URL-safe, privacy-preserving
@@ -6793,7 +6777,7 @@ Discussion Venues
    profile.
 
 ### Supply Chain Integrity, Transparency, and Trust (SCITT) Reference APIs  (draft-ietf-scitt-scrapi)
-This document describes a REST API with the HTTP resources, request
+This document specifies a REST API with the HTTP resources, request
    and response messages, and error handling needed for an interoperable
    implementation of a SCITT Transparency Service, as defined by the
    Supply Chain Integrity, Transparency, and Trust (SCITT) Architecture.
@@ -7189,8 +7173,7 @@ RFC5926 creates a list of cryptographic algorithms that can be used
 
    The MAC algorithms described by this document produce 128-bit (i.e.,
    16-byte) MACs.  When 16-byte MACs are encoded in TCP-AO, the TCP-AO
-   consumes 20 bytes.  This does not challenge TCP's 40-byte option size
-   limitation.
+   consumes 20 of the 40 bytes available for TCP options.
 
 ### TCP RST Diagnostic Payload  (draft-ietf-tcpm-rst-diagnostic-payload)
 This document specifies an experimental diagnostic payload format
