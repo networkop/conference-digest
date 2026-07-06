@@ -131,7 +131,7 @@ show in the rendered view but stays in the source:
 conference: IETF 122 (Bangkok)
 type: standards
 source_url: https://datatracker.ietf.org/meeting/122/agenda.json
-generated: 2026-06-29
+generated: 2026-07-06
 registry_key: ietf-122
 -->
 
@@ -4582,7 +4582,7 @@ This document extends UDP Proxying over HTTP to add optimizations for
    transformed through a HTTP/3 proxy rather than being fully re-
    encapsulated and re-encrypted.
 
-### Proxying Ethernet in HTTP  (draft-ietf-masque-connect-ethernet)
+### Proxying Ethernet Frames in HTTP  (draft-ietf-masque-connect-ethernet)
 This document describes how to proxy Ethernet frames in HTTP.  This
    protocol is similar to IP proxying in HTTP, but for Layer 2 instead
    of Layer 3.  More specifically, this document defines a protocol that
@@ -4637,6 +4637,33 @@ The mechanism to proxy UDP in HTTP only allows each UDP proxying
    for some UDP peer-to-peer protocols like WebRTC.  This document
    defines an extension to UDP proxying in HTTP that enables such use-
    cases.
+
+### ECN and DSCP support for HTTPS's Connect-UDP  (draft-ietf-masque-connect-udp-ecn-dscp)
+HTTP's Extended Connect's Connect-UDP protocol enables a client to
+   proxy a UDP flow from the HTTP server towards a specified target IP
+   address and UDP port.  QUIC and Real-time transport protocol (RTP)
+   are examples of transport protocols that use UDP and support Explicit
+   Congestion Notification (ECN) and provide the necessary feedback.
+   This document specifies how ECN and DSCP can be supported through an
+   extension to the Connect-UDP protocol for HTTP without per-packet
+   byte overhead, soley using Context IDs.
+
+### Extensions to Compress and Derive Fields in HTTP Datagrams  (draft-ietf-masque-http-datagram-compression)
+This document defines extensions for HTTP Datagram-based protocols
+   that improve transmission efficiency by introducing templates for
+   compressing or deriving datagram fields.
+
+   These templates allow endpoints to define parts of datagrams that are
+   static and can be removed, and other parts that can be derived (such
+   as packet lengths and checksum values).
+
+   Additionally, this document defines a checksum offload procedure
+   enabling receivers to complete Internet checksums using sender-
+   provided partial values.
+
+   These optimisations reduce per-packet overhead, processing cost, and
+   increase the effective maximum transmission unit (MTU) when datagrams
+   are encapsulated in QUIC DATAGRAM frames.
 
 ## Working Group: nvo3
 ### NVO3 Data Plane Requirements  (draft-ietf-nvo3-dataplane-requirements)
@@ -5994,20 +6021,6 @@ In the Remote Attestation Procedures (RATS) architecture, Verifiers
    can be serialized in CBOR format, enabling efficient interoperability
    across diverse systems.
 
-### Epoch Markers  (draft-ietf-rats-epoch-markers)
-This document defines Epoch Markers as a means to establish a notion
-   of freshness among actors in a distributed system.  Epoch Markers are
-   similar to "time ticks" and are produced and distributed by a
-   dedicated system known as the Epoch Bell.  Systems receiving Epoch
-   Markers do not need to track freshness using their own understanding
-   of time (e.g., via a local real-time clock).  Instead, the reception
-   of a specific Epoch Marker establishes a new epoch that is shared
-   among all recipients.  This document defines Epoch Marker types,
-   including CBOR time tags, RFC 3161 TimeStampToken, and nonce-like
-   structures.  It also defines a CWT Claim to embed Epoch Markers in
-   RFC 8392 CBOR Web Tokens, which serve as vehicles for signed protocol
-   messages.
-
 ### Evidence Transformations  (draft-ietf-rats-evidence-trans)
 Remote Attestation Procedures (RATS) enable Relying Parties to assess
    the trustworthiness of a remote Attester to decide if continued
@@ -6084,23 +6097,6 @@ In the IETF Remote Attestation Procedures (RATS) architecture, a
    these topics were outside the scope of the RATS charter when RFC9334
    was developed.
 
-### Evidence Encoding for Hardware Security Modules  (draft-ietf-rats-pkix-key-attestation)
-This document specifies a vendor-agnostic format for Evidence
-   produced and verified within a PKIX context.  The Evidence produced
-   this way includes claims collected about a cryptographic module, such
-   as a Hardware Security Module (HSM), and elements found within it
-   such as cryptographic keys.
-
-   One scenario envisaged is that the state information about the
-   cryptographic module can be securely presented to a remote operator
-   or auditor in a vendor-agnostic verifiable format.  A more complex
-   scenario would be to submit this Evidence to a Certification
-   Authority to aid in determining whether the storage properties of
-   this key meet the requirements of a given certificate profile.
-
-   This specification also offers a format for requesting a
-   cryptographic module to produce Evidence tailored for expected use.
-
 ### Remote Attestation with Multiple Verifiers  (draft-ietf-rats-multi-verifier)
 IETF RATS Architecture, defines the key role of a Verifier.  In a
    complex system, this role needs to be performed by multiple Verfiers
@@ -6138,6 +6134,37 @@ The Conceptual Messages introduced by the RATS architecture (RFC
    types, evolving message serialization formats without breaking
    compatibility, and avoiding the need to redefine how messages are
    handled within each protocol.
+
+### Epoch Markers  (draft-ietf-rats-epoch-markers)
+This document defines Epoch Markers as a means to establish a notion
+   of freshness among actors in a distributed system.  Epoch Markers are
+   similar to "time ticks" and are produced and distributed by a
+   dedicated system known as the Epoch Bell.  Systems receiving Epoch
+   Markers do not need to track freshness using their own understanding
+   of time (e.g., via a local real-time clock).  Instead, the reception
+   of a specific Epoch Marker establishes a new epoch that is shared
+   among all recipients.  This document defines Epoch Marker types,
+   including CBOR time tags, RFC 3161 TimeStampToken, and nonce-like
+   structures.  It also defines a CWT Claim to embed Epoch Markers in
+   RFC 8392 CBOR Web Tokens, which serve as vehicles for signed protocol
+   messages.
+
+### Evidence Encoding for Hardware Security Modules  (draft-ietf-rats-pkix-key-attestation)
+This document specifies a vendor-agnostic format for Evidence
+   produced and verified within a PKIX context.  The Evidence produced
+   this way includes claims collected about a cryptographic module, such
+   as a Hardware Security Module (HSM), and elements found within it
+   such as cryptographic keys.
+
+   One scenario envisaged is that the state information about the
+   cryptographic module can be securely presented to a remote operator
+   or auditor in a vendor-agnostic verifiable format.  A more complex
+   scenario would be to submit this Evidence to a Certification
+   Authority to aid in determining whether the storage properties of
+   this key meet the requirements of a given certificate profile.
+
+   This specification also offers a format for requesting a
+   cryptographic module to produce Evidence tailored for expected use.
 
 ## Working Group: rift
 ### RIFT: Routing in Fat Trees  (draft-ietf-rift-rift)
@@ -6718,13 +6745,12 @@ The SAV rules of existing source address validation (SAV) mechanisms
    capabilities and how to generate SAV rules are not in the scope of
    this document.
 
-### Intra-domain Source Address Validation (SAVNET) Architecture  (draft-ietf-savnet-intra-domain-architecture)
-This document specifies the architecture of intra-domain SAVNET,
-   which aims to achieve accurate source address validation (SAV) at
-   external interfaces of an intra-domain network in an automated
-   manner.  It describes the conceptual design of intra-domain SAVNET,
-   along with its use cases and design requirements, to help ensure that
-   the intended objectives are met.
+### Intra-domain Source Address Validation Architecture  (draft-ietf-savnet-intra-domain-architecture)
+This document describes a generic architecture for intra-domain
+   Source Address Validation (SAV).  It provides a common framework for
+   developing new intra-domain SAV mechanisms and describes the
+   conditions under which such mechanisms can improve SAV accuracy with
+   respect to existing intra-domain SAV mechanisms.
 
 ### Source Address Validation Using BGP UPDATEs, ASPA, and ROA (BAR-SAV)  (draft-ietf-sidrops-bar-sav)
 Designing an efficient source address validation (SAV) filter
@@ -8103,8 +8129,8 @@ This document describes industry practices for providing secure
    and other workload platforms.  It explains how workloads obtain
    credentials for external authentication purposes, without managing
    long-lived secrets directly.  It does not take into account the
-   standards work in progress for the WIMSE architecture [WIMSE-ARCH]
-   and other protocols, such as [WIMSE-HTTPSIG].
+   standards work in progress for the WIMSE architecture and associated
+   protocols.
 
 ### WIMSE Workload-to-Workload Authentication  (draft-ietf-wimse-s2s-protocol)
 The WIMSE architecture defines authentication and authorization for
