@@ -131,7 +131,7 @@ show in the rendered view but stays in the source:
 conference: IETF 122 (Bangkok)
 type: standards
 source_url: https://datatracker.ietf.org/meeting/122/agenda.json
-generated: 2026-07-06
+generated: 2026-07-13
 registry_key: ietf-122
 -->
 
@@ -751,7 +751,9 @@ This document defines an authority token profile for the validation
 ### Automated Certificate Management Environment (ACME) Device Attestation Extension  (draft-ietf-acme-device-attest)
 This document specifies new identifiers and a challenge for the
    Automated Certificate Management Environment (ACME) protocol which
-   allows validating the identity of a device using attestation.
+   allows validating the identity of a device using attestation.  This
+   document updates RFC 8555 to enable a privacy-preserving mode for the
+   identifiers defined in this document.
 
 ### Automatic Certificate Management Environment (ACME) with OpenID Federation 1.0  (draft-ietf-acme-openid-federation)
 The Automatic Certificate Management Environment (ACME) protocol
@@ -1877,6 +1879,15 @@ This document specifies a CBOR encoding of X.509 certificates.  The
    C509.  This document updates RFC 6698 by extending the TLSA selectors
    registry to include C509 certificates.
 
+### AES-CMAC for COSE  (draft-ietf-cose-cmac)
+The CBOR Object Signing and Encryption (COSE) specification defines
+   structures for generating, conveying, and verifying Message
+   Authentication Code (MAC) tags.  This document registers code points
+   for using the Advanced Encryption Standard (AES) block cipher in
+   Cipher-based Message Authentication Code (CMAC) mode within those
+   COSE structures.  Specifically, these uses are for computing MAC tag
+   values with no additional parameters.
+
 ## Working Group: dnsop
 ### DNS Terminology  (draft-ietf-dnsop-rfc8499bis)
 The Domain Name System (DNS) is defined in literally dozens of
@@ -2367,39 +2378,6 @@ This document defines two attributes in the aut-num Class which can
 ### Considerations for Internet Routing Registries (IRRs) and Routing Policy Configuration  (draft-ietf-grow-irr-routing-policy-considerations)
 The purpose of this document is to catalog issues that influenced the efficacy of Internet Routing Registries (IRRs) for inter-domain routing policy specification and application in the global routing system over the past two decades.  Additionally, it provides a discussion regarding which of these issues are still problematic in practice, and which are simply artifacts that are no longer applicable but continue to stifle inter-provider policy-based filtering adoption and IRR utility to this day.
 
-### Route-Leaks & MITM Attacks Against BGPSEC  (draft-ietf-grow-simple-leak-attack-bgpsec-no-help)
-This document describes a very simple attack vector that illustrates
-   how RPKI-enabled BGPSEC machinery as currently defined can be easily
-   circumvented in order to launch a Man In The Middle (MITM) attack via
-   BGP.  It is meant to serve as input to the IETF's Global Routing
-   Operations Working group (GROW) during routing security requirements
-   discussions and subsequent specification.
-
-### Controlling the redistribution of BGP routes  (draft-ietf-grow-bgp-redistribution)
-This document proposes the redistribution extended community.  This
-new extended community allows a router to influence how a specific
-route should be redistributed towards a specified set of eBGP
-speakers. Several types of redistribution communities are proposed.
-The first type may be used to indicate that a specific route should
-not be announced over a specified set of eBGP sessions. The second
-type may be used to indicate that the attached route should only be
-announced with the NO_EXPORT community over the specified set of eBGP
-sessions and the third type may be used to indicate that the attached
-route should be prepended n times when announced over a specified set
-of eBGP sessions.
-
-### Bounding Longest Match Considered  (draft-grow-bounded-longest-match)
-Some ASes currently use length-based filters to manage the size of
-the routing table they use and propagate.  This draft explores an
-alternative to length-based filters which allows for more automatic
-configuration and which provides for better redundancy.
-Rather than use a filter, this draft proposes a method of modifying
-the BGP longest match algorithm by setting a bound on the prefix
-lengths eligible for preference.  A bound would operate on long
-prefixes when covering route announcements are available; in certain
-circumstances it would cause a router to prefer an aggregate over a
-more specific route announcement.
-
 ### BGP Communities for Data Collection  (draft-ietf-grow-collection-communities)
 BGP communities (RFC 1997) are used by service providers for many purposes, including tagging of customer, peer, and geographically originated routes.  Such tagging is typically used to control the scope of redistribution of routes within a provider's network and to its peers and customers.  With the advent of large-scale BGP data collection (and associated research), it has become clear that the information carried in such communities is essential for a deeper understanding of the global routing system.  This memo defines standard (outbound) communities and their encodings for export to BGP route collectors.  This document specifies an Internet Best Current Practices for the Internet Community, and requests discussion and suggestions for improvements.
 
@@ -2410,13 +2388,6 @@ The BGP MULTI_EXIT_DISC (MED) attribute provides a mechanism for BGP speakers to
 
 ### Embedding Globally-Routable Internet Addresses Considered Harmful  (draft-ietf-grow-embed-addr)
 This document discourages the practice of embedding references to unique, globally-routable IP addresses in Internet hosts, describes some of the resulting problems, and considers selected alternatives.  This document is intended to clarify best current practices in this regard.  This document specifies an Internet Best Current Practices for the Internet Community, and requests discussion and suggestions for improvements.
-
-### Operational Concerns and Considerations for Routing Protocol Design -- Risk, Interference, and Fit (RIFT)  (draft-ietf-grow-rift)
-The Risk, Interference, and Fit (RIFT) design team was formed to
-   document the concerns and considerations surrounding the use of
-   Internet routing protocols for functions not directly related to
-   routing of IP packets within the Internet and IP networks. This
-   document is the output of that activity.
 
 ### BGP Wedgies  (draft-ietf-grow-bgp-wedgies)
 It has commonly been assumed that the Border Gateway Protocol (BGP) is a tool for distributing reachability information in a manner that creates forwarding paths in a deterministic manner.  In this memo we will describe a class of BGP configurations for which there is more than one potential outcome, and where forwarding states other than the intended state are equally stable.  Also, the stable state where BGP converges may be selected by BGP in a non-deterministic manner.  These stable, but unintended, BGP states are termed here "BGP Wedgies".  This memo provides information for the Internet community.
@@ -2435,44 +2406,11 @@ This document describes the MRT format for routing information export.  This for
 ### BGP Monitoring Protocol (BMP)  (draft-ietf-grow-bmp)
 This document defines the BGP Monitoring Protocol (BMP), which can be used to monitor BGP sessions.  BMP is intended to provide a convenient interface for obtaining route views.  Prior to the introduction of BMP, screen scraping was the most commonly used approach to obtaining such views.  The design goals are to keep BMP simple, useful, easily implemented, and minimally service affecting.  BMP is not suitable for use as a routing protocol.
 
-### Routing System Stability  (draft-ietf-grow-rss)
-Understanding the dynamics of the Internet routing system is 
-   fundamental to ensure its robustness/stability and to improve the 
-   mechanisms of the BGP routing protocol. This documents outlines a 
-   program of activity for identifying, documenting and analyzing the 
-   dynamic properties of the Internet and its routing system.
-
-### MPLS Tunnels for Virtual Aggregation  (draft-ietf-grow-va-mpls)
-The document "FIB Suppression with Virtual Aggregation"
-[I-D.francis-intra-va] describes how FIB size may be reduced.  The
-latest revision of that draft refers generically to tunnels, and
-leaves it to other documents to define the usage and signaling
-methods for specific tunnel types.  This document provides those
-definitions for MPLS Label Switched Paths (LSP), without tag
-stacking.
-
 ### Requirements for the Graceful Shutdown of BGP Sessions  (draft-ietf-grow-bgp-graceful-shutdown-requirements)
 The Border Gateway Protocol (BGP) is heavily used in Service Provider networks for both Internet and BGP/MPLS VPN services.  For resiliency purposes, redundant routers and BGP sessions can be deployed to reduce the consequences of an Autonomous System Border Router (ASBR) or BGP session breakdown on customers' or peers' traffic.  However, simply taking down or even bringing up a BGP session for maintenance purposes may still induce connectivity losses during the BGP convergence.  This is no longer satisfactory for new applications (e.g., voice over IP, online gaming, VPN).  Therefore, a solution is required for the graceful shutdown of a (set of) BGP session(s) in order to limit the amount of traffic loss during a planned shutdown.  This document expresses requirements for such a solution.  This document is not an Internet Standards Track specification; it is published for informational purposes.
 
 ### Graceful BGP Session Shutdown  (draft-ietf-grow-bgp-gshut)
 This document standardizes a new well-known BGP community, GRACEFUL_SHUTDOWN, to signal the graceful shutdown of paths.  This document also describes operational procedures that use this well-known community to reduce the amount of traffic lost when BGP peering sessions are about to be shut down deliberately, e.g., for planned maintenance.
-
-### Performance of Virtual Aggregation  (draft-ietf-grow-va-perf)
-The document "FIB Suppression with Virtual Aggregation"
-[I-D.francis-intra-va] describes how router FIB size may be reduced.
-This approach entails a trade-off between path-length and load versus
-FIB size.  It also has the potential to reduce convergence time.
-This document describes the results of several studies that examine
-these characteristics.  The results of a study for a Tier-1 ISP with
-a relatively sophisticated deployment of VA, shows that FIB size
-could be reduced ten times or more with a worst-case latency penalty
-of 4ms and a worst-case load increase of <1.5%.  Another study,
-examining a much simpler style of VA deployment, also for a Tier-1
-ISP, shows that FIB size can be reduced by four times (in routers
-serving as APRs), and more than 10 times in other routers.  Here,
-worst-case latency increase was 16 ms, though this is almost
-certainly an over-estimate, both because traceroute was used to make
-the measurement, and because popular prefixes were not considered.
 
 ### GRE and IP-in-IP Tunnels for Virtual Aggregation  (draft-ietf-grow-va-gre)
 The document "FIB Suppression with Virtual Aggregation" [I-D.grow-va]
@@ -2480,19 +2418,6 @@ The document "FIB Suppression with Virtual Aggregation" [I-D.grow-va]
    to tunnels, and leaves it to other documents to define the tunnel
    establishment methods for specific tunnel types.  This document
    provides those definitions for GRE and IP-in-IP tunnels.
-
-### Proposal to use an inner MPLS label to identify the remote ASBR VA  (draft-ietf-grow-va-mpls-innerlabel)
-The draft "MPLS Tunnels for Virtual Aggregation"
-[I-D.ietf-grow-va-mpls] specifies how MPLS is used as the tunneling
-protocol for Virtual Aggregation (VA).  The -00 version of that draft
-specifies only one level of labels, with the result that one Label
-Switched Path (LSP) for every remote ASBR must be established.  For
-large ISPs, this can amount to a large number of LSPs.  This draft
-proposes adding the option of using an inner label to identify the
-remote ASBR.  Either an outer label or an IP tunnel is used to reach
-the local ASBR.  When MPLS is used as the tunneling protocol, this
-reduces the number of LSPs to the number of local border routers
-(ASBR).
 
 ### Simple Virtual Aggregation (S-VA)  (draft-ietf-grow-simple-va)
 All BGP routers in the Default-Free Zone (DFZ) are required to carry all routes in the Default-Free Routing Table (DFRT). This document describes a technique, Simple Virtual Aggregation (S-VA), that allows some BGP routers not to install all of those routes into the Forwarding Information Base (FIB).
@@ -2521,11 +2446,6 @@ The popularity of Internet Exchange Points (IXPs) brings new challenges to inter
  Multilateral interconnection using Internet route servers can dramatically reduce the administrative and operational overhead associated with connecting to IXPs; in some cases, route servers are used by IXP participants as their preferred means of exchanging routing information.
 
  This document describes operational considerations for multilateral interconnections at IXPs.
-
-### The "import-via" and "export-via" attributes in RPSL Policy Specifications  (draft-ietf-grow-rpsl-via)
-This document defines two attributes in the aut-num Class which can
-   be used in RPSL policy specifications to publish desired routing
-   policy regarding non-adjacent networks.
 
 ### Problem Definition and Classification of BGP Route Leaks  (draft-ietf-grow-route-leak-problem-definition)
 A systemic vulnerability of the Border Gateway Protocol routing system, known as "route leaks", has received significant attention in recent years.  Frequent incidents that result in significant disruptions to Internet routing are labeled route leaks, but to date a common definition of the term has been lacking.  This document provides a working definition of route leaks while keeping in mind the real occurrences that have received significant attention.  Further, this document attempts to enumerate (though not exhaustively) different types of route leaks based on observed events on the Internet.  The aim is to provide a taxonomy that covers several forms of route leaks that have been observed and are of concern to the Internet user community as well as the network operator community.
@@ -2662,6 +2582,110 @@ Discussion Venues
 
    Source for this draft and an issue tracker can be found at
    https://github.com/hmntsharma/draft-hmntsharma-bmp-tcp-ao.
+
+### Support for Enterprise-specific TLVs in the BGP Monitoring Protocol  (draft-ietf-grow-bmp-tlv-ebit)
+Message types defined by the BGP Monitoring Protocol (BMP) do
+   provision for data in TLV - Type, Length, Value - format, either in
+   the shape of a TLV message body, ie.  Route Mirroring and Stats
+   Reports, or optional TLVs at the end of a BMP message, ie.  Peer Up
+   and Peer Down.  However the space for Type value is unique and
+   governed by IANA.  To allow the usage of vendor-specific TLVs, a
+   mechanism to define per-vendor Type values is required.  In this
+   document we introduce an Enterprise Bit, or E-bit, for such purpose.
+
+### Current Options for Securing Global Routing  (draft-fiebig-grow-routing-ops-sec-inform)
+The Border Gateway Protocol (BGP) is the protocol is a critical
+   component in the Internet to exchange routing information between
+   network domains.  Due to this central nature, it is an accepted best
+   practice to ensure basic security properties for BGP and BGP speaking
+   routers.  While these general principles are outlined in BCP194, it
+   does not provide a list of technical and implementation options for
+   securing BGP.
+
+   This document lists available options for securing BGP, serving as a
+   contemporary, non-exhaustive, repository of options and methods.  The
+   document explicitly does not make value statements on the efficacy of
+   individual techniques, not does it mandate or prescribe the use of
+   specific technique or implementations.
+
+   Operators are advised to carefully consider whether the listed
+   methods are applicable for their use-case to ensure best current
+   practices are followed in terms of which security properties need to
+   be ensured when operating BGP speakers.  Furthermore, the listed
+   options in this document may change over time, and should not be used
+   as a timeless ground-truth of applicable or sufficient methods.
+
+### Peering API  (draft-ietf-grow-peering-api)
+We propose an API standard for BGP Peering, also known as interdomain
+   interconnection through global Internet Routing.  This API offers a
+   standard way to request public (settlement-free) peering, verify the
+   status of a request or BGP session, and list potential connection
+   locations.  The API is backed by PeeringDB OIDC, the industry
+   standard for peering authentication.  We also propose future work to
+   cover private peering, and alternative authentication methods.
+
+### Auto-Configuration in Virtual Aggregation  (draft-ietf-grow-va-auto)
+Virtual Aggregation as specified in [I-D.ietf-grow-va] requires
+   configuration of a static "VP-List" on all routers.  The VP-List
+   allows routers to know which prefixes may or may not be FIB-
+   installed.  This draft specified an optional method of determining
+   this that requires far less configuration.  Specifically, it requires
+   the configuration of a "VP-Range" in ASBRs connected to transit and
+   peer ISPs.  A Non-transitive Extended Communities Attribute is used
+   to convey to other routers that a given route can be FIB-suppressed.
+
+### Operational Requirements for Enhanced Error Handling Behaviour in BGP-4  (draft-ietf-grow-ops-reqs-for-bgp-error-handling)
+BGP-4 is utilised as a key intra- and inter-Autonomous System routing
+   protocol in modern IP networks.  The failure modes as defined by the
+   original protocol standards are based on a number of assumptions
+   around the impact of session failure.  Numerous incidents both in the
+   global Internet routing table and within Service Provider networks
+   have been caused by strict handling of a single invalid UPDATE
+   message causing large-scale failures in one or more Autonomous
+   Systems.
+
+   This memo describes the current use of BGP-4 within Service Provider
+   networks, and outlines a set of requirements for further work to
+   enhance the mechanisms available to a BGP-4 implementation when
+   erroneous data is detected.  Whilst this document does not provide
+   specification of any standard, it is intended as an overview of a set
+   of enhancements to BGP-4 to improve the protocol's robustness to suit
+   its current deployment.
+
+### BMP Loc-RIB: Peer address  (draft-ietf-grow-bmp-loc-peer)
+BMP Loc-RIB [RFC9069] enforces that the BMP router sets the Peer
+   Address value of a path information to zero.  This document
+   introduces the option to communicate the actual peer from which a
+   path was received when advertising that path with BMP Loc-RIB.
+
+### Guidance to Avoid Use of BGP Extended Communities at Internet Exchange Route Servers  (draft-ietf-grow-ixp-ext-comms)
+This document outlines a recommendation to the Internet operational
+   community to avoid the use of BGP Extended Communities at Internet
+   Exchange Point (IXP) Route Servers.  It includes guidance for both
+   the Internet Service Provider side peering with Route Servers and
+   IXPs operating Route Servers.  This recommendation aims to help the
+   global Internet routing system's performance and help protect Route
+   Server participants against misconfigurations.  This document updates
+   RFC 7948.
+
+### Using BMP over QUIC connection  (draft-liu-grow-bmp-over-quic)
+The BGP Monitoring Protocol (BMP) provides a convenient interface
+   for obtaining route views by monitoring BGP sessions. BMP operates
+   over TCP and is unidirectional (from client to server). QUIC
+   provides multiple simultaneous streams to carry data in one
+   direction, enabling much better efficiency and performance for both
+   peers, in particular unidirectional streams can provide reverse data
+   protection for the sender. QUIC also provides shorter handshake and
+   includes TLS. This document describes how to use BMP over the QUIC
+   transport protocol, named BMPoQUIC.
+
+### Registry scoped members for RPSL set objects  (draft-romijn-grow-rpsl-registry-scoped-members)
+This document updates RFC2622 and RFC4012 by specifying src-members,
+   a new attribute on as-set and route-set objects in the Routing Policy
+   Specification Language (RPSL).  This attribute allows a specific
+   registry to be defined for each member in a set, avoiding problematic
+   ambiguity when resolving set members.  A new validation rule allows
+   gradual upgrades and backwards compatibility.
 
 ## Working Group: httpbis
 ### Structured Field Values for HTTP  (draft-ietf-httpbis-sfbis)
@@ -4014,21 +4038,10 @@ JSON Proof Token (JPT) is a compact, URL-safe, privacy-preserving
    JSON Web Proof (JWP) CBOR Serialization, rather than the JSON-based
    JWP Compact Serialization.
 
-### Post-Quantum Key Encapsulation Mechanisms (PQ KEMs) for JOSE and COSE  (draft-ietf-jose-pqc-kem)
-This document describes the conventions for using Post-Quantum Key
-   Encapsulation Mechanisms (PQ-KEMs) within JOSE and COSE.
-
-About This Document
-
-   This note is to be removed before publishing as an RFC.
-
-   Status information for this document may be found at
-   https://datatracker.ietf.org/doc/draft-ietf-jose-pqc/.
-
-   Discussion of this document takes place on the jose Working Group
-   mailing list (mailto:jose@ietf.org), which is archived at
-   https://mailarchive.ietf.org/arch/browse/cose/.  Subscribe at
-   https://www.ietf.org/mailman/listinfo/jose/.
+### Post-Quantum Key Encapsulation Mechanisms (PQ KEMs) for COSE  (draft-ietf-jose-pqc-kem)
+This document describes conventions for using Post-Quantum Key
+   Encapsulation Mechanisms (PQ-KEMs) with CBOR Object Signing and
+   Encryption (COSE).
 
 ### PQ/T Hybrid Composite Signatures for JOSE and COSE  (draft-ietf-jose-pq-composite-sigs)
 This document describes JSON Object Signing and Encryption (JOSE) and
@@ -4646,7 +4659,7 @@ HTTP's Extended Connect's Connect-UDP protocol enables a client to
    Congestion Notification (ECN) and provide the necessary feedback.
    This document specifies how ECN and DSCP can be supported through an
    extension to the Connect-UDP protocol for HTTP without per-packet
-   byte overhead, soley using Context IDs.
+   byte overhead, solely using Context IDs.
 
 ### Extensions to Compress and Derive Fields in HTTP Datagrams  (draft-ietf-masque-http-datagram-compression)
 This document defines extensions for HTTP Datagram-based protocols
@@ -5122,7 +5135,7 @@ Transaction Tokens (Txn-Tokens) are designed to maintain and
    propagate user identity, workload identity and authorization context
    throughout the Call Chain within a trusted domain during the
    processing of external requests (e.g. such as API calls) or requests
-   initiated internally within the trust domain.  Txn-Tokens ensure that
+   initiated internally within the Trust Domain.  Txn-Tokens ensure that
    this context is preserved throughout the Call Chain thereby enhancing
    security and consistency in complex, multi-service architectures.
 
@@ -5212,7 +5225,7 @@ This specification provides a mechanism for an application to use an
 
 ### OAuth 2.0 Attestation-Based Client Authentication  (draft-ietf-oauth-attestation-based-client-auth)
 This specification defines an extension to the OAuth 2.0 protocol
-   [RFC6749] that enables a client instance to include a key-bound
+   (RFC 6749) that enables a client instance to include a key-bound
    attestation when interacting with an Authorization Server or Resource
    Server.  This mechanism allows a client instance to prove its
    authenticity verified by a client attester without revealing its
@@ -5705,29 +5718,10 @@ Discussion Venues
    Source for this draft and an issue tracker can be found at
    https://github.com/quicwg/qmux.
 
-### qlog: Structured Logging for Network Protocols  (draft-ietf-quic-qlog-main-schema)
-qlog provides extensible structured logging for network protocols,
-   allowing for easy sharing of data that benefits common debug and
-   analysis methods and tooling.  This document describes key concepts
-   of qlog: formats, files, traces, events, and extension points.  This
-   definition includes the high-level log file schemas, and generic
-   event schemas.  Requirements and guidelines for creating protocol-
-   specific event schemas are also presented.  All schemas are defined
-   independent of serialization format, allowing logs to be represented
-   in various ways such as JSON, CSV, or protobuf.
-
-Note to Readers
-
-      Note to RFC editor: Please remove this section before publication.
-
-   Feedback and discussion are welcome at https://github.com/quicwg/qlog
-   (https://github.com/quicwg/qlog).  Readers are advised to refer to
-   the "editor's draft" at that URL for an up-to-date version of this
-   document.
-
 ### HTTP/3 qlog event definitions  (draft-ietf-quic-qlog-h3-events)
-This document defines a qlog event schema containing concrete events
-   for the core HTTP/3 protocol and selected extensions.
+This document defines qlog event schemas containing concrete events
+   for the core HTTP/3 protocol and selected extensions.  It also
+   defines an http namespace for the Capsule Protocol.
 
 Note to Readers
 
@@ -5775,6 +5769,26 @@ QUIC defines a RESET_STREAM frame to abort sending on a stream.  When
    This document defines a new QUIC frame, the RESET_STREAM_AT frame,
    that allows resetting a stream, while guaranteeing delivery of stream
    data up to a certain byte offset.
+
+### qlog: Structured Logging for Network Protocols  (draft-ietf-quic-qlog-main-schema)
+qlog provides extensible structured logging for network protocols,
+   allowing for easy sharing of data that benefits common debug and
+   analysis methods and tooling.  This document describes key concepts
+   of qlog: formats, files, traces, events, and extension points.  This
+   definition includes the high-level log file schemas, and generic
+   event schemas.  Requirements and guidelines for creating protocol-
+   specific event schemas are also presented.  All schemas are defined
+   independent of serialization format, allowing logs to be represented
+   in various ways such as JSON, CSV, or protobuf.
+
+Note to Readers
+
+      Note to RFC editor: Please remove this section before publication.
+
+   Feedback and discussion are welcome at https://github.com/quicwg/qlog
+   (https://github.com/quicwg/qlog).  Readers are advised to refer to
+   the "editor's draft" at that URL for an up-to-date version of this
+   document.
 
 ## Working Group: rats
 ### EAT Measured Component  (draft-fft-rats-eat-measured-component)
@@ -8152,12 +8166,12 @@ The WIMSE architecture defines authentication and authorization for
 This document defines a canonical identifier for workloads, referred
    to as the Workload Identifier.  A Workload Identifier is a URI that
    uniquely identifies a workload within the context of a specific trust
-   domain.  This identifier can be embedded in digital credentials,
-   including X.509 certificates and security tokens, to support
-   authentication, authorization, and policy enforcement across diverse
-   systems.  The Workload Identifier format ensures interoperability,
-   facilitates secure identity federation, and enables consistent
-   identity semantics.
+   domain.  This identifier can be embedded in Workload Identity
+   Credentials, including X.509 certificates and JWT-based tokens, to
+   support authentication, authorization, and policy enforcement across
+   diverse systems.  The Workload Identifier format ensures
+   interoperability, facilitates secure identity federation, and enables
+   consistent identity semantics.
 
 ### Workload Authentication Using Mutual TLS  (draft-ietf-wimse-mutual-tls)
 The WIMSE architecture defines authentication and authorization for
