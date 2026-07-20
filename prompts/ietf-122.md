@@ -131,7 +131,7 @@ show in the rendered view but stays in the source:
 conference: IETF 122 (Bangkok)
 type: standards
 source_url: https://datatracker.ietf.org/meeting/122/agenda.json
-generated: 2026-07-13
+generated: 2026-07-20
 registry_key: ietf-122
 -->
 
@@ -6121,34 +6121,6 @@ IETF RATS Architecture, defines the key role of a Verifier.  In a
    regard to specific wire formats, encoding, transport mechanisms, or
    processing details.
 
-### RATS Conceptual Messages Wrapper (CMW)  (draft-ietf-rats-msg-wrap)
-The Conceptual Messages introduced by the RATS architecture (RFC
-   9334) are protocol-agnostic data units that are conveyed between RATS
-   roles during remote attestation procedures.  Conceptual Messages
-   describe the meaning and function of such data units within RATS data
-   flows without specifying a wire format, encoding, transport
-   mechanism, or processing details.  The initial set of Conceptual
-   Messages is defined in Section 8 of RFC 9334 and includes Evidence,
-   Attestation Results, Endorsements, Reference Values, and Appraisal
-   Policies.
-
-   This document introduces the Conceptual Message Wrapper (CMW) that
-   provides a common structure to encapsulate these messages.  It
-   defines a dedicated CBOR tag, corresponding JSON Web Token (JWT) and
-   CBOR Web Token (CWT) claims, and an X.509 extension.
-
-   This allows CMWs to be used in CBOR-based protocols, web APIs using
-   JWTs and CWTs, and PKIX artifacts like X.509 certificates.
-   Additionally, the draft defines a media type and a CoAP content
-   format to transport CMWs over protocols like HTTP, MIME, and CoAP.
-
-   The goal is to improve the interoperability and flexibility of remote
-   attestation protocols.  Introducing a shared message format such as
-   CMW enables consistent support for different attestation message
-   types, evolving message serialization formats without breaking
-   compatibility, and avoiding the need to redefine how messages are
-   handled within each protocol.
-
 ### Epoch Markers  (draft-ietf-rats-epoch-markers)
 This document defines Epoch Markers as a means to establish a notion
    of freshness among actors in a distributed system.  Epoch Markers are
@@ -6179,6 +6151,34 @@ This document specifies a vendor-agnostic format for Evidence
 
    This specification also offers a format for requesting a
    cryptographic module to produce Evidence tailored for expected use.
+
+### RATS Conceptual Messages Wrapper (CMW)  (draft-ietf-rats-msg-wrap)
+The Conceptual Messages introduced by the RATS architecture (RFC
+   9334) are protocol-agnostic data units that are conveyed between RATS
+   roles during remote attestation procedures.  Conceptual Messages
+   describe the meaning and function of such data units within RATS data
+   flows without specifying a wire format, encoding, transport
+   mechanism, or processing details.  The initial set of Conceptual
+   Messages is defined in Section 8 of RFC 9334 and includes Evidence,
+   Attestation Results, Endorsements, Reference Values, and Appraisal
+   Policies.
+
+   This document introduces the Conceptual Message Wrapper (CMW) that
+   provides a common structure to encapsulate these messages.  It
+   defines a dedicated CBOR tag, corresponding JSON Web Token (JWT) and
+   CBOR Web Token (CWT) claims, and an X.509 extension.
+
+   This allows CMWs to be used in CBOR-based protocols, web APIs using
+   JWTs and CWTs, and PKIX artifacts like X.509 certificates.
+   Additionally, the draft defines a media type and a CoAP content
+   format to transport CMWs over protocols like HTTP, MIME, and CoAP.
+
+   The goal is to improve the interoperability and flexibility of remote
+   attestation protocols.  Introducing a shared message format such as
+   CMW enables consistent support for different attestation message
+   types, evolving message serialization formats without breaking
+   compatibility, and avoiding the need to redefine how messages are
+   handled within each protocol.
 
 ## Working Group: rift
 ### RIFT: Routing in Fat Trees  (draft-ietf-rift-rift)
