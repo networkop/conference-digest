@@ -131,7 +131,7 @@ show in the rendered view but stays in the source:
 conference: IETF 122 (Bangkok)
 type: standards
 source_url: https://datatracker.ietf.org/meeting/122/agenda.json
-generated: 2026-07-20
+generated: 2026-07-27
 registry_key: ietf-122
 -->
 
@@ -1842,7 +1842,7 @@ COSE (CBOR Object Signing and Encryption) Receipts prove properties
    demonstrated by providing CBOR encodings for Merkle inclusion and
    consistency proofs.
 
-### Test Vectors for CBOR Encoded X.509 (C509) Certificates  (draft-ietf-cose-c509-test-vectors)
+### Test Vectors for CBOR-Encoded X.509 (C509) Certificates  (draft-ietf-cose-c509-test-vectors)
 This document contains examples of CBOR-encoded X.509 (C509)
    certificates, certification requests, and certification request
    templates.
@@ -1858,6 +1858,15 @@ This specification defines COSE algorithm identifiers for negotiating
    identical in structure to those computed by a single party, and can
    be verified using the same verification algorithm without additional
    steps to preprocess the signed data.
+
+### AES-CMAC for COSE  (draft-ietf-cose-cmac)
+The CBOR Object Signing and Encryption (COSE) specification defines
+   structures for generating, conveying, and verifying Message
+   Authentication Code (MAC) tags.  This document registers code points
+   for using the Advanced Encryption Standard (AES) block cipher in
+   Cipher-based Message Authentication Code (CMAC) mode within those
+   COSE structures.  Specifically, these uses are for computing MAC tag
+   values with no additional parameters.
 
 ### CBOR Encoded X.509 Certificates (C509 Certificates)  (draft-ietf-cose-cbor-encoded-cert)
 This document specifies a CBOR encoding of X.509 certificates.  The
@@ -1879,14 +1888,11 @@ This document specifies a CBOR encoding of X.509 certificates.  The
    C509.  This document updates RFC 6698 by extending the TLSA selectors
    registry to include C509 certificates.
 
-### AES-CMAC for COSE  (draft-ietf-cose-cmac)
-The CBOR Object Signing and Encryption (COSE) specification defines
-   structures for generating, conveying, and verifying Message
-   Authentication Code (MAC) tags.  This document registers code points
-   for using the Advanced Encryption Standard (AES) block cipher in
-   Cipher-based Message Authentication Code (CMAC) mode within those
-   COSE structures.  Specifically, these uses are for computing MAC tag
-   values with no additional parameters.
+### COSE HPKE PQ & PQ/T Algorithm Registrations  (draft-ietf-cose-hpke-pq-pqt)
+This document registers Post-Quantum (PQ) and Post-Quantum/
+   Traditional (PQ/T) hybrid algorithm identifiers for use with CBOR
+   Object Signing and Encryption (COSE), building on the Hybrid Public
+   Key Encryption (HPKE) framework.
 
 ## Working Group: dnsop
 ### DNS Terminology  (draft-ietf-dnsop-rfc8499bis)
@@ -3540,6 +3546,15 @@ This document specifies a new Notify Message Type Payload for the
    introduction of the USE_BEET_MODE Notify Message enables the
    negotiation and establishment of BEET mode security associations.
 
+### A Larger Internet Key Exchange version 2 (IKEv2) Payload  (draft-nir-ipsecme-big-payload)
+The messages of the Internet Key Exchange version 2 (IKEv2) protocol
+   are made up of payloads.  The current protocol limits each of these
+   payloads to 64KB by having a 2-byte length field.  While this is
+   usually enough, several of the payloads may need to be larger.
+
+   This document updates RFC 7296 by defining an extension that allows
+   larger payloads.
+
 ### More Raw Public Keys for IKEv2  (draft-ietf-ipsecme-oob-pubkey)
 The Internet Key Exchange Version 2 (IKEv2) protocol currently only
    supports raw RSA keys.  In some environments it is useful to make use
@@ -3820,9 +3835,6 @@ This document describes managed objects for the the management of IP
    module for the same purpose.
 
    This is an unpublished work in progress.
-
-### A YANG Data Model for IP Traffic Flow Security  (draft-ietf-ipsecme-yang-iptfs)
-This document describes a YANG module for the management of IP Traffic Flow Security (IP-TFS) additions to Internet Key Exchange Protocol version 2 (IKEv2) and IPsec.
 
 ## Working Group: jose
 ### JSON Proof Algorithms  (draft-jmiller-jose-json-proof-algorithms)
@@ -4651,16 +4663,6 @@ The mechanism to proxy UDP in HTTP only allows each UDP proxying
    defines an extension to UDP proxying in HTTP that enables such use-
    cases.
 
-### ECN and DSCP support for HTTPS's Connect-UDP  (draft-ietf-masque-connect-udp-ecn-dscp)
-HTTP's Extended Connect's Connect-UDP protocol enables a client to
-   proxy a UDP flow from the HTTP server towards a specified target IP
-   address and UDP port.  QUIC and Real-time transport protocol (RTP)
-   are examples of transport protocols that use UDP and support Explicit
-   Congestion Notification (ECN) and provide the necessary feedback.
-   This document specifies how ECN and DSCP can be supported through an
-   extension to the Connect-UDP protocol for HTTP without per-packet
-   byte overhead, solely using Context IDs.
-
 ### Extensions to Compress and Derive Fields in HTTP Datagrams  (draft-ietf-masque-http-datagram-compression)
 This document defines extensions for HTTP Datagram-based protocols
    that improve transmission efficiency by introducing templates for
@@ -4677,6 +4679,16 @@ This document defines extensions for HTTP Datagram-based protocols
    These optimisations reduce per-packet overhead, processing cost, and
    increase the effective maximum transmission unit (MTU) when datagrams
    are encapsulated in QUIC DATAGRAM frames.
+
+### ECN and DSCP support for HTTPS's Connect-UDP  (draft-ietf-masque-connect-udp-ecn-dscp)
+HTTP's Extended Connect's Connect-UDP protocol enables a client to
+   proxy a UDP flow from the HTTP server towards a specified target IP
+   address and UDP port.  QUIC and Real-time transport protocol (RTP)
+   are examples of transport protocols that use UDP and support Explicit
+   Congestion Notification (ECN) and provide the necessary feedback.
+   This document specifies how ECN and DSCP can be supported through an
+   extension to the Connect-UDP protocol for HTTP without per-packet
+   byte overhead, solely using Context IDs.
 
 ## Working Group: nvo3
 ### NVO3 Data Plane Requirements  (draft-ietf-nvo3-dataplane-requirements)
@@ -5801,15 +5813,6 @@ A measured component is a measurable object of an attester's target
    This document defines a "measured component" format that can be used
    with the EAT Measurements claim.
 
-### Concise TA Stores (CoTS)  (draft-ietf-rats-concise-ta-stores)
-Trust anchor (TA) stores may be used for several purposes in the
-   Remote Attestation Procedures (RATS) architecture including verifying
-   endorsements, reference values, digital letters of approval,
-   attestations, or public key certificates.  This document describes a
-   Concise Reference Integrity Manifest (CoRIM) extension that may be
-   used to convey optionally constrained trust anchor stores containing
-   optionally constrained trust anchors in support of these purposes.
-
 ### Remote ATtestation procedureS (RATS) Architecture  (draft-ietf-rats-architecture)
 In network protocol exchanges, it is often useful for one end of a communication to know whether the other end is in an intended operating state.  This document provides an architectural overview of the entities involved that make such tests possible through the process of generating, conveying, and evaluating evidentiary Claims.  It provides a model that is neutral toward processor architectures, the content of Claims, and protocols.
 
@@ -6120,6 +6123,15 @@ IETF RATS Architecture, defines the key role of a Verifier.  In a
    introduced by the Multi Verifier concept, which is neutral with
    regard to specific wire formats, encoding, transport mechanisms, or
    processing details.
+
+### Concise TA Stores (CoTS)  (draft-ietf-rats-concise-ta-stores)
+Trust anchor (TA) stores may be used for several purposes in the
+   Remote Attestation Procedures (RATS) architecture including verifying
+   endorsements, reference values, digital letters of approval,
+   attestations, or public key certificates.  This document describes a
+   Concise Reference Integrity Manifest (CoRIM) extension that may be
+   used to convey optionally constrained trust anchor stores containing
+   optionally constrained trust anchors in support of these purposes.
 
 ### Epoch Markers  (draft-ietf-rats-epoch-markers)
 This document defines Epoch Markers as a means to establish a notion
@@ -6899,6 +6911,21 @@ This specification describes a data minimization technique for use
    with CBOR Object Signing and Encryption (COSE) and CWTs.
 
 ### A reference architecture for direct presentation credential flows  (draft-ietf-spice-vdcarch)
+This document defines a reference architecture for direct
+   presentation flows of digital credentials.  The architecture
+   introduces the concept of a presentation mediator as the active
+   component responsible for managing, presenting, and selectively
+   disclosing credentials while preserving a set of security and privacy
+   promises that will also be defined.
+
+Discussion Venues
+
+   This note is to be removed before publishing as an RFC.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/leifj/wallet-refarch.
+
+### A reference architecture for direct presentation credential flows  (draft-zundel-vdcarch)
 This document defines a reference architecture for direct
    presentation flows of digital credentials.  The architecture
    introduces the concept of a presentation mediator as the active
