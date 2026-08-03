@@ -131,7 +131,7 @@ show in the rendered view but stays in the source:
 conference: IETF 122 (Bangkok)
 type: standards
 source_url: https://datatracker.ietf.org/meeting/122/agenda.json
-generated: 2026-07-27
+generated: 2026-08-03
 registry_key: ietf-122
 -->
 
@@ -1753,11 +1753,15 @@ This document specifies JSON Object Signing and Encryption (JOSE) and
    COSE, specifically FN-DSA-512 and FN-DSA-1024.
 
 ### SLH-DSA for JOSE and COSE  (draft-ietf-cose-sphincs-plus)
-This document specifies JSON Object Signing and Encryption (JOSE) and
-   CBOR Object Signing and Encryption (COSE) serializations for
-   Stateless Hash-Based Digital Signature Standard (SLH-DSA), a Post-
-   Quantum Cryptography (PQC) digital signature scheme defined in US
-   NIST FIPS 205.
+Digital signatures are used within JSON Object Signing and Encryption
+   (JOSE) and CBOR Object Signing and Encryption (COSE) to protect the
+   integrity and authenticity of messages, such as JSON Web Signatures
+   and signed COSE structures.  This document specifies JOSE and COSE
+   serializations for the Stateless Hash-Based Digital Signature
+   Standard (SLH-DSA), a Post-Quantum Cryptography (PQC) digital
+   signature scheme defined in US NIST FIPS 205.  The conventions for
+   the associated algorithm identifiers, signatures, public keys, and
+   private keys are also specified.
 
 ### CBOR Web Token (CWT) Claims in COSE Headers  (draft-ietf-cose-cwt-claims-in-headers)
 This document describes how to include CBOR Web Token (CWT) claims in
@@ -1868,6 +1872,12 @@ The CBOR Object Signing and Encryption (COSE) specification defines
    COSE structures.  Specifically, these uses are for computing MAC tag
    values with no additional parameters.
 
+### COSE HPKE PQ & PQ/T Algorithm Registrations  (draft-ietf-cose-hpke-pq-pqt)
+This document registers Post-Quantum (PQ) and Post-Quantum/
+   Traditional (PQ/T) hybrid algorithm identifiers for use with CBOR
+   Object Signing and Encryption (COSE), building on the Hybrid Public
+   Key Encryption (HPKE) framework.
+
 ### CBOR Encoded X.509 Certificates (C509 Certificates)  (draft-ietf-cose-cbor-encoded-cert)
 This document specifies a CBOR encoding of X.509 certificates.  The
    resulting certificates are called C509 certificates.  The CBOR
@@ -1887,12 +1897,6 @@ This document specifies a CBOR encoding of X.509 certificates.  The
    headers, as well as a TLS certificate type and a file format for
    C509.  This document updates RFC 6698 by extending the TLSA selectors
    registry to include C509 certificates.
-
-### COSE HPKE PQ & PQ/T Algorithm Registrations  (draft-ietf-cose-hpke-pq-pqt)
-This document registers Post-Quantum (PQ) and Post-Quantum/
-   Traditional (PQ/T) hybrid algorithm identifiers for use with CBOR
-   Object Signing and Encryption (COSE), building on the Hybrid Public
-   Key Encryption (HPKE) framework.
 
 ## Working Group: dnsop
 ### DNS Terminology  (draft-ietf-dnsop-rfc8499bis)
@@ -4335,6 +4339,14 @@ This document defines Secure/Multipurpose Internet Mail Extensions
    Encryption provides data confidentiality.  Compression can be used to
    reduce data size.  This document obsoletes RFC 5751.
 
+### Secure/Multipurpose Internet Mail Extensions (S/MIME) Version 4.0 Message Specification  (draft-ietf-lamps-rfc8551bis)
+This document defines Secure/Multipurpose Internet Mail Extensions
+   (S/MIME) version 4.0.  S/MIME provides a consistent way to send and
+   receive secure MIME data.  Digital signatures provide authentication,
+   message integrity, and non-repudiation with proof of origin.
+   Encryption provides data confidentiality.  Compression can be used to
+   reduce data size.  This document obsoletes RFC 5751.
+
 ### Composite ML-KEM for use in X.509 Public Key Infrastructure  (draft-ietf-lamps-pq-composite-kem)
 This document defines combinations of US NIST ML-KEM in hybrid with
    traditional algorithms RSA-OAEP, ECDH, X25519, and X448.  These
@@ -4523,9 +4535,6 @@ This document updates RFC 8410 to clarify existing and specify
    missing semantics for key usage bits when used in certificates that
    support the Ed25519, Ed448, X25519, and X448 Elliptic Curve
    Cryptography algorithms.
-
-### X.509 Certificate General-Purpose Extended Key Usage (EKU) for Document Signing  (draft-ietf-lamps-documentsigning-eku)
-RFC 5280 specifies several extended key purpose identifiers (KeyPurposeIds) for X.509 certificates.  This document defines a general-purpose Document-Signing KeyPurposeId for inclusion in the Extended Key Usage (EKU) extension of X.509 public key certificates.  Document-Signing applications may require that the EKU extension be present and that a Document-Signing KeyPurposeId be indicated in order for the certificate to be acceptable to that Document-Signing application.
 
 ## Working Group: masque
 ### The CONNECT-UDP HTTP Method  (draft-schinazi-masque-connect-udp)
