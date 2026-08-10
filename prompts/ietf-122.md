@@ -131,7 +131,7 @@ show in the rendered view but stays in the source:
 conference: IETF 122 (Bangkok)
 type: standards
 source_url: https://datatracker.ietf.org/meeting/122/agenda.json
-generated: 2026-08-03
+generated: 2026-08-10
 registry_key: ietf-122
 -->
 
@@ -748,9 +748,9 @@ This document defines an authority token profile for the validation
    challenge mechanism, and token format necessary to authorize a client
    to request a certificate containing these constraints.
 
-### Automated Certificate Management Environment (ACME) Device Attestation Extension  (draft-ietf-acme-device-attest)
+### Automatic Certificate Management Environment (ACME) Device Attestation Extension  (draft-ietf-acme-device-attest)
 This document specifies new identifiers and a challenge for the
-   Automated Certificate Management Environment (ACME) protocol which
+   Automatic Certificate Management Environment (ACME) protocol which
    allows validating the identity of a device using attestation.  This
    document updates RFC 8555 to enable a privacy-preserving mode for the
    identifiers defined in this document.
@@ -4665,12 +4665,12 @@ This document defines extensions for HTTP Datagram-based protocols
    are encapsulated in QUIC DATAGRAM frames.
 
 ### Proxying Bound UDP in HTTP  (draft-ietf-masque-connect-udp-listen)
-The mechanism to proxy UDP in HTTP only allows each UDP proxying
-   request to transmit to a specific host and port.  This is well suited
-   for UDP client-server protocols such as HTTP/3, but is not sufficient
-   for some UDP peer-to-peer protocols like WebRTC.  This document
-   defines an extension to UDP proxying in HTTP that enables such use-
-   cases.
+The mechanism defined in "Proxying UDP in HTTP" (RFC 9298) only
+   allows each UDP proxying request to transmit to a specific host and
+   port.  This is well suited for UDP client-server protocols such as
+   HTTP/3, but is not sufficient for some UDP peer-to-peer protocols
+   like WebRTC.  This document defines an extension to that mechanism
+   that enables such use cases.
 
 ### Extensions to Compress and Derive Fields in HTTP Datagrams  (draft-ietf-masque-http-datagram-compression)
 This document defines extensions for HTTP Datagram-based protocols
@@ -7240,7 +7240,7 @@ Explicit Congestion Notification (ECN) is a mechanism where network
    never used on the TCP SYN.  The document also specifies the treatment
    of this updated TCP wire protocol by middleboxes.
 
-### Additional Cryptographic Algorithms For Use With TCP-AO  (draft-ietf-tcpm-tcp-ao-algs)
+### Cryptographic Algorithms That Produce 128-bit MACs For Use With TCP-AO  (draft-ietf-tcpm-tcp-ao-algs)
 RFC5926 creates a list of cryptographic algorithms that can be used
    with TCP-AO.  This document expands that list, adding two Message
    Authentication Code (MAC) algorithms, HMAC-SHA256-128 and
