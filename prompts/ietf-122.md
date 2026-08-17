@@ -131,7 +131,7 @@ show in the rendered view but stays in the source:
 conference: IETF 122 (Bangkok)
 type: standards
 source_url: https://datatracker.ietf.org/meeting/122/agenda.json
-generated: 2026-08-10
+generated: 2026-08-17
 registry_key: ietf-122
 -->
 
@@ -1057,7 +1057,7 @@ Bootstrapping Remote Secure Key Infrastructures (BRSKI) defines how
 
    This document updates RFC 8995 (BRSKI).
 
-### A Voucher Artifact for Bootstrapping Protocols  (draft-ietf-anima-rfc8366bis)
+### A Voucher Artifact for Onboarding Protocols  (draft-ietf-anima-rfc8366bis)
 This document defines a strategy to securely assign a candidate
    device (Pledge) to an Owner using an artifact signed, directly or
    indirectly, by the Pledge's manufacturer.  This artifact is known as
@@ -5376,8 +5376,8 @@ Unless they have out-of-band knowledge, QUIC endpoints have no
    information about their network situation.  They neither know their
    external IP address and port, nor do they know if they are directly
    connected to the internet or if they are behind a NAT.  This QUIC
-   extension allows nodes to determine their public IP address and port
-   for any QUIC path.
+   extension allows nodes to determine their reflexive IP address and
+   port for any QUIC path.
 
 ### Compatible Version Negotiation for QUIC  (draft-ietf-quic-version-negotiation)
 QUIC does not provide a complete version negotiation mechanism but instead only provides a way for the server to indicate that the version the client chose is unacceptable.  This document describes a version negotiation mechanism that allows a client and server to select a mutually supported version.  Optionally, if the client's chosen version and the negotiated version share a compatible first flight format, the negotiation can take place without incurring an extra round trip.  This document updates RFC 8999.

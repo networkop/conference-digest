@@ -20,19 +20,19 @@
   "usenix-security-2025": {
     "status": "local_required",
     "attempts": 0,
-    "last_attempt": "2026-08-10T09:23:19.537640+00:00",
+    "last_attempt": "2026-08-17T08:44:57.729412+00:00",
     "last_error": ""
   },
   "srecon-2025-americas": {
     "status": "local_required",
     "attempts": 0,
-    "last_attempt": "2026-08-10T09:23:19.537640+00:00",
+    "last_attempt": "2026-08-17T08:44:57.729412+00:00",
     "last_error": ""
   },
   "ietf-122": {
     "status": "published",
     "attempts": 0,
-    "last_attempt": "2026-08-10T09:23:19.537640+00:00",
+    "last_attempt": "2026-08-17T08:44:57.729412+00:00",
     "last_error": ""
   },
   "ietf-123": {
@@ -43,8 +43,8 @@
   },
   "kubecon-eu-2025": {
     "status": "stalled",
-    "attempts": 10,
-    "last_attempt": "2026-08-10T09:23:19.537640+00:00",
+    "attempts": 11,
+    "last_attempt": "2026-08-17T08:44:57.729412+00:00",
     "last_error": "Sched returned 403 / challenge; open the schedule and paste it manually."
   }
 }
