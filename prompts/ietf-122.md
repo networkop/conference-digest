@@ -131,7 +131,7 @@ show in the rendered view but stays in the source:
 conference: IETF 122 (Bangkok)
 type: standards
 source_url: https://datatracker.ietf.org/meeting/122/agenda.json
-generated: 2026-08-17
+generated: 2026-08-24
 registry_key: ietf-122
 -->
 
@@ -3094,13 +3094,6 @@ This document describes extensions to the BGP for IDs allocation.
    The IDs are SIDs for segment routing (SR), including SR for IPv6
    (SRv6).  They are distributed to their domains if needed.
 
-### BGP UPDATE for SD-WAN Edge Discovery  (draft-ietf-idr-sdwan-edge-discovery)
-The document describes the BGP mechanisms for SD-WAN (Software
-   Defined Wide Area Network) edge node attribute discovery.  These
-   mechanisms include a new tunnel type and sub-TLVs for the BGP Tunnel-
-   Encapsulation Attribute (RFC9012) and set of NLRI (network layer
-   reachability information) for SD-WAN underlay information.
-
 ### BGP Flowspec for IETF Network Slice Traffic Steering  (draft-dong-idr-flowspec-network-slice-ts)
 BGP Flow Specification (Flowspec) provides a mechanism to distribute
    traffic flow specifications and the forwarding actions to be
@@ -3505,6 +3498,19 @@ This document presents a framework for inter-domain route aggregation and shows 
 
 ### Using a Dedicated AS for Sites  Homed to a Single Provider  (draft-ietf-idr-as-dedicated)
 With the increased growth of the Internet, the number of customers using BGP4 has grown significantly.  RFC1930 outlines a set of guidelines for when one needs and should use an AS.  However, the customer and service provider (ISP) are left with a problem as a result of this in that while there is no need for an allocated AS under the guidelines, certain conditions make the use of BGP4 a very pragmatic and perhaps only way to connect a customer homed to a single ISP.  This paper proposes a solution to this problem in line with recommendations set forth in RFC1930.  This memo provides information for the Internet community.  It does not specify an Internet standard of any kind.
+
+### Route Aggregation Tutorial  (draft-ietf-idr-aggregation-tutorial)
+Route aggregation is critical to the long-term viability of the
+   Internet.  This document presents practical information that network
+   managers can use to both understand the concepts of aggregation as
+   well as put those concepts into use in order to do their part to make
+   the Internet stable and allow its continued growth.  The intended
+   audience for this document is anyone responsible for configuring a
+   network which has its own Autonomous System Number (ASN) and
+   exchanges routing information with its Internet Service Provider(s)
+   (ISP(s)) using the Border Gateway Protocol (BGP).  This document does
+   not cover multi-homing, though multi-homed sites can still benefit
+   from understanding this material.
 
 ## Working Group: ipsecme
 ### Internet Key Exchange Protocol Version 2 (IKEv2) Configuration for Encrypted DNS  (draft-ietf-ipsecme-add-ike)
@@ -5222,10 +5228,9 @@ JSON Web Tokens, also known as JWTs, are URL-safe JSON-based security
    provide actionable guidance leading to secure implementation and
    deployment of JWTs.
 
-   This BCP specification furthermore obsoletes the existing JWT BCP
-   specification RFC 8725 to provide additional actionable guidance
-   covering threats and attacks that have been discovered since RFC 8725
-   was published.
+   This BCP specification furthermore obsoletes RFC 8725 to provide
+   additional actionable guidance covering threats and attacks that have
+   been discovered since RFC 8725 was published.
 
 ### Cross-Device Flows: Security Best Current Practice  (draft-ietf-oauth-cross-device-security)
 This document describes threats against cross-device flows along with
