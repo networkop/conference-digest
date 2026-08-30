@@ -18,16 +18,16 @@
     "last_error": "Sched returned 403 / challenge; open the schedule and paste it manually."
   },
   "usenix-security-2025": {
-    "status": "local_required",
-    "attempts": 0,
-    "last_attempt": "2026-08-24T08:49:27.820410+00:00",
-    "last_error": ""
+    "status": "manual",
+    "attempts": 1,
+    "last_attempt": "2026-08-30T11:11:57.334185+00:00",
+    "last_error": "USENIX returned 200 / bot challenge; open the page and paste the program manually."
   },
   "srecon-2025-americas": {
-    "status": "local_required",
-    "attempts": 0,
-    "last_attempt": "2026-08-24T08:49:27.820410+00:00",
-    "last_error": ""
+    "status": "waiting",
+    "attempts": 1,
+    "last_attempt": "2026-08-30T11:12:38.362699+00:00",
+    "last_error": "page reachable but no session nodes found (program likely not published yet)"
   },
   "ietf-122": {
     "status": "published",
@@ -42,9 +42,9 @@
     "last_error": ""
   },
   "kubecon-eu-2025": {
-    "status": "stalled",
-    "attempts": 12,
-    "last_attempt": "2026-08-24T08:49:27.820410+00:00",
-    "last_error": "Sched returned 403 / challenge; open the schedule and paste it manually."
+    "status": "published",
+    "attempts": 0,
+    "last_attempt": "2026-08-30T11:12:55.994885+00:00",
+    "last_error": ""
   }
 }
