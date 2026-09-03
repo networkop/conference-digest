@@ -16,7 +16,7 @@
 #   type       One of: academic | standards | vendor | operator | security
 #              Drives how the universal prompt tells Claude to read the program.
 #   end_date   ISO date (YYYY-MM-DD) the event ended. Selection is based on this.
-#   fetcher    Which fetcher module handles it: usenix | ietf | sched
+#   fetcher    Which fetcher module handles it: usenix | ietf | sched | sigcomm | netdev
 #   program_url
 #              The machine-or-human-readable program endpoint the fetcher pulls.
 #   manual_fallback_url
@@ -136,3 +136,19 @@ conferences:
     program_url: "https://conferences.sigcomm.org/sigcomm/2025/program/papers-info/"
     manual_fallback_url: "https://conferences.sigcomm.org/sigcomm/2025/program/papers-info/"
     notes: "39th edition. Flagship data-comm research: datacenter, transport, measurement, hardware, NetAI. Per-paper video links included."
+
+  # ----------------------------------------------------------------------- #
+  # Netdev  (operator/developer). Static Jekyll HTML at netdevconf.info. The
+  # sessions index carries only titles + speakers; the fetcher follows each
+  # session page for the description, track label, slides PDF and video. No
+  # bot-block observed. URL pattern: /<edition>/pages/sessions.html
+  # ----------------------------------------------------------------------- #
+
+  - key: netdev-0x1a
+    name: "Netdev 0x1A (Rome)"
+    type: vendor
+    end_date: 2026-07-16
+    fetcher: netdev
+    program_url: "https://netdevconf.info/0x1A/pages/sessions.html"
+    manual_fallback_url: "https://netdevconf.info/0x1A/pages/sessions.html"
+    notes: "Linux kernel networking conference, Rome, 13-16 July 2026. Kernel datapath/eBPF/XDP, NIC offload, transport internals. Edition slug is hex (0x1A); next edition bumps to 0x1B."

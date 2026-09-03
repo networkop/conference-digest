@@ -46,5 +46,11 @@
     "attempts": 0,
     "last_attempt": "2026-08-30T11:12:55.994885+00:00",
     "last_error": ""
+  },
+  "netdev-0x1a": {
+    "status": "published",
+    "attempts": 0,
+    "last_attempt": "2026-09-03T07:33:42.923406+00:00",
+    "last_error": ""
   }
 }

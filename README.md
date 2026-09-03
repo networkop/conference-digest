@@ -43,13 +43,18 @@ a site changed and a fetcher needs adjusting.
 ```
 conferences/
   registry.yaml      # the conferences (one entry per edition/year)
-  prompt.md          # the universal digest prompt (slots: {CONFERENCE} {TYPE} ...)
+  prompt/            # the universal digest prompt, composed at build time
+    base.md          #   persona, tiers, item format, rules, output (slots:
+                     #   {CONFERENCE} {TYPE} {TYPE_GUIDANCE} {PROGRAM_TEXT} ...)
+    types/*.md       #   per-type reading guidance, one injected per conference
   state.json         # auto-managed bookkeeping (created on first run)
   fetchers/
     base.py          # shared fetch + result types + bot-block heuristic
     usenix.py        # NSDI / USENIX Security / SREcon (static HTML)
     ietf.py          # datatracker documents API (per-WG active drafts)
     sched.py         # KubeCon / CNCF public Sched schedule (HTML)
+    sigcomm.py       # SIGCOMM papers-info table (HTML)
+    netdev.py        # netdevconf.info sessions index + per-session pages (HTML)
 scripts/
   generate_digest_prompt.py   # orchestrator (state machine)
   build_issue.py              # renders run_summary.json -> issue body
@@ -76,7 +81,7 @@ Copy a block in `registry.yaml`, set:
 - `type` — `academic | standards | vendor | operator | security` (drives how
   the prompt tells Claude to read the program)
 - `end_date` — `YYYY-MM-DD` (selection is based on this)
-- `fetcher` — `usenix | ietf | sched`
+- `fetcher` — `usenix | ietf | sched | sigcomm | netdev`
 - `program_url` — the machine/human-readable program endpoint
 - `manual_fallback_url` — page for you to open if auto-fetch is blocked
 
@@ -93,6 +98,11 @@ Copy a block in `registry.yaml`, set:
   and pulls each WG's active drafts. Draft "active" filtering is intentionally
   permissive — when the API returns state as opaque URIs it keeps the draft;
   worst case is a few extra drafts in the prompt, which Claude filters anyway.
+- **SIGCOMM** and **Netdev** are static HTML with no observed bot-block. Netdev
+  does a second pass: the sessions index has only titles/speakers, so it follows
+  each session page for the description, track label, slides and video. A
+  session page that fails to fetch degrades to title+speakers rather than
+  failing the run.
 - The `*.sched.com` subdomains and exact `end_date`s in the registry should be
   verified close to each event; they're flagged in registry `notes`.
 
