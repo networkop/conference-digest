@@ -29,8 +29,16 @@
 #              `python3 scripts/generate_digest_prompt.py --conference <key>`.
 #              The issue is still opened by CI; its body gives local instructions.
 #   notes      Free text; surfaced in the prompt's front matter.
+#   discovered Set only on entries scripts/discover_editions.py added by itself,
+#              recording when. Its end_date may be an estimate from the series
+#              hint rather than something the source stated — the issue body
+#              says which. Correcting a discovered entry by hand is fine;
+#              discovery only ever appends keys that aren't here yet.
 #
-# To add next year's edition, copy the block and bump key/name/end_date/url.
+# Most editions land here on their own: conferences/series.yaml describes the
+# recurring conference (URL templates, how editions are numbered) and discovery
+# appends next year's block once the source confirms it exists. Add a block by
+# hand for a genuine one-off, or to fix something discovery got wrong.
 
 conferences:
 
@@ -152,3 +160,71 @@ conferences:
     program_url: "https://netdevconf.info/0x1A/pages/sessions.html"
     manual_fallback_url: "https://netdevconf.info/0x1A/pages/sessions.html"
     notes: "Linux kernel networking conference, Rome, 13-16 July 2026. Kernel datapath/eBPF/XDP, NIC offload, transport internals. Edition slug is hex (0x1A); next edition bumps to 0x1B."
+
+  # --------------------------------------------------------------------- #
+  # Auto-discovered editions (scripts/discover_editions.py).
+  # Appended by the scheduled run once the source confirmed the edition
+  # exists AND its program was fetchable. Edit or re-order these freely —
+  # discovery only ever appends keys that are not in this file yet.
+  # --------------------------------------------------------------------- #
+
+  - key: kubecon-eu-2026
+    name: "KubeCon + CloudNativeCon Europe 2026"
+    type: vendor
+    end_date: 2026-03-27
+    fetcher: sched
+    program_url: "https://kccnceu2026.sched.com/list/descriptions/"
+    manual_fallback_url: "https://kccnceu2026.sched.com/"
+    discovered: 2026-09-14
+    notes: "Networking/eBPF/identity tracks; CiliumCon + eBPF Day co-located (separate Sched instances). Auto-discovered 2026-09-14 from series 'kubecon-eu'. end_date taken from the source."
+
+  - key: nsdi-2026
+    name: "NSDI '26 (USENIX Symposium on Networked Systems Design and Implementation)"
+    type: academic
+    end_date: 2026-04-30
+    fetcher: usenix
+    run_location: local
+    program_url: "https://www.usenix.org/conference/nsdi26/technical-sessions"
+    manual_fallback_url: "https://www.usenix.org/conference/nsdi26/technical-sessions"
+    discovered: 2026-09-14
+    notes: "Core networking research: datacenter, transport, verification, ML systems. Auto-discovered 2026-09-14 from series 'nsdi'. end_date is an ESTIMATE from the series hint — confirm it against the event page."
+
+  - key: ietf-124
+    name: "IETF 124 (Montreal)"
+    type: standards
+    end_date: 2025-11-07
+    fetcher: ietf
+    program_url: "https://datatracker.ietf.org/meeting/124/agenda.json"
+    manual_fallback_url: "https://datatracker.ietf.org/meeting/124/agenda"
+    discovered: 2026-09-14
+    notes: "Filter to WGs relevant to networking/security/identity (oauth, scitt, wimse, rats, masque, tls, dnsop, ipsecme, anima, savnet). Auto-discovered 2026-09-14 from series 'ietf'. end_date taken from the source."
+
+  - key: ietf-125
+    name: "IETF 125 (Shenzhen)"
+    type: standards
+    end_date: 2026-03-20
+    fetcher: ietf
+    program_url: "https://datatracker.ietf.org/meeting/125/agenda.json"
+    manual_fallback_url: "https://datatracker.ietf.org/meeting/125/agenda"
+    discovered: 2026-09-14
+    notes: "Filter to WGs relevant to networking/security/identity (oauth, scitt, wimse, rats, masque, tls, dnsop, ipsecme, anima, savnet). Auto-discovered 2026-09-14 from series 'ietf'. end_date taken from the source."
+
+  - key: ietf-126
+    name: "IETF 126 (Vienna)"
+    type: standards
+    end_date: 2026-07-24
+    fetcher: ietf
+    program_url: "https://datatracker.ietf.org/meeting/126/agenda.json"
+    manual_fallback_url: "https://datatracker.ietf.org/meeting/126/agenda"
+    discovered: 2026-09-14
+    notes: "Filter to WGs relevant to networking/security/identity (oauth, scitt, wimse, rats, masque, tls, dnsop, ipsecme, anima, savnet). Auto-discovered 2026-09-14 from series 'ietf'. end_date taken from the source."
+
+  - key: ietf-127
+    name: "IETF 127 (San Francisco)"
+    type: standards
+    end_date: 2026-11-20
+    fetcher: ietf
+    program_url: "https://datatracker.ietf.org/meeting/127/agenda.json"
+    manual_fallback_url: "https://datatracker.ietf.org/meeting/127/agenda"
+    discovered: 2026-09-14
+    notes: "Filter to WGs relevant to networking/security/identity (oauth, scitt, wimse, rats, masque, tls, dnsop, ipsecme, anima, savnet). Auto-discovered 2026-09-14 from series 'ietf'. end_date taken from the source."

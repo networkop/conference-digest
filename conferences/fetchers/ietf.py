@@ -25,7 +25,11 @@ Outcomes:
 from __future__ import annotations
 
 import json
-from .base import Fetcher, FetchResult, http_get, OK, NOT_PUBLISHED
+import re
+from datetime import date, timedelta
+from typing import Iterable, Optional
+
+from .base import Fetcher, FetchResult, ProbeResult, http_get, OK, NOT_PUBLISHED
 
 # WGs whose work touches cloud-native networking, network security, identity.
 RELEVANT_WGS = {
@@ -48,6 +52,13 @@ ACTIVE_HINTS = ("active", "wg document", "candidate", "adopted", "i-d exists")
 
 class IetfFetcher(Fetcher):
     name = "ietf"
+
+    # probe() asks datatracker's meeting API outright, so discovery needs no
+    # second opinion. It also saves real work: fetch() walks ~30 WG endpoints,
+    # and it would do so for every candidate meeting number — while returning
+    # OK off the back of current WG drafts, which say nothing about whether
+    # meeting 128 exists. The probe is both cheaper and more informative here.
+    probe_is_sufficient = True
 
     def fetch(self, entry: dict) -> FetchResult:
         meeting_url = entry["program_url"]  # e.g. .../meeting/122/agenda.json
@@ -95,6 +106,67 @@ class IetfFetcher(Fetcher):
             item_count=count,
             detail=f"{wgs_with_content} WGs, {count} active drafts",
         )
+
+
+    def probe(self, entry: dict, years: Optional[Iterable[int]] = None) -> ProbeResult:
+        """Discovery probe via the datatracker meeting API.
+
+        Unlike the HTML sources, IETF states its schedule outright:
+
+            /api/v1/meeting/meeting/?number=<n>&format=json
+            -> {"objects": [{"number", "date", "days", "city", ...}]}
+
+        `date` is day one and `days` the length, so end_date is exact and the
+        city gives the edition its "(Montreal)" suffix. Meetings are published
+        years ahead, so a hit here is NOT "the meeting happened" — it is "this
+        meeting number is real", which is precisely what discovery needs. The
+        end_date then keeps the selection gate honest.
+        """
+        url = entry["program_url"]
+        number = self._meeting_number(url)
+        if not number:
+            return super().probe(entry, years)
+
+        api = f"{API}/api/v1/meeting/meeting/?number={number}&format=json"
+        try:
+            resp = http_get(api)
+        except Exception as e:
+            return ProbeResult(False, f"request error: {e}", source_url=url)
+        if resp.status_code != 200:
+            return ProbeResult(False, f"meeting API status {resp.status_code}", source_url=url)
+
+        try:
+            objects = resp.json().get("objects") or []
+        except Exception as e:
+            return ProbeResult(False, f"meeting API not JSON: {e}", source_url=url)
+        if not objects:
+            return ProbeResult(False, f"no meeting {number} scheduled yet", source_url=url)
+
+        m = objects[0]
+        # Only real IETF meetings; the same table also holds interims.
+        if "meetingtypename/ietf" not in (m.get("type") or ""):
+            return ProbeResult(False, f"meeting {number} is not a plenary IETF meeting",
+                               source_url=url)
+
+        end = None
+        try:
+            start = date.fromisoformat(m["date"])
+            end = start + timedelta(days=max(int(m.get("days") or 1) - 1, 0))
+        except Exception:
+            pass
+
+        return ProbeResult(
+            True,
+            f"meeting {number} scheduled" + (f", ends {end}" if end else ""),
+            end_date=end,
+            location=(m.get("city") or "").strip(),
+            source_url=url,
+        )
+
+    @staticmethod
+    def _meeting_number(url: str) -> str:
+        m = re.search(r"/meeting/(\d+)/", url)
+        return m.group(1) if m else ""
 
     def _wg_active_drafts(self, wg: str) -> list[dict]:
         url = (

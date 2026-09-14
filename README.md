@@ -14,12 +14,15 @@ No API keys. No SMTP. The only credential used is the workflow's built-in
 
 ```
 trigger (fortnightly cron, or manual workflow_dispatch)
+  -> discovery reads series.yaml: probes for editions the registry is missing
+       confirmed     -> append the edition to registry.yaml
+       not up yet    -> re-probe next run
   -> orchestrator reads registry + state
   -> for each past, not-yet-digested conference: run its fetcher
        OK            -> write prompts/<key>.md, mark published
        not_published -> retry next run (event past but artifacts not up yet)
        manual         -> auto-fetch blocked; you paste the program in yourself
-  -> commit prompts/ + state.json
+  -> commit prompts/ + state.json + registry.yaml
   -> open ONE GitHub Issue summarising what's ready / needs you / stalled
   -> [you] paste prompt into Claude Desktop -> commit digests/<key>.md
 ```
@@ -75,7 +78,22 @@ digests/             # YOU commit digests here; presence = done
 
 ## Adding a conference
 
-Copy a block in `registry.yaml`, set:
+**If it recurs, add the series, not the edition.** `conferences/series.yaml`
+describes the conference itself — URL templates, how its editions are numbered
+(`kubecon-eu-{year}`, `ietf-{n}`, `netdev-0x{HEX}`) and where to fall back for
+an end date. Every scheduled run probes each series for editions the registry
+doesn't have yet and appends the ones the source confirms, so next year's
+KubeCon files itself. Check a new series without writing anything:
+
+```bash
+python3 scripts/discover_editions.py --dry-run --series kubecon-eu
+```
+
+Sources that bot-block CI (`run_location: local`) are only discovered on a
+local run — in CI they're reported as needing one.
+
+**For a one-off event**, or to correct a discovered entry, copy a block in
+`registry.yaml` and set:
 
 - `key` — unique slug, also the prompt/digest filename
 - `type` — `academic | standards | vendor | operator | security` (drives how

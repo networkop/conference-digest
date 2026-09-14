@@ -14,6 +14,9 @@ prompts, and files issues.
 ## The pipeline
 
 ```
+series.yaml (a recurring conference)
+  -> scripts/discover_editions.py        probe for editions not in the registry
+  -> registry.yaml                       new edition appended + committed by CI
 registry.yaml (an edition)
   -> scripts/generate_digest_prompt.py   fetch program, compose prompt
   -> prompts/<key>.md                    committed by CI (or a local run)
@@ -38,9 +41,11 @@ pipeline.
    `prompts/<key>.md` -> `digests/<key>.md` -> issue label `conf:<key>` ->
    `state.json` top-level key. Renaming a key orphans the state record and the
    open issue. Don't rename a key after its first run.
-3. **CI commits only `prompts/` and `conferences/state.json`.**
-   `run_summary.json` and `issues.json` are ephemeral, gitignored, and passed
-   between steps in one job — never commit them.
+3. **CI commits only `prompts/`, `conferences/state.json` and
+   `conferences/registry.yaml`.** registry.yaml is in that list *only* because
+   discovery appends to it; nothing else in CI may write it.
+   `run_summary.json`, `issues.json` and `discovery_summary.json` are ephemeral,
+   gitignored, and passed between steps in one job — never commit them.
 4. **`state.json` is bookkeeping, not truth.** It tracks
    `status`/`attempts`/`last_attempt`/`last_error` only. A record can say
    `manual` while the digest is already committed (that's normal — see
@@ -72,7 +77,26 @@ pipeline.
     (Core / Adjacent / Wildcard) and a final `## Themes`. GitHub-flavored
     markdown only; links as `[text](url)` using the exact URLs from the program
     text.
-12. **Never invent program content.** If a fetch or enrichment fails, write from
+12. **Discovery only ever appends, and only what it confirmed.**
+    `discover_editions.py` writes new blocks at the end of `registry.yaml` and
+    re-parses the file afterwards; if the result doesn't contain exactly the
+    expected keys it restores the original and fails. It never edits or removes
+    an existing entry, so a hand-tuned edition stays hand-tuned. An edition is
+    written only after `probe()` confirmed the source has it AND `fetch()`
+    returned `OK` — except where a fetcher sets `probe_is_sufficient` (IETF,
+    whose probe asks datatracker's meeting API directly).
+13. **A series' `key_template` must match the keys already in the registry.**
+    Discovery reads it backwards to find where the series is up to
+    (`ietf-{n}` -> `ietf-123` -> next is 124). A template that stops matching
+    makes every edition look missing; `MAX_GAP` (5) bounds the damage, but the
+    real fix is keeping template and keys in step. This is invariant 2 again:
+    don't rename keys.
+14. **A discovered `end_date` may be an estimate.** Discovery prefers what the
+    source states (IETF's meeting API; dates scanned off the program page) and
+    falls back to the series' `end_date_hint`. Entries it wrote carry
+    `discovered: <date>`, and the issue body asks for a confirming glance.
+    Editing that date by hand afterwards is expected and safe.
+15. **Never invent program content.** If a fetch or enrichment fails, write from
     the abstract and say so ("from abstract only"). Enrichment deepens a
     write-up; it never changes selection or tier.
 
@@ -97,10 +121,27 @@ where `{PROGRAM_TEXT}` is — i.e. below the
 `==== PROGRAM TEXT ====` separator line at the end of the prompt. That hand-built prompt is committed like a
 generated one. State stays `manual`; the digest file is what closes the loop.
 
-**Add a conference edition:** copy a block in `conferences/registry.yaml` and set
-`key`, `name`, `type`, `end_date`, `fetcher`, `program_url`,
-`manual_fallback_url`, optional `run_location` and `notes`. Adding a new *source
-site* also means a new fetcher module plus a `FETCHERS` entry.
+**Add a conference edition:** you usually shouldn't have to — if the conference
+recurs, add it to `conferences/series.yaml` once and discovery files every
+future edition itself. Do it by hand (copy a block in
+`conferences/registry.yaml`, setting `key`, `name`, `type`, `end_date`,
+`fetcher`, `program_url`, `manual_fallback_url`, optional `run_location` and
+`notes`) for a one-off event, or to correct something discovery got wrong.
+Adding a new *source site* also means a new fetcher module plus a `FETCHERS`
+entry.
+
+**Add a conference series** (so next year arrives on its own): add a block to
+`conferences/series.yaml` with `key_template` matching the keys already in the
+registry, the URL templates, `enumerate: year|ordinal`, and an `end_date_hint`
+for sources that don't state their own dates. Check it before trusting it:
+
+```bash
+python3 scripts/discover_editions.py --dry-run --series <slug>
+```
+
+`--dry-run` probes and reports without touching `registry.yaml`. A series whose
+source bot-blocks CI needs `run_location: local`, and is then only discovered on
+a local run.
 
 **Commit convention:** digests commit as `digest: <key>`, with a body saying
 where the program came from (auto-fetch vs manual paste) and the core signal

@@ -1,0 +1,142 @@
+# Conference SERIES — how the pipeline finds next year's edition by itself.
+#
+# registry.yaml holds *editions* (one specific year's event). This file holds
+# the recurring conference behind them, and the rule for building the next one.
+# scripts/discover_editions.py reads it every scheduled run, works out which
+# editions ought to exist but aren't in the registry, probes the source, and
+# appends the confirmed ones to registry.yaml. Nobody hand-adds a 2027 block.
+#
+# An edition is appended only when BOTH hold:
+#   1. the fetcher's probe() says the source exists (not a 404, not a challenge)
+#   2. the fetcher's real fetch() returns OK — i.e. there is a program we could
+#      actually digest, not a placeholder page
+# so a series that hasn't published yet is simply re-probed next run.
+#
+# FIELDS
+#   series      Slug for this recurring conference. Log/report label only.
+#   enumerate   How editions are numbered:
+#                 year    - one per calendar year (KubeCon, SIGCOMM, USENIX)
+#                 ordinal - a counter that just increments (IETF 124, 125...;
+#                           Netdev 0x1A, 0x1B...)
+#   key_template / name_template / *_url_template
+#               Templates filled with, for `year` series:
+#                 {year} 2026   {yy} 26
+#               and for `ordinal` series:
+#                 {n} 27   {hex} 1b   {HEX} 1B
+#               key_template MUST match the keys already in registry.yaml —
+#               discovery reads it backwards to find where the series is up to.
+#   lookahead   How many unseen editions to probe per run (default 2). IETF
+#               needs 3+ because it meets three times a year.
+#   start       Optional first edition to consider when the registry has none
+#               of this series yet (a brand-new series). Ignored otherwise.
+#   end_date_hint
+#               "MM-DD" fallback, used ONLY when the source doesn't state its
+#               dates. Discovery prefers the real dates it scans off the page.
+#   type / fetcher / run_location / notes
+#               Copied onto every discovered edition, exactly as registry.yaml
+#               defines them.
+
+series:
+
+  # KubeCon EU and NA are separate series: different subdomains, different
+  # halves of the year. Sched publishes the schedule months before the event,
+  # so these get discovered early and then wait on end_date like anything else.
+  - series: kubecon-eu
+    enumerate: year
+    key_template: "kubecon-eu-{year}"
+    name_template: "KubeCon + CloudNativeCon Europe {year}"
+    type: vendor
+    fetcher: sched
+    end_date_hint: "04-04"
+    program_url_template: "https://kccnceu{year}.sched.com/list/descriptions/"
+    manual_fallback_url_template: "https://kccnceu{year}.sched.com/"
+    notes: "Networking/eBPF/identity tracks; CiliumCon + eBPF Day co-located (separate Sched instances)."
+
+  - series: kubecon-na
+    enumerate: year
+    key_template: "kubecon-na-{year}"
+    name_template: "KubeCon + CloudNativeCon North America {year}"
+    type: vendor
+    fetcher: sched
+    end_date_hint: "11-14"
+    program_url_template: "https://kccncna{year}.sched.com/list/descriptions/"
+    manual_fallback_url_template: "https://kccncna{year}.sched.com/"
+    notes: "Networking/eBPF/identity tracks; CNCF co-located days on separate Sched instances."
+
+  - series: sigcomm
+    enumerate: year
+    key_template: "sigcomm-{year}"
+    name_template: "ACM SIGCOMM {year}"
+    type: academic
+    fetcher: sigcomm
+    end_date_hint: "09-11"
+    program_url_template: "https://conferences.sigcomm.org/sigcomm/{year}/program/papers-info/"
+    manual_fallback_url_template: "https://conferences.sigcomm.org/sigcomm/{year}/program/papers-info/"
+    notes: "Flagship data-comm research: datacenter, transport, measurement, hardware, NetAI. Per-paper video links included."
+
+  # USENIX slugs carry a two-digit year (nsdi26, usenixsecurity26). The site
+  # bot-blocks datacenter IPs, so discovery for these only works on a local
+  # run — in CI they are reported as needing one, never silently dropped.
+  - series: nsdi
+    enumerate: year
+    key_template: "nsdi-{year}"
+    name_template: "NSDI '{yy} (USENIX Symposium on Networked Systems Design and Implementation)"
+    type: academic
+    fetcher: usenix
+    run_location: local
+    end_date_hint: "04-30"
+    program_url_template: "https://www.usenix.org/conference/nsdi{yy}/technical-sessions"
+    manual_fallback_url_template: "https://www.usenix.org/conference/nsdi{yy}/technical-sessions"
+    notes: "Core networking research: datacenter, transport, verification, ML systems."
+
+  - series: usenix-security
+    enumerate: year
+    key_template: "usenix-security-{year}"
+    name_template: "USENIX Security '{yy}"
+    type: academic
+    fetcher: usenix
+    run_location: local
+    end_date_hint: "08-15"
+    program_url_template: "https://www.usenix.org/conference/usenixsecurity{yy}/technical-sessions"
+    manual_fallback_url_template: "https://www.usenix.org/conference/usenixsecurity{yy}/technical-sessions"
+    notes: "Systems & network security, identity, authentication, applied crypto."
+
+  - series: srecon-americas
+    enumerate: year
+    key_template: "srecon-{year}-americas"
+    name_template: "SREcon{yy} Americas"
+    type: operator
+    fetcher: usenix
+    run_location: local
+    end_date_hint: "03-27"
+    program_url_template: "https://www.usenix.org/conference/srecon{yy}americas/program"
+    manual_fallback_url_template: "https://www.usenix.org/conference/srecon{yy}americas/program"
+    notes: "Reliability/ops angle. SREcon uses /program, not /technical-sessions."
+
+  # IETF meets three times a year and datatracker publishes meeting numbers,
+  # dates and host city years ahead — so the ietf fetcher's probe() reads the
+  # meeting API and discovery never has to guess an end_date or a location.
+  - series: ietf
+    enumerate: ordinal
+    lookahead: 4
+    key_template: "ietf-{n}"
+    name_template: "IETF {n}"
+    type: standards
+    fetcher: ietf
+    program_url_template: "https://datatracker.ietf.org/meeting/{n}/agenda.json"
+    manual_fallback_url_template: "https://datatracker.ietf.org/meeting/{n}/agenda"
+    notes: "Filter to WGs relevant to networking/security/identity (oauth, scitt, wimse, rats, masque, tls, dnsop, ipsecme, anima, savnet)."
+
+  # Netdev editions are hex-numbered: 0x19, 0x1A, 0x1B. The key lowercases it
+  # (netdev-0x1b) while the URL path keeps the site's uppercase (0x1B).
+  - series: netdev
+    enumerate: ordinal
+    ordinal_format: hex
+    key_template: "netdev-0x{hex}"
+    name_template: "Netdev 0x{HEX}"
+    type: vendor
+    fetcher: netdev
+    end_date_hint: "07-16"
+    program_url_template: "https://netdevconf.info/0x{HEX}/pages/sessions.html"
+    manual_fallback_url_template: "https://netdevconf.info/0x{HEX}/pages/sessions.html"
+    notes: "Linux kernel networking: kernel datapath/eBPF/XDP, NIC offload, transport internals."

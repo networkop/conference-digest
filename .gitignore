@@ -1,6 +1,7 @@
 # Ephemeral run output — regenerated each run, read within the same job.
 run_summary.json
 issues.json
+discovery_summary.json
 
 # Python
 __pycache__/

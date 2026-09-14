@@ -34,6 +34,17 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      # Find editions that ought to exist and aren't in the registry yet
+      # (next year's KubeCon, the next IETF meeting number, ...) and append
+      # them to registry.yaml. Runs BEFORE the generator so anything it finds
+      # whose end_date has already passed is digested in this same run.
+      # A forced single-conference run skips discovery: you asked for one
+      # specific key, not a scan.
+      - name: Discover new editions
+        if: github.event.inputs.conference == ''
+        id: discover
+        run: python scripts/discover_editions.py
+
       - name: Generate prompts and update state
         id: generate
         run: |
@@ -47,10 +58,12 @@ jobs:
         run: |
           git config user.name  "conference-digest-bot"
           git config user.email "actions@github.com"
-          # run_summary.json is ephemeral (read by the issue step in this same
-          # job) and intentionally NOT committed — committing it every run made
-          # main churn and race with itself.
-          git add prompts/ conferences/state.json
+          # run_summary.json / discovery_summary.json are ephemeral (read by
+          # the issue step in this same job) and intentionally NOT committed —
+          # committing them every run made main churn and race with itself.
+          # registry.yaml IS committed: the discovery step appends newly found
+          # editions to it, and that record has to survive the run.
+          git add prompts/ conferences/state.json conferences/registry.yaml
           if git diff --cached --quiet; then
             echo "nothing to commit"
             exit 0

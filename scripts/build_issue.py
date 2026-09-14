@@ -74,10 +74,31 @@ def manual_paste_instructions(key: str, manual_url: str) -> str:
     )
 
 
+def discovered_note(item: dict) -> str:
+    """Banner for editions nobody typed in by hand.
+
+    discover_editions.py adds these from conferences/series.yaml once the source
+    confirms the edition exists. The end_date may be an estimate from the series
+    hint rather than something the source stated, and that date is what decides
+    when the digest is due — so ask for one look before trusting it.
+    """
+    when = item.get("discovered")
+    if not when:
+        return ""
+    return (
+        f"> Auto-discovered on {when} from `conferences/series.yaml` — this "
+        "edition was not added by hand.\n"
+        "> Worth a glance at the registry entry: the `end_date` may be an "
+        "estimate from the series hint, and the name/URL follow the series "
+        "template.\n\n"
+    )
+
+
 def body_for(item: dict) -> str:
     key = item["key"]
     status = item["status"]
     header = f"**{item['name']}**  \n`type: {item['type']}` · `status: {status}`\n\n"
+    header += discovered_note(item)
 
     if status == "ready":
         n = item.get("items", "?")

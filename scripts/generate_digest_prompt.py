@@ -187,6 +187,10 @@ def main() -> int:
             "run_location": run_location,
             "program_url": entry.get("program_url", ""),
             "manual_url": entry.get("manual_fallback_url", ""),
+            # Set by scripts/discover_editions.py on editions it added itself.
+            # The issue uses it to ask for an end_date sanity-check, since a
+            # discovered date may be an estimate from the series hint.
+            "discovered": str(entry.get("discovered", "")),
         }
 
         # local-only source in CI: don't even attempt the fetch (it will 403).
