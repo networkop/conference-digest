@@ -58,5 +58,29 @@
     "attempts": 0,
     "last_attempt": "2026-09-14T10:15:57.446591+00:00",
     "last_error": ""
+  },
+  "nsdi-2026": {
+    "status": "local_required",
+    "attempts": 0,
+    "last_attempt": "2026-09-14T14:48:20.220408+00:00",
+    "last_error": ""
+  },
+  "ietf-124": {
+    "status": "published",
+    "attempts": 0,
+    "last_attempt": "2026-09-14T14:48:20.220408+00:00",
+    "last_error": ""
+  },
+  "ietf-125": {
+    "status": "published",
+    "attempts": 0,
+    "last_attempt": "2026-09-14T14:48:20.220408+00:00",
+    "last_error": ""
+  },
+  "ietf-126": {
+    "status": "published",
+    "attempts": 0,
+    "last_attempt": "2026-09-14T14:48:20.220408+00:00",
+    "last_error": ""
   }
 }
