@@ -52,5 +52,11 @@
     "attempts": 0,
     "last_attempt": "2026-09-03T07:33:42.923406+00:00",
     "last_error": ""
+  },
+  "kubecon-eu-2026": {
+    "status": "published",
+    "attempts": 0,
+    "last_attempt": "2026-09-14T10:15:57.446591+00:00",
+    "last_error": ""
   }
 }
