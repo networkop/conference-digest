@@ -131,7 +131,7 @@ show in the rendered view but stays in the source:
 conference: IETF 124 (Montreal)
 type: standards
 source_url: https://datatracker.ietf.org/meeting/124/agenda.json
-generated: 2026-09-14
+generated: 2026-09-21
 registry_key: ietf-124
 -->
 
@@ -243,6 +243,21 @@ This document defines a "P" flag in the Prefix Information Option
 This document describes Path MTU Discovery for IP version 6.  It is
    largely derived from RFC 1191, which describes Path MTU Discovery for
    IP version 4.  It obsoletes RFC1981.
+
+### IPv6 wants 802.11 Directed Multicast Service  (draft-ietf-6man-ieee80211-dms)
+There is consensus for switching this document from Flexible
+   Multicast Service (FMS) to Directed Multicast Service (DMS).  This
+   version has not been edited over yet and is being uploaded to check
+   if/how the name can be changed.
+
+   IEEE 802.11 Flexible Multicast Service (FMS) addresses reliability
+   issues in IPv6 due to aggressive powersave optimizations in 802.11
+   client devices.
+
+   The intent of this document is to collect consensus in the IETF 6man
+   (IPv6 Maintenance) working group to request either/both the IEEE
+   802.11 Working Group and/or the Wifi Alliance's certification process
+   to make implementing FMS a requirement.
 
 ### Analysis of the 64-bit Boundary in IPv6 Addressing  (draft-ietf-6man-why64)
 The IPv6 unicast addressing format includes a separation between the prefix used to route packets to a subnet and the interface identifier used to specify a given interface connected to that subnet.  Currently, the interface identifier is defined as 64 bits long for almost every case, leaving 64 bits for the subnet prefix.  This document describes the advantages of this fixed boundary and analyzes the issues that would be involved in treating it as a variable boundary.
@@ -461,14 +476,6 @@ This specification defines the addressing architecture of the IP
 
    This document obsoletes RFC 4291, "IP Version 6 Addressing
    Architecture".
-
-### Republishing the IPV6-MIB modules as obsolete  (draft-fenner-ipv6-mibs-obsolete)
-In 2005, the IPv6 MIB update group published updated versions of the
-   IP-MIB, UDP-MIB, TCP-MIB and IP-FORWARD-MIB modules, which use the
-   InetAddressType/InetAddress construct to handle IPv4 and IPv6 in the
-   same table.  This document contains versions of the obsoleted
-   IPV6-MIB, IPV6-TC, IPV6-ICMP-MIB, IPV6-TCP-MIB and IPV6-UDP-MIB
-   modules, for the purpose of updating MIB module repositories.
 
 ## Working Group: acme
 ### Automated Certificate Management Environment (ACME) Scoped DNS Challenges  (draft-ietf-acme-scoped-dns-challenges)
@@ -1334,14 +1341,6 @@ RFC 6514 describes the BGP encodings and procedures for exchanging
    This document updates and obsoletes RFC 6514.  The original authors
    of RFC 6514 are listed at the end of this document.
 
-### EVPN Interoperability Modes  (draft-ietf-bess-evpn-modes-interop)
-Ethernet VPN (EVPN) provides different functional modes in the area
-   of Service Interface, Integrated Route and Bridge (IRB) and IRB Core
-   connectivity.  This document specifies how the different EVPN
-   functional modes and types can interoperate with each other.  This
-   document does not redefine the existing functional modes but
-   describes how these modes interoperate.
-
 ### BGP Overlay Services Based on Segment Routing over IPv6 (SRv6)  (draft-ietf-bess-srv6-services)
 This document defines procedures and messages for SRv6-based BGP services, including Layer 3 Virtual Private Network (L3VPN), Ethernet VPN (EVPN), and Internet services.  It builds on "BGP/MPLS IP Virtual Private Networks (VPNs)" (RFC 4364) and "BGP MPLS-Based Ethernet VPN" (RFC 7432).
 
@@ -1698,6 +1697,9 @@ Virtual Subnet is a BGP/MPLS IP VPN-based subnet extension solution
 
 ### IP Prefix Advertisement in Ethernet VPN (EVPN)  (draft-ietf-bess-evpn-prefix-advertisement)
 The BGP MPLS-based Ethernet VPN (EVPN) (RFC 7432) mechanism provides a flexible control plane that allows intra-subnet connectivity in an MPLS and/or Network Virtualization Overlay (NVO) (RFC 7365) network.  In some networks, there is also a need for dynamic and efficient inter-subnet connectivity across Tenant Systems and end devices that can be physical or virtual and do not necessarily participate in dynamic routing protocols.  This document defines a new EVPN route type for the advertisement of IP prefixes and explains some use-case examples where this new route type is used.
+
+### Multicast VPN State Damping  (draft-ietf-bess-multicast-damping)
+This document describes procedures to damp Multicast VPN (MVPN) routing state changes and control the effect of the churn due to the multicast dynamicity in customer sites.  The procedures described in this document are applicable to BGP-based multicast VPN and help avoid uncontrolled control-plane load increase in the core routing infrastructure.  The new procedures proposed were inspired by BGP unicast route damping principles that have been adapted to multicast.
 
 ## Working Group: cose
 ### CBOR Object Signing and Encryption (COSE): AES-CTR and AES-CBC  (draft-ietf-cose-aes-ctr-and-cbc)
@@ -4952,7 +4954,7 @@ This document specifies Virtual eXtensible Local Area Network
    specification to the IETF document stream, allowing for the creation
    of extensions to VXLAN that require additions to the VXLAN header and
    their registration with IANA.  The format and processing described
-   here are fully compatible with those in RFC7348.
+   here are fully compatible with those in RFC 7348.
 
 ## Working Group: oauth
 ### OAuth 2.0 Dynamic Client Registration Protocol  (draft-ietf-oauth-dyn-reg)
@@ -7346,15 +7348,10 @@ This draft defines a new TLS Certificate Compression scheme which
 
 ### TLS Trust Anchor Identifiers  (draft-ietf-tls-trust-anchor-ids)
 This document defines the TLS Trust Anchors extension, a mechanism
-   for relying parties to convey trusted certification authorities.  It
-   describes individual certification authorities more succinctly than
-   the TLS Certificate Authorities extension.
-
-   Additionally, to support TLS clients with many trusted certification
-   authorities, it supports a mode where servers describe their
-   available certification paths and the client selects from them.
-   Servers may describe this during connection setup, or in DNS for
-   lower latency.
+   for a TLS client or server to select a certificate to present based
+   on the peer's trusted certification authorities.  It describes
+   certification authorities more succinctly than the TLS Certificate
+   Authorities extension.
 
 ### TLS Key Share Prediction  (draft-ietf-tls-key-share-prediction)
 This document defines a mechanism for servers to communicate
@@ -7963,6 +7960,12 @@ This document discusses a deployment scenario called "an IPv6-Mostly
    network", when IPv6-only and IPv4-enabled endpoints coexist on the
    same network (network segment, VLAN, SSID etc).
 
+### Considerations of IPv6-only Deployment in 5G Mobile Networks  (draft-ma-v6ops-5g-ipv6only)
+This document describes a practical guide of deploying 464XLAT based
+   IPv6-only technology on user plane in 3GPP 5G networks.  It also
+   covers key 5G concepts and architectures, configuration methods and
+   operational challenges.
+
 ### Basic Requirements for IPv6 Customer Edge Routers  (draft-ietf-v6ops-6204bis)
 This document specifies requirements for an IPv6 Customer Edge (CE) router.  Specifically, the current version of this document focuses on the basic provisioning of an IPv6 CE router and the provisioning of IPv6 hosts attached to it.  The document also covers IP transition technologies.  Two transition technologies in RFC 5969's IPv6 Rapid Deployment on IPv4 Infrastructures (6rd) and RFC 6333's Dual-Stack Lite (DS-Lite) are covered in the document.  The document obsoletes RFC 6204.
 
@@ -8182,19 +8185,6 @@ The use of cellular broadband for accessing the Internet and other data services
 ### Mobile Networks Considerations for IPv6 Deployment  (draft-ietf-v6ops-v6-in-mobile-networks)
 Mobile Internet access from smartphones and other mobile devices is accelerating the exhaustion of IPv4 addresses.  IPv6 is widely seen as crucial for the continued operation and growth of the Internet, and in particular, it is critical in mobile networks.  This document discusses the issues that arise when deploying IPv6 in mobile networks.  Hence, this document can be a useful reference for service providers and network designers.  This document is not an Internet Standards Track specification; it is published for informational purposes.
 
-### IPv6 Multihoming without Network Address Translation  (draft-ietf-v6ops-multihoming-without-nat66)
-Network Address and Port Translation (NAPT) works well for conserving
-global addresses and addressing multihoming requirements, because an
-IPv4 NAPT router implements three functions: source address
-selection, next-hop resolution and optionally DNS resolution.  For
-IPv6 hosts one approach could be the use of IPv6 NAT.  However, NAT
-should be avoided, if at all possible, to permit transparent host-to-
-host connectivity.  In this document, we analyze the use cases of
-multihoming.  We also describe functional requirements for
-multihoming without the use of NAT in IPv6 for hosts and small IPv6
-networks that would otherwise be unable to meet minimum IPv6
-allocation criteria .
-
 ## Working Group: wimse
 ### Workload Identity in a Multi System Environment (WIMSE) Architecture  (draft-salowey-wimse-arch)
 The increasing prevalence of cloud computing and micro service
@@ -8204,6 +8194,18 @@ The increasing prevalence of cloud computing and micro service
    document discusses an architecture for designing and standardizing
    protocols and payloads for conveying workload identity and security
    context information.
+
+### AI Identity Management System  (draft-ietf-wimse-aims)
+This document proposes best practices for authentication and
+   authorization of AI agent interactions.  It leverages existing
+   standards such as the Workload Identity in Multi-System Environments
+   (WIMSE) architecture and OAuth 2.0 family of specifications.  Rather
+   than defining new protocols, this document describes how existing and
+   widely deployed standards can be applied or extended to establish
+   agent authentication and authorization.  By doing so, it aims to
+   provide a framework within which to use existing standards, identify
+   gaps and guide future standardization efforts for agent
+   authentication and authorization.
 
 ### OAuth 2.0 Client Assertion in Workload Environments  (draft-ietf-wimse-workload-identity-bcp)
 The use of the OAuth 2.0 framework for container orchestration

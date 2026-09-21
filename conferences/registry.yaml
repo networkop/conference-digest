@@ -228,3 +228,23 @@ conferences:
     manual_fallback_url: "https://datatracker.ietf.org/meeting/127/agenda"
     discovered: 2026-09-14
     notes: "Filter to WGs relevant to networking/security/identity (oauth, scitt, wimse, rats, masque, tls, dnsop, ipsecme, anima, savnet). Auto-discovered 2026-09-14 from series 'ietf'. end_date taken from the source."
+
+  - key: ietf-128
+    name: "IETF 128 (Kuala Lumpur)"
+    type: standards
+    end_date: 2027-03-12
+    fetcher: ietf
+    program_url: "https://datatracker.ietf.org/meeting/128/agenda.json"
+    manual_fallback_url: "https://datatracker.ietf.org/meeting/128/agenda"
+    discovered: 2026-09-21
+    notes: "Filter to WGs relevant to networking/security/identity (oauth, scitt, wimse, rats, masque, tls, dnsop, ipsecme, anima, savnet). Auto-discovered 2026-09-21 from series 'ietf'. end_date taken from the source."
+
+  - key: ietf-129
+    name: "IETF 129 (Berlin)"
+    type: standards
+    end_date: 2027-07-23
+    fetcher: ietf
+    program_url: "https://datatracker.ietf.org/meeting/129/agenda.json"
+    manual_fallback_url: "https://datatracker.ietf.org/meeting/129/agenda"
+    discovered: 2026-09-21
+    notes: "Filter to WGs relevant to networking/security/identity (oauth, scitt, wimse, rats, masque, tls, dnsop, ipsecme, anima, savnet). Auto-discovered 2026-09-21 from series 'ietf'. end_date taken from the source."
