@@ -131,7 +131,7 @@ show in the rendered view but stays in the source:
 conference: IETF 126 (Vienna)
 type: standards
 source_url: https://datatracker.ietf.org/meeting/126/agenda.json
-generated: 2026-09-21
+generated: 2026-09-28
 registry_key: ietf-126
 -->
 
@@ -4069,7 +4069,7 @@ This specification refers to cryptographic algorithm identifiers that
    instructions to designated experts in RFC 7518 and RFC 9053.
 
 ### JOSE: Deprecate 'none' and 'RSA1_5'  (draft-ietf-jose-deprecate-none-rsa15)
-This document updates [RFC7518] to deprecate the JWS algorithm "none"
+This document updates RFC 7518 to deprecate the JWS algorithm "none"
    and the JWE algorithm "RSA1_5".  These algorithms have known security
    weaknesses.  It also updates the Review Instructions for Designated
    Experts to establish baseline security requirements that future
@@ -4131,6 +4131,19 @@ This document registers Post-Quantum (PQ) and Post-Quantum/
    Traditional (PQ/T) hybrid algorithm identifiers for use with JSON
    Object Signing and Encryption (JOSE), building on the Hybrid Public
    Key Encryption (HPKE) framework.
+
+### BBS and Modular Sub-proofs with JSON Web Proofs  (draft-bormann-jwp-modular-bbs)
+This document defines a digital credential format that uses JSON Web
+   Proofs (JWP) as its container format and Blind BBS Signatures as its
+   signature scheme combined with a modular framework for attaching
+   zero-knowledge sub-proofs.  This allows a Holder to reveal some
+   attributes directly while proving predicates such as range or
+   equality over the ones they keep hidden.  A credential can
+   additionally be bound to a Holder-held device key, with possession of
+   the key proven in every presentation without revealing the public key
+   or signature.  Concrete sub-proof and device-binding constructions
+   are not defined in this document, only the core serialization.  The
+   credential type definition and data model follow SD-JWT VC.
 
 ## Working Group: lamps
 ### DNS Certification Authority Authorization (CAA) Resource Record  (draft-hoffman-andrews-caa-simplification)
@@ -6903,9 +6916,10 @@ Traceability in supply chains is a growing security concern.  While
 
 ### CCF Profile for COSE Receipts  (draft-ietf-scitt-receipts-ccf-profile)
 This document defines a new verifiable data structure (VDS) type for
-   COSE Receipts and inclusion proofs specifically designed for append-
-   only logs produced by the Confidential Consortium Framework (CCF) to
-   provide stronger tamper-evidence guarantees.
+   COSE Receipts and the associated inclusion and consistency proofs,
+   specifically designed for append-only logs produced by the
+   Confidential Consortium Framework (CCF) to provide stronger tamper-
+   evidence guarantees.
 
 ## Working Group: spice
 ### OpenID Connect standard claims registration for CBOR Web Tokens  (draft-maldant-spice-oidc-cwt)
