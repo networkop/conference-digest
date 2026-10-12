@@ -131,7 +131,7 @@ show in the rendered view but stays in the source:
 conference: IETF 125 (Shenzhen)
 type: standards
 source_url: https://datatracker.ietf.org/meeting/125/agenda.json
-generated: 2026-10-05
+generated: 2026-10-12
 registry_key: ietf-125
 -->
 
@@ -4096,10 +4096,13 @@ This document describes conventions for using Post-Quantum Key
 
 ### PQ/T Hybrid Composite Signatures for JOSE and COSE  (draft-ietf-jose-pq-composite-sigs)
 This document describes JSON Object Signing and Encryption (JOSE) and
-   CBOR Object Signing and Encryption (COSE) serializations for PQ/T
-   hybrid composite signatures.  The composite algorithms described
-   combine ML-DSA as the post-quantum component and either ECDSA or
-   EdDSA as the traditional component.
+   CBOR Object Signing and Encryption (COSE) serializations for Post-
+   Quantum Traditional (PQ/T) hybrid composite signatures.  The
+   composite algorithms described combine the Module-Lattice-Based
+   Digital Signature Algorithm (ML-DSA) as the post-quantum component
+   and either the Elliptic Curve Digital Signature Algorithm (ECDSA) or
+   the Edwards-Curve Digital Signature Algorithm (EdDSA) as the
+   traditional component.
 
 ### JSON Web Proof  (draft-ietf-jose-json-web-proof)
 The JOSE set of standards established JSON-based container formats
@@ -5383,15 +5386,15 @@ Stateful Hash-Based Signature Schemes (Stateful HBS) such as
 ### Adapting Constrained Devices for Post-Quantum Cryptography  (draft-ietf-pquip-pqc-hsm-constrained)
 This document provides guidance on integrating Post-Quantum
    Cryptography (PQC) into resource-constrained devices, such as IoT
-   nodes and lightweight Hardware Security Modules (HSMs).  These
-   systems often operate with strict limitations on processing power,
-   RAM, and flash memory, and may even be battery-powered.  The document
-   emphasizes the role of hardware security as the basis for secure
-   operations, supporting features such as seed-based key generation to
-   minimize persistent storage, efficient handling of ephemeral keys,
-   and the offloading of cryptographic tasks in low-resource
-   environments.  It also explores the implications of PQC on firmware
-   update mechanisms in such constrained systems.
+   nodes and dedicated key-storage hardware.  These systems often
+   operate with strict limitations on processing power, RAM, and flash
+   memory, and may even be battery-powered.  The document emphasizes the
+   role of hardware security as the basis for secure operations,
+   supporting features such as seed-based key generation to minimize
+   persistent storage, efficient handling of ephemeral keys, and the
+   offloading of cryptographic tasks in low-resource environments.  It
+   also explores the implications of PQC on firmware update mechanisms
+   in such constrained systems.
 
 ## Working Group: quic
 ### QMux  (draft-opik-quic-qmux)
@@ -6168,21 +6171,23 @@ The term "measured component" refers to an object within the
    specifications to provide additional serializations, for example,
    using ASN.1.
 
-### RATS Endorsements  (draft-ietf-rats-endorsements)
-In the IETF Remote Attestation Procedures (RATS) architecture, a
-   Verifier accepts Evidence and uses Appraisal Policy for Evidence,
-   typically with additional input from Endorsements and Reference
-   Values, to generate Attestation Results in formats that are useful
-   for Relying Parties.  This document illustrates the purpose and role
-   of Endorsements and discusses some considerations in the choice of
-   message format for Endorsements in the scope of the RATS
+### Remote Attestation Procedures (RATS) Endorsements  (draft-ietf-rats-endorsements)
+In the IETF Remote Attestation Procedures (RATS) architecture (RFC
+   9334), a Verifier accepts Evidence and uses Appraisal Policy for
+   Evidence, typically with additional input from Endorsements and
+   Reference Values, to generate Attestation Results in formats that are
+   useful for Relying Parties.  This document illustrates the purpose
+   and role of Endorsements and discusses some considerations in the
+   choice of message format for Endorsements in the scope of the RATS
    architecture.
 
    This document does not aim to define a conceptual message format for
-   Endorsements and Reference Values.  Instead, it extends RFC9334 to
-   provide further details on Reference Values and Endorsements, as
-   these topics were outside the scope of the RATS charter when RFC9334
-   was developed.
+   Endorsements and Reference Values.  Instead, it updates RFC 9334 by
+   refining the description of Endorsements and Reference Values.
+   Specifically, this document classifies the RATS conceptual messages
+   as actual state, reference state, or appraisal policy, and adds
+   considerations on conditionally endorsed values, endorsing
+   verification keys, timeliness, and multiple Endorsements.
 
 ### Remote Attestation with Multiple Verifiers  (draft-ietf-rats-multi-verifier)
 IETF RATS Architecture, defines the key role of a Verifier.  In a
@@ -6861,20 +6866,20 @@ Designing an efficient source address validation (SAV) filter
    improve network resilience.  This document updates RFC8704.
 
 ### Inter-domain Source Address Validation (SAVNET) Architecture  (draft-ietf-savnet-inter-domain-architecture)
-This document introduces an inter-domain SAVNET architecture for
-   performing AS-level SAV and provides a comprehensive framework for
-   guiding the design of inter-domain SAV mechanisms.  The proposed
-   architecture empowers ASes to generate SAV rules by sharing SAV-
-   specific information between themselves, which can be used to
-   generate more accurate and trustworthy SAV rules in a timely manner
-   compared to the general information.  During the incremental or
-   partial deployment of SAV-specific information, it can utilize
-   general information to generate SAV rules, if an AS's SAV-specific
-   information is unavailable.  Rather than delving into protocol
-   extensions or implementations, this document primarily concentrates
-   on proposing SAV-specific and general information and guiding how to
-   utilize them to generate SAV rules.  To this end, it also defines
-   some architectural components and their relations.
+This document specifies an architecture for inter-domain source
+   address validation (SAV).  The architecture provides a common
+   framework for collecting SAV-specific and SAV-related information
+   from multiple sources, determining the legitimate incoming directions
+   of source prefixes, and using this information to generate SAV table
+   for inter-domain SAV.  A SAV agent maintains the collected
+   information in a SAV Information Base (SIB), and the SAV Information
+   Base Manager (SIM) uses the available information to determine the
+   corresponding prefix and legitimate incoming-direction mappings and
+   generate or update the SAV table.  This document also defines the
+   architectural components and communication framework of inter-domain
+   SAV, and discusses deployment, operation, convergence, manageability,
+   security, and privacy considerations.  It does not define a specific
+   SAV protocol, protocol extension, or SAV table generation algorithm.
 
 ## Working Group: scitt
 ### Detailed Software Supply Chain Uses Cases for SCITT  (draft-ietf-scitt-software-use-cases)
