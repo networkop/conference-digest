@@ -131,7 +131,7 @@ show in the rendered view but stays in the source:
 conference: IETF 124 (Montreal)
 type: standards
 source_url: https://datatracker.ietf.org/meeting/124/agenda.json
-generated: 2026-10-12
+generated: 2026-10-19
 registry_key: ietf-124
 -->
 
@@ -4673,7 +4673,8 @@ This document specifies how to proxy Ethernet frames in HTTP.  This
    of Layer 3.  More specifically, this document defines a protocol that
    allows an HTTP client to create a tunnel to exchange Layer 2 Ethernet
    frames through an HTTP server with an attached physical or virtual
-   Ethernet segment.
+   Ethernet segment.  The protocol does not guarantee in-order frame
+   delivery.
 
 ### DNS and PREF64 Configuration for Proxying IP in HTTP  (draft-ietf-masque-connect-ip-dns)
 Proxying IP in HTTP allows building a VPN through HTTP load
@@ -5299,7 +5300,7 @@ This specification defines an extension to the OAuth 2.0 protocol
    (RFC 6749) that enables a client instance to include a key-bound
    attestation when interacting with an Authorization Server or Resource
    Server.  This mechanism allows a client instance to prove its
-   authenticity verified by a client attester without revealing its
+   authenticity, as verified by a client attester, without revealing its
    target audience to that attester.  It may also serve as a mechanism
    for client authentication as per OAuth 2.0.
 
@@ -6171,24 +6172,6 @@ The term "measured component" refers to an object within the
    specifications to provide additional serializations, for example,
    using ASN.1.
 
-### Remote Attestation Procedures (RATS) Endorsements  (draft-ietf-rats-endorsements)
-In the IETF Remote Attestation Procedures (RATS) architecture (RFC
-   9334), a Verifier accepts Evidence and uses Appraisal Policy for
-   Evidence, typically with additional input from Endorsements and
-   Reference Values, to generate Attestation Results in formats that are
-   useful for Relying Parties.  This document illustrates the purpose
-   and role of Endorsements and discusses some considerations in the
-   choice of message format for Endorsements in the scope of the RATS
-   architecture.
-
-   This document does not aim to define a conceptual message format for
-   Endorsements and Reference Values.  Instead, it updates RFC 9334 by
-   refining the description of Endorsements and Reference Values.
-   Specifically, this document classifies the RATS conceptual messages
-   as actual state, reference state, or appraisal policy, and adds
-   considerations on conditionally endorsed values, endorsing
-   verification keys, timeliness, and multiple Endorsements.
-
 ### Remote Attestation with Multiple Verifiers  (draft-ietf-rats-multi-verifier)
 IETF RATS Architecture, defines the key role of a Verifier.  In a
    complex system, this role needs to be performed by multiple Verfiers
@@ -6266,6 +6249,24 @@ The Conceptual Messages introduced by the RATS architecture (RFC
    types, evolving message serialization formats without breaking
    compatibility, and avoiding the need to redefine how messages are
    handled within each protocol.
+
+### Remote Attestation Procedures (RATS) Endorsements  (draft-ietf-rats-endorsements)
+In the IETF Remote Attestation Procedures (RATS) architecture (RFC
+   9334), a Verifier accepts Evidence and uses Appraisal Policy for
+   Evidence, typically with additional input from Endorsements and
+   Reference Values, to generate Attestation Results in formats that are
+   useful for Relying Parties.  This document illustrates the purpose
+   and role of Endorsements and discusses some considerations in the
+   choice of message format for Endorsements in the scope of the RATS
+   architecture.
+
+   This document does not aim to define a conceptual message format for
+   Endorsements and Reference Values.  Instead, it updates RFC 9334 by
+   refining the description of Endorsements and Reference Values.
+   Specifically, this document classifies the RATS conceptual messages
+   as actual state, reference state, or appraisal policy, and adds
+   considerations on conditionally endorsed values, endorsing
+   verification keys, timeliness, and multiple Endorsements.
 
 ## Working Group: rift
 ### RIFT: Routing in Fat Trees  (draft-ietf-rift-rift)
@@ -7980,6 +7981,12 @@ This document discusses a deployment scenario called "an IPv6-Mostly
    network", when IPv6-only and IPv4-enabled endpoints coexist on the
    same network (network segment, VLAN, SSID etc).
 
+### Considerations of IPv6-only Deployment in 5G Mobile Networks  (draft-ietf-v6ops-5g-ipv6only)
+This document describes a practical guide of deploying 464XLAT based
+   IPv6-only technology on user plane in 3GPP 5G networks.  It also
+   covers key 5G concepts and architectures, configuration methods and
+   operational challenges.
+
 ### Considerations of IPv6-only Deployment in 5G Mobile Networks  (draft-ma-v6ops-5g-ipv6only)
 This document describes a practical guide of deploying 464XLAT based
    IPv6-only technology on user plane in 3GPP 5G networks.  It also
@@ -8201,9 +8208,6 @@ This document is concerned with security vulnerabilities in IPv6-in- IPv4 automa
 
 ### IPv6 in 3rd Generation Partnership Project (3GPP) Evolved Packet System (EPS)  (draft-ietf-v6ops-3gpp-eps)
 The use of cellular broadband for accessing the Internet and other data services via smartphones, tablets, and notebook/netbook computers has increased rapidly as a result of high-speed packet data networks such as HSPA, HSPA+, and now Long-Term Evolution (LTE) being deployed.  Operators that have deployed networks based on 3rd Generation Partnership Project (3GPP) network architectures are facing IPv4 address shortages at the Internet registries and are feeling pressure to migrate to IPv6.  This document describes the support for IPv6 in 3GPP network architectures.  This document is not an Internet Standards Track specification; it is published for informational purposes.
-
-### Mobile Networks Considerations for IPv6 Deployment  (draft-ietf-v6ops-v6-in-mobile-networks)
-Mobile Internet access from smartphones and other mobile devices is accelerating the exhaustion of IPv4 addresses.  IPv6 is widely seen as crucial for the continued operation and growth of the Internet, and in particular, it is critical in mobile networks.  This document discusses the issues that arise when deploying IPv6 in mobile networks.  Hence, this document can be a useful reference for service providers and network designers.  This document is not an Internet Standards Track specification; it is published for informational purposes.
 
 ## Working Group: wimse
 ### Workload Identity in a Multi System Environment (WIMSE) Architecture  (draft-salowey-wimse-arch)
