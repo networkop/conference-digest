@@ -131,7 +131,7 @@ show in the rendered view but stays in the source:
 conference: IETF 126 (Vienna)
 type: standards
 source_url: https://datatracker.ietf.org/meeting/126/agenda.json
-generated: 2026-10-19
+generated: 2026-10-26
 registry_key: ietf-126
 -->
 
@@ -1021,7 +1021,7 @@ This document introduces a variant of the RFC8366 voucher artifact in
 This document introduces an intent-based framework for network
    services autonomic deployment and management.  It autonomically
    deploys network services that require customized combinations of
-   network resources and dynamically manage these resources throughout
+   network resources and dynamically manages these resources throughout
    their lifecycle.  The framework leverages the GeneRic Autonomic
    Signaling Protocol (GRASP) to facilitate the dynamic exchange of
    resource management signals among autonomic nodes, thereby enabling
@@ -6203,7 +6203,8 @@ This document defines Epoch Markers as a means to establish a notion
    including CBOR time tags, RFC 3161 TimeStampToken, and nonce-like
    structures.  It also defines a CWT Claim to embed Epoch Markers in
    RFC 8392 CBOR Web Tokens, which serve as vehicles for signed protocol
-   messages.
+   messages.  Finally, it registers RATS Conceptual Message Wrapper
+   (CMW) Indicators for Epoch ID and Nonce.
 
 ### Evidence Encoding for Hardware Security Modules  (draft-ietf-rats-pkix-key-attestation)
 This document specifies a vendor-agnostic format for Evidence
@@ -8285,8 +8286,8 @@ This document defines a canonical identifier for workloads, referred
 The WIMSE architecture defines authentication and authorization for
    software workloads in a variety of runtime environments, from the
    most basic ones to complex multi-service, multi-cloud, multi-tenant
-   deployments.  This document profiles a workload authentication based
-   on X.509 workload identity certificates using mutual TLS (mTLS).
+   deployments.  This document profiles workload authentication based on
+   X.509 Workload Identity Certificates using mutual TLS (mTLS).
 
 ### WIMSE Workload Credentials  (draft-ietf-wimse-workload-creds)
 The WIMSE architecture defines authentication and authorization for
