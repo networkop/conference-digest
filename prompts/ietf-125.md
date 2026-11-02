@@ -131,7 +131,7 @@ show in the rendered view but stays in the source:
 conference: IETF 125 (Shenzhen)
 type: standards
 source_url: https://datatracker.ietf.org/meeting/125/agenda.json
-generated: 2026-10-26
+generated: 2026-11-02
 registry_key: ietf-125
 -->
 
@@ -243,21 +243,6 @@ This document defines a "P" flag in the Prefix Information Option
 This document describes Path MTU Discovery for IP version 6.  It is
    largely derived from RFC 1191, which describes Path MTU Discovery for
    IP version 4.  It obsoletes RFC1981.
-
-### IPv6 wants 802.11 Directed Multicast Service  (draft-ietf-6man-ieee80211-dms)
-There is consensus for switching this document from Flexible
-   Multicast Service (FMS) to Directed Multicast Service (DMS).  This
-   version has not been edited over yet and is being uploaded to check
-   if/how the name can be changed.
-
-   IEEE 802.11 Flexible Multicast Service (FMS) addresses reliability
-   issues in IPv6 due to aggressive powersave optimizations in 802.11
-   client devices.
-
-   The intent of this document is to collect consensus in the IETF 6man
-   (IPv6 Maintenance) working group to request either/both the IEEE
-   802.11 Working Group and/or the Wifi Alliance's certification process
-   to make implementing FMS a requirement.
 
 ### Analysis of the 64-bit Boundary in IPv6 Addressing  (draft-ietf-6man-why64)
 The IPv6 unicast addressing format includes a separation between the prefix used to route packets to a subnet and the interface identifier used to specify a given interface connected to that subnet.  Currently, the interface identifier is defined as 64 bits long for almost every case, leaving 64 bits for the subnet prefix.  This document describes the advantages of this fixed boundary and analyzes the issues that would be involved in treating it as a variable boundary.
@@ -476,6 +461,14 @@ This specification defines the addressing architecture of the IP
 
    This document obsoletes RFC 4291, "IP Version 6 Addressing
    Architecture".
+
+### Republishing the IPV6-MIB modules as obsolete  (draft-fenner-ipv6-mibs-obsolete)
+In 2005, the IPv6 MIB update group published updated versions of the
+   IP-MIB, UDP-MIB, TCP-MIB and IP-FORWARD-MIB modules, which use the
+   InetAddressType/InetAddress construct to handle IPv4 and IPv6 in the
+   same table.  This document contains versions of the obsoleted
+   IPV6-MIB, IPV6-TC, IPV6-ICMP-MIB, IPV6-TCP-MIB and IPV6-UDP-MIB
+   modules, for the purpose of updating MIB module repositories.
 
 ## Working Group: acme
 ### Automated Certificate Management Environment (ACME) Scoped DNS Challenges  (draft-ietf-acme-scoped-dns-challenges)
@@ -795,16 +788,16 @@ The Automated Certificate Management Environment (ACME) protocol
    [I-D.ietf-cose-cbor-encoded-cert].
 
    In the "newOrder" request, the client declares the public key via a
-   popKey field and includes a pop-type identifier whose value is the
-   empty string.  The server creates a dedicated pop authorization
-   containing a single pop-01 challenge, processed using the same state
-   machine as any other ACME authorization.  When all authorizations
-   (including the pop authorization) are valid, the ACME server issues a
-   certificate using the validated public key and the authorized
-   identifiers, eliminating the need for a CSR at finalization.  The
-   extension is additive and strictly optional: clients that do not use
-   it, and servers that do not support it, continue to use the standard
-   CSR-based flow defined in [RFC8555] without any changes.
+   popKey field and includes a pop identifier whose value is the empty
+   string.  The server creates a dedicated pop authorization containing
+   a single pop-01 challenge, processed using the same state machine as
+   any other ACME authorization.  When all authorizations (including the
+   pop authorization) are valid, the ACME server issues a certificate
+   using the validated public key and the authorized identifiers,
+   eliminating the need for a CSR at finalization.  The extension is
+   additive and strictly optional: clients that do not use it, and
+   servers that do not support it, continue to use the standard CSR-
+   based flow defined in [RFC8555] without any changes.
 
 ## Working Group: add
 ### DHCP and Router Advertisement Options for the Discovery of Network-designated Resolvers (DNR)  (draft-ietf-add-dnr)
@@ -1133,42 +1126,20 @@ This document describes a number of operational modes that a BRSKI
    deployed into.  This document does not change any protocol
    mechanisms.
 
-### Constrained Bootstrapping Remote Secure Key Infrastructure (cBRSKI)  (draft-ietf-anima-constrained-voucher)
-This document defines the Constrained Bootstrapping Remote Secure Key
-   Infrastructure (cBRSKI) protocol, which provides a solution for
-   secure zero-touch onboarding of resource-constrained (IoT) devices
-   into the network of a domain owner.  This protocol is designed for
-   constrained networks, which may have limited data throughput or may
-   experience frequent packet loss. cBRSKI is a variant of the BRSKI
-   protocol, which uses an artifact signed by the device manufacturer
-   called the "voucher" which enables a new device and the owner's
-   network to mutually authenticate.  While the BRSKI voucher data is
-   encoded in JSON, cBRSKI uses a compact CBOR-encoded voucher.  The
-   BRSKI voucher data definition is extended with new data types that
-   allow for smaller voucher sizes.  The Enrollment over Secure
-   Transport (EST) protocol, used in BRSKI, is replaced with EST-over-
-   CoAPS; and HTTPS used in BRSKI is replaced with DTLS-secured CoAP
-   (CoAPS).  This document Updates RFC 8995 and RFC 9148.
-
 ### BRSKI discovery and variations  (draft-ietf-anima-brski-discovery)
 This document specifies procedures for variations of the
-   "Bootstrapping Remote Secure Key Infrastructure" (BRSKI) series of
-   protocols to automatically announce, discover and select responders
-   using different discovery mechanisms such as DNS-SD, GRASP or CORE-
-   LF.  Different variations are not interoperable so initiators need to
-   be able to find responders supporting the variation(s) they support.
-   Procedures for BRSKI proxies are defined that allow proxying of
-   traffic for any current and future variation.  Procedures to discover
-   BRSKI Pledges by their identifier are defined.
+   "Bootstrapping Remote Secure Key Infrastructure" (BRSKI) architecture
+   of protocols to automatically announce, discover, and select
+   responders using different discovery mechanisms such as DNS-SD,
+   GRASP, or CORE-LF.  Different variations are not interoperable, so
+   initiators need to be able to find responders that support the
+   variation(s) they support.  Procedures are defined for BRSKI proxies
+   that allow proxying of traffic for any current or future variation.
+   Procedures to discover BRSKI Pledges by their identifier are defined.
+   Extensibility is provided through a set of IANA registries.
 
-   All procedures are defined such that they rely on IANA defined tables
-   through which not only well specified but also possible but not yet
-   validated variations of BRSKI or additional discovery mechanisms can
-   be supported simply by adding entries to the IANA tables.
-
-   Many of the procedures and mechanisms covered by this document may
-   equally be applied to discovery of other protocols, especially when
-   they have non-interoperable variations.
+   This document updates I-D.ietf-anima-brski-prm, RFC 6690, and RFC
+   9733.
 
 ### Join Proxy for Onboarding of Constrained Network Elements  (draft-ietf-anima-constrained-join-proxy)
 This document supports the constrained Bootstrapping Remote Secure
@@ -1204,6 +1175,23 @@ This document defines enhancements to Bootstrapping Remote Secure Key
    transport security.  This approach is agnostic to enrollment
    protocols that connect a domain registrar to a key infrastructure
    (e.g., domain Certification Authority).
+
+### Constrained Bootstrapping Remote Secure Key Infrastructure (cBRSKI)  (draft-ietf-anima-constrained-voucher)
+This document defines the Constrained Bootstrapping Remote Secure Key
+   Infrastructure (cBRSKI) protocol, which provides a solution for
+   secure zero-touch onboarding of resource-constrained (IoT) devices
+   into the network of a domain owner.  This protocol is designed for
+   constrained networks, which may have limited data throughput or may
+   experience frequent packet loss. cBRSKI is a variant of the BRSKI
+   protocol, which uses an artifact signed by the device manufacturer
+   called the "voucher" which enables a new device and the owner's
+   network to mutually authenticate.  While the BRSKI voucher data is
+   encoded in JSON, cBRSKI uses a compact CBOR-encoded voucher.  The
+   BRSKI voucher data definition is extended with new data types that
+   allow for smaller voucher sizes.  The Enrollment over Secure
+   Transport (EST) protocol, used in BRSKI, is replaced with EST-over-
+   CoAPS; and HTTPS used in BRSKI is replaced with DTLS-secured CoAP
+   (CoAPS).  This document Updates RFC 8995 and RFC 9148.
 
 ## Working Group: bess
 ### Label Switched Path (LSP) Ping Mechanisms for EVPN and Provider Backbone Bridging EVPN (PBB-EVPN)  (draft-ietf-bess-evpn-lsp-ping)
@@ -1390,15 +1378,6 @@ A set of prior RFCs specify procedures for supporting multicast in
 
 ### Registry and Extensions for P-Multicast Service Interface Tunnel Attribute Flags  (draft-ietf-bess-pta-flags)
 The BGP-based control procedures for Multicast Virtual Private Networks (MVPNs) make use of a BGP attribute known as the "P-Multicast Service Interface (PMSI) Tunnel" attribute.  The attribute contains a one-octet "Flags" field.  The purpose of this document is to establish an IANA registry for the assignment of the bits in this field.  Since the "Flags" field contains only eight bits, this document also defines a new BGP Extended Community, "Additional PMSI Tunnel Attribute Flags", that can be used to carry additional flags for the "P-Multicast Service Interface (PMSI) Tunnel" attribute.  This document updates RFC 6514.
-
-### TRILL-EVPN  (draft-ietf-l2vpn-trill-evpn)
-This document discusses how Ethernet VPN (E-VPN) technology is used
-   to interconnect TRILL [TRILL] networks over an MPLS/IP network, with
-   two key characteristics: C-MAC address transparency on the hand-off
-   point and control-plane isolation among the interconnected TRILL
-   networks.
-
-Conventions
 
 ### VPWS support in EVPN  (draft-boutros-l2vpn-evpn-vpws)
 This document describes how EVPN can be used to support virtual
@@ -1646,27 +1625,6 @@ This document defines a new Outbound Route Filter (ORF) type, called the Coverin
 ### Usage and Applicability of BGP MPLS-Based Ethernet VPN  (draft-ietf-bess-evpn-usage)
 This document discusses the usage and applicability of BGP MPLS-based Ethernet VPN (EVPN) in a simple and fairly common deployment scenario.  The different EVPN procedures are explained in the example scenario along with the benefits and trade-offs of each option.  This document is intended to provide a simplified guide for the deployment of EVPN networks.
 
-### Requirements for Extending BGP/MPLS VPNs to End-Systems  (draft-ietf-bess-end-system-requirements)
-The proven scalability and extensibility of the BGP/MPLS IP VPNs (IP
-   VPN) technology has made it an attractive candidate for data
-   center/cloud virtualization. Virtualized end-system environment
-   imposes additional requirements to MPLS/BGP VPN technology. This
-   document provides the requirements for extending IP VPN technology
-   (in original or modified versions) into the end-systems/hosts, such
-   as a server in a data center.
-
-### BGP/MPLS VPN Virtual PE  (draft-ietf-bess-virtual-pe)
-This document describes the architecture solutions for BGP/MPLS L3
-   and L2 Virtual Private Networks (VPNs) with virtual Provider Edge
-   (vPE) routers. It provides a functional description of the vPE
-   control, forwarding, and management. The proposed vPE solutions
-   support both the Software Defined Networks (SDN) approach which
-   allows physical decoupling of the control and the forwarding, and the
-   traditional distributed routing approach. A vPE can reside in any
-   network or compute devices, such as a server as co-resident with the
-   application virtual machines (VMs), or a Top-of-Rack (ToR) switch in
-   a Data Center (DC) network.
-
 ### A Network Virtualization Overlay Solution Using Ethernet VPN (EVPN)  (draft-ietf-bess-evpn-overlay)
 This document specifies how Ethernet VPN (EVPN) can be used as a Network Virtualization Overlay (NVO) solution and explores the various tunnel encapsulation options over IP and their impact on the EVPN control plane and procedures.  In particular, the following encapsulation options are analyzed: Virtual Extensible LAN (VXLAN), Network Virtualization using Generic Routing Encapsulation (NVGRE), and MPLS over GRE.  This specification is also applicable to Generic Network Virtualization Encapsulation (GENEVE); however, some incremental work is required, which will be covered in a separate document.  This document also specifies new multihoming procedures for split-horizon filtering and mass withdrawal.  It also specifies EVPN route constructions for VXLAN/NVGRE encapsulations and Autonomous System Border Router (ASBR) procedures for multihoming of Network Virtualization Edge (NVE) devices.
 
@@ -1701,9 +1659,38 @@ The BGP MPLS-based Ethernet VPN (EVPN) (RFC 7432) mechanism provides a flexible 
 ### Multicast VPN State Damping  (draft-ietf-bess-multicast-damping)
 This document describes procedures to damp Multicast VPN (MVPN) routing state changes and control the effect of the churn due to the multicast dynamicity in customer sites.  The procedures described in this document are applicable to BGP-based multicast VPN and help avoid uncontrolled control-plane load increase in the core routing infrastructure.  The new procedures proposed were inspired by BGP unicast route damping principles that have been adapted to multicast.
 
+### IANA Registry for P-Multicast Service Interface Tunnel Attribute Flags  (draft-rosen-bess-pta-flags)
+RFC6514 defines the "P-Multicast Service Interface Tunnel (PMSI
+   Tunnel) attribute".  This attribute contains an octet of "flags".
+   Only one flag is defined in that RFC, but there is now a need to
+   define additional flags.  Since the RFC did not create a registry for
+   the assignment of flag bits, this document updates the RFC by
+   creating a registry for that purpose.
+
+### Seamless Integration of Ethernet VPN (EVPN) with Virtual Private LAN Service (VPLS) and Their Provider Backbone Bridge (PBB) Equivalents  (draft-ietf-bess-evpn-vpls-seamless-integ)
+This document specifies mechanisms for backward compatibility of Ethernet VPN (EVPN) and Provider Backbone Bridge Ethernet VPN (PBB-EVPN) solutions with Virtual Private LAN Service (VPLS) and Provider Backbone Bridge VPLS (PBB-VPLS) solutions.  It also provides mechanisms for the seamless integration of these two technologies in the same MPLS/IP network on a per-VPN-instance basis.  Implementation of this document enables service providers to introduce EVPN/PBB-EVPN Provider Edges (PEs) in their brownfield deployments of VPLS/PBB-VPLS networks.  This document specifies the control-plane and forwarding behavior needed for the auto-discovery of the following: 1) a VPN instance, 2) multicast and unicast operation, and 3) a Media Access Control (MAC) mobility operation.  This enables seamless integration between EVPN and VPLS PEs as well as between PBB-VPLS and PBB-EVPN PEs.
+
+### Explicit Tracking with Wild Card Routes in Multicast VPN  (draft-dolganow-bess-mvpn-expl-track)
+The MVPN specifications provide procedures to allow a multicast
+   ingress node to invoke "explicit tracking" for a multicast flow or
+   set of flows, thus learning the egress nodes for that flow or set of
+   flows.  However, the specifications are not completely clear about
+   how the explicit tracking procedures work in certain scenarios.  This
+   document provides the necessary clarifications.  It also specifies a
+   new, optimized explicit tracking procedure.  This new procedure
+   allows an ingress node, by sending a single message, to request
+   explicit tracking of each of a set of flows, where the set of flows
+   is specified using a wildcard mechanism.  This document updates
+   RFC6625.
+
 ## Working Group: cose
 ### CBOR Object Signing and Encryption (COSE): AES-CTR and AES-CBC  (draft-ietf-cose-aes-ctr-and-cbc)
 The Concise Binary Object Representation (CBOR) data format is designed for small code size and small message size.  CBOR Object Signing and Encryption (COSE) is specified in RFC 9052 to provide basic security services using the CBOR data format.  This document specifies the conventions for using AES-CTR and AES-CBC as content encryption algorithms with COSE.
+
+### Post-Quantum Key Encapsulation Mechanisms (PQ KEMs) for COSE  (draft-ietf-cose-pqc-kem)
+This document describes conventions for using Post-Quantum Key
+   Encapsulation Mechanisms (PQ-KEMs) with CBOR Object Signing and
+   Encryption (COSE).
 
 ### COSE "typ" (type) Header Parameter  (draft-ietf-cose-typ-header-parameter)
 This specification adds the equivalent of the JSON Object Signing and
@@ -3267,6 +3254,12 @@ This document defines a YANG data model for configuring and managing
    confine the scope of Optional attributes within a given AS or a given
    BGP member-AS in Confederation
 
+### BGP Flow Specification for QUIC  (draft-ietf-idr-fsv2-quic)
+A BGP Flow Specification is an n-tuple consisting of several
+   matching criteria that can be applied to IP traffic. This document
+   defines how to perform Flow Specification traffic diversion based on
+   the characteristics of QUIC packets.
+
 ### Link-Local Next Hop Capability for BGP  (draft-white-linklocal-capability)
 BGP [RFC4271], was originally designed to provide reachability
    between domains and between the edges of a domain.  As such, BGP
@@ -3527,19 +3520,6 @@ This document presents a framework for inter-domain route aggregation and shows 
 
 ### Using a Dedicated AS for Sites  Homed to a Single Provider  (draft-ietf-idr-as-dedicated)
 With the increased growth of the Internet, the number of customers using BGP4 has grown significantly.  RFC1930 outlines a set of guidelines for when one needs and should use an AS.  However, the customer and service provider (ISP) are left with a problem as a result of this in that while there is no need for an allocated AS under the guidelines, certain conditions make the use of BGP4 a very pragmatic and perhaps only way to connect a customer homed to a single ISP.  This paper proposes a solution to this problem in line with recommendations set forth in RFC1930.  This memo provides information for the Internet community.  It does not specify an Internet standard of any kind.
-
-### Route Aggregation Tutorial  (draft-ietf-idr-aggregation-tutorial)
-Route aggregation is critical to the long-term viability of the
-   Internet.  This document presents practical information that network
-   managers can use to both understand the concepts of aggregation as
-   well as put those concepts into use in order to do their part to make
-   the Internet stable and allow its continued growth.  The intended
-   audience for this document is anyone responsible for configuring a
-   network which has its own Autonomous System Number (ASN) and
-   exchanges routing information with its Internet Service Provider(s)
-   (ISP(s)) using the Border Gateway Protocol (BGP).  This document does
-   not cover multi-homing, though multi-homed sites can still benefit
-   from understanding this material.
 
 ## Working Group: ipsecme
 ### Internet Key Exchange Protocol Version 2 (IKEv2) Configuration for Encrypted DNS  (draft-ietf-ipsecme-add-ike)
@@ -4069,11 +4049,14 @@ This specification refers to cryptographic algorithm identifiers that
    instructions to designated experts in RFC 7518 and RFC 9053.
 
 ### JOSE: Deprecate 'none' and 'RSA1_5'  (draft-ietf-jose-deprecate-none-rsa15)
-This document updates RFC 7518 to deprecate the JWS algorithm "none"
-   and the JWE algorithm "RSA1_5".  These algorithms have known security
-   weaknesses.  It also updates the Review Instructions for Designated
-   Experts to establish baseline security requirements that future
-   algorithm registrations are expected to meet.
+This document updates RFC 7518 (JSON Web Algorithms (JWA)) to
+   deprecate the JSON Web Signature (JWS) algorithm "none" and the JSON
+   Web Encryption (JWE) algorithm "RSA1_5".  These algorithms have known
+   security weaknesses.  It updates RFC 7519 (JSON Web Token (JWT)) so
+   that these two algorithms are no longer mandatory to implement.  It
+   also updates the review instructions for Designated Experts to
+   establish baseline security requirements that future algorithm
+   registrations are expected to meet.
 
 ### JSON Proof Token and CBOR Proof Token  (draft-ietf-jose-json-proof-token)
 JSON Proof Token (JPT) is a compact, URL-safe, privacy-preserving
@@ -4737,9 +4720,10 @@ This document defines extensions for HTTP Datagram-based protocols
    enabling receivers to complete Internet checksums using sender-
    provided partial values.
 
-   These optimisations reduce per-packet overhead, processing cost, and
-   increase the effective maximum transmission unit (MTU) when datagrams
-   are encapsulated in QUIC DATAGRAM frames.
+   These optimisations reduce per-packet overhead and processing cost.
+   Compression can allow larger original packets to fit in QUIC DATAGRAM
+   frames, depending on the applicable processing context and path
+   maximum transmission unit (MTU).
 
 ### ECN and DSCP support for HTTPS's Connect-UDP  (draft-ietf-masque-connect-udp-ecn-dscp)
 HTTP's Extended Connect's Connect-UDP protocol enables a client to
@@ -5291,9 +5275,9 @@ This specification provides a mechanism for an application to use an
    identity assertion to obtain an access token for a third-party API by
    coordinating through an identity provider that the downstream
    Resource Authorization Server already trusts for single sign-on
-   (SSO), using Token Exchange [RFC8693] and JWT Profile for OAuth 2.0
-   Authorization Grants [RFC7523].  This pattern is informally referred
-   to as Cross-App Access (XAA).
+   (SSO), using OAuth 2.0 Token Exchange (RFC 8693) and the JWT Profile
+   for OAuth 2.0 Authorization Grants (RFC 7523).  This pattern is
+   informally referred to as Cross-App Access (XAA).
 
 ### OAuth 2.0 Attestation-Based Client Authentication  (draft-ietf-oauth-attestation-based-client-auth)
 This specification defines an extension to the OAuth 2.0 protocol
@@ -6174,7 +6158,7 @@ The term "measured component" refers to an object within the
 
 ### Remote Attestation with Multiple Verifiers  (draft-ietf-rats-multi-verifier)
 IETF RATS Architecture, defines the key role of a Verifier.  In a
-   complex system, this role needs to be performed by multiple Verfiers
+   complex system, this role needs to be performed by multiple Verifiers
    coordinating together to assess the full trustworthiness of an
    Attester.  This document focuses on various topological patterns for
    a multiple Verifier system.  It only covers the architectural aspects
@@ -6219,9 +6203,6 @@ This document specifies a vendor-agnostic format for Evidence
    scenario would be to submit this Evidence to a Certification
    Authority to aid in determining whether the storage properties of
    this key meet the requirements of a given certificate profile.
-
-   This specification also offers a format for requesting a
-   cryptographic module to produce Evidence tailored for expected use.
 
 ### RATS Conceptual Messages Wrapper (CMW)  (draft-ietf-rats-msg-wrap)
 The Conceptual Messages introduced by the RATS architecture (RFC
@@ -6268,6 +6249,20 @@ In the IETF Remote Attestation Procedures (RATS) architecture (RFC
    as actual state, reference state, or appraisal policy, and adds
    considerations on conditionally endorsed values, endorsing
    verification keys, timeliness, and multiple Endorsements.
+
+### An EAT Profile for Trustworthy Device Assignment  (draft-ietf-rats-eat-da)
+In confidential computing, device assignment (DA) is the method by
+   which a device (e.g., network adapter, GPU), whether on-chip or
+   behind a PCIe Root Port, is assigned to a Trusted Virtual Machine
+   (TVM).  For the TVM to trust an assigned device, the device must
+   provide the TVM with attestation Evidence confirming its identity,
+   the state of its firmware and configuration.
+
+   Since Evidence claims can be processed by 3rd party entities (e.g.,
+   Verifiers, Relying Parties) external to the TVM, there is a need to
+   standardize the representation of DA-related information in Evidence
+   to ensure interoperability.  This document defines an attestation
+   Evidence format for DA as an EAT (Entity Attestation Token) profile.
 
 ## Working Group: rift
 ### RIFT: Routing in Fat Trees  (draft-ietf-rift-rift)
@@ -6830,7 +6825,7 @@ Source address validation (SAV) is an important means to mitigate IP
    identifies the properties that new intra-domain SAV mechanisms are
    expected to provide.
 
-### Problem Statement, Gap Analysis, and Requirements for Inter-Domain Source Address Validation  (draft-ietf-savnet-inter-domain-problem-statement)
+### Problem Statement, Gap Analysis, and Requirements for Inter-domain Source Address Validation  (draft-ietf-savnet-inter-domain-problem-statement)
 This document analyzes the problem space and provides a gap analysis
    of existing inter-domain source address validation (SAV) mechanisms.
    Based on these findings, it outlines the technical requirements for
@@ -6989,7 +6984,7 @@ This specification describes a data minimization technique for use
    Selective Disclosure JSON Web Token (SD-JWT), with changes to align
    with CBOR Object Signing and Encryption (COSE) and CWTs.
 
-### A reference architecture for direct presentation credential flows  (draft-ietf-spice-vdcarch)
+### A Reference Architecture for Verifiable Digital Credentials in the Issuer, Holder, Verifier Model  (draft-ietf-spice-vdcarch)
 This document defines a reference architecture for direct
    presentation flows of digital credentials.  The architecture
    introduces the concept of a presentation mediator as the active
@@ -7311,9 +7306,9 @@ Explicit Congestion Notification (ECN) is a mechanism where network
    of this updated TCP wire protocol by middleboxes.
 
 ### Cryptographic Algorithms That Produce 128-bit MACs For Use With TCP-AO  (draft-ietf-tcpm-tcp-ao-algs)
-RFC5926 creates a list of cryptographic algorithms that can be used
-   with TCP-AO.  This document expands that list, adding two Message
-   Authentication Code (MAC) algorithms, HMAC-SHA256-128 and
+RFC 5926 established a registry of cryptographic algorithms that can
+   be used with TCP-AO.  This document expands that registry, adding two
+   Message Authentication Code (MAC) algorithms, HMAC-SHA256-128 and
    KMAC256-128.  For each MAC algorithm, a corresponding Key Derivation
    Function (KDF) is also added.
 
