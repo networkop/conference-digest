@@ -7,7 +7,7 @@ registry_key: autocon-4
 written_by: ToFaRev (zai-org/GLM-5.3)
 -->
 
-# AutoCon 4 (Austin) — Operator Digest
+# AutoCon 4 (Austin) — Digest
 
 An operator-focused network automation program. Note up front: this cycle is heavy on automation practice, Day-2 operations, and the first wave of agentic-AI-in-production stories — lighter on the deep datapath/optics/identity material than a SIGCOMM or OSNA program, but the DC-fabric and WAN operator case studies below are directly on-target.
 

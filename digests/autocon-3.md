@@ -7,7 +7,7 @@ registry_key: autocon-3
 written_by: ToFaRev (zai-org/GLM-5.3)
 -->
 
-# AutoCon 3 (Prague) — Operator Digest
+# AutoCon 3 (Prague) — Digest
 
 A network-automation operator conference. Little here is directly about DC
 fabrics or identity protocols, but a strong subset is: two unusually candid

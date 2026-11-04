@@ -7,7 +7,7 @@ registry_key: capacity-2026
 written_by: ToFaRev (zai-org/GLM-5.3)
 -->
 
-# Capacity Europe 2026 — Digest for a networking/identity PM
+# Capacity Europe 2026 — Digest
 
 A note on this program: Capacity Europe is a wholesale-carrier and digital-infrastructure market event, not a technical conference. There are no papers or engineering deep-dives; the substance is in executive panels, market-data presentations, and a few vendor sessions. The picks below are the items with genuine technical or strategic content for someone whose core work is physical DC/WAN networking, network security, and identity — and the digest flags where a session is likely a product pitch or a pure boardroom discussion. All `page:` links returned 404 when fetched (the agenda pages are no longer live), so **every write-up below is from the abstract only**.
 

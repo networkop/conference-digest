@@ -7,7 +7,7 @@ registry_key: ripe-92
 written_by: ToFaRev (zai-org/GLM-5.3)
 -->
 
-# RIPE 92 (Edinburgh) — Digest for the PM
+# RIPE 92 (Edinburgh) — Digest
 
 An operator conference: the highest-value material here is postmortems, at-scale tooling, and the IP/optical integration wave now hitting DC and WAN fabrics.
 

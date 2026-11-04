@@ -120,8 +120,15 @@ generated: {DATE}
 registry_key: {KEY}
 -->
 
-Then the digest as markdown (tiers as `##` sections, Themes as a final `##`
-section).
+Then the digest as markdown: it starts with a single `#` heading that is the
+digest's title, followed by the tiers as `##` sections and Themes as a final
+`##` section.
+
+- The `#` heading is the conference name and nothing more — e.g. `# IETF 123
+  (Madrid) — Digest`. Never append an audience or type qualifier such as "for
+  a Networking / Identity PM", "Operator", "Standards", "for the PM", or a
+  tagline; the title is the conference name, optionally followed by
+  ` — Digest`.
 
 ============================ PROGRAM TEXT ============================
 

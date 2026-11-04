@@ -7,7 +7,7 @@ registry_key: hacklu-2026
 written_by: ToFaRev (zai-org/GLM-5.3)
 -->
 
-# hack.lu 2026 — Digest for a Networking / Identity PM
+# hack.lu 2026 — Digest
 
 19 of the 24 pre-selected items made the cut. Skipped: the NetFlow/nfdump workshop (fundamentals-oriented, below your level), *Cloak and Filter* (abstract gives no technical detail to evaluate), *Surveilling Politicians* (art/surveillance commentary rather than transferable technique), and the two remaining lightning items (*LLM chaff bugs*, *LTECruiser*) in favor of stronger wildcards.
 

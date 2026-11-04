@@ -7,7 +7,7 @@ registry_key: dknog-16
 written_by: ToFaRev (zai-org/GLM-5.3)
 -->
 
-# DKNOG16 Digest — Operator Track (Scandic Copenhagen, Mar 5–6, 2026)
+# DKNOG16 — Digest
 
 A tight operator program: two optics/transport talks, an RPKI-adjacent routing-security session, a cable-outage postmortem, and a strong run of automation/modeling talks. Note on sourcing: the DKNOG event pages mirror the program abstracts and add only session metadata (times, formats, materials), so every write-up below is grounded in the abstract plus that metadata. Skipped as out of scope: the quiz, DKNOG announcements, and the personal/career talks ("Lost in translation", "A different way to success", "Old habits die hard").
 

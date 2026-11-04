@@ -7,7 +7,7 @@ registry_key: lacnic-45
 written_by: ToFaRev (zai-org/GLM-5.3)
 -->
 
-# LACNIC 45 — Digest for the Networking PM
+# LACNIC 45 — Digest
 
 LACNIC 45 is a regional operator meeting: the technical weight this cycle sits in BGP measurement and routing security, DWDM/optical transport, GPU-fabric-driven peering economics, and adoptable open-source automation. Identity, cloud-native networking, and Kubernetes topics are essentially absent from the program — the closest adjacent signals are RPKI operational practice (a PKI in production at regional scale) and an agentic-AI-for-ops talk, both covered below. Physical/WAN work is present and taken seriously, per the picks in Core.
 

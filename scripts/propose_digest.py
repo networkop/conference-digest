@@ -38,6 +38,27 @@ def fail(message: str) -> int:
     return 1
 
 
+def normalize_title(markdown: str, name: str) -> tuple[str, str | None]:
+    """Return (markdown, note): the `#` heading becomes `# <name> -- Digest`.
+
+    The writer sometimes qualifies the title with an audience or type
+    ("Digest for a Networking / Identity PM", "Operator Digest", a tagline);
+    the title is the conference name alone, decided here by code - like the
+    links rows, never by the model.
+    """
+    title = f"# {name} — Digest"
+    meta_end = markdown.find("-->")
+    head, tail = ("", markdown) if meta_end == -1 else (markdown[: meta_end + 3], markdown[meta_end + 3:])
+    m = re.search(r"^# +(.+)$", tail, re.M)
+    if m:
+        old = m.group(1).strip()
+        if old == f"{name} — Digest":
+            return markdown, None
+        tail = re.sub(r"^# +.+$", title, tail, count=1, flags=re.M)
+        return head + tail, f"Title normalized to '{name} — Digest' (writer had: '{old}')."
+    return head + "\n\n" + title + "\n" + tail.lstrip("\n"), f"No `#` heading found; inserted '{name} — Digest'."
+
+
 def themes(markdown: str, limit: int = 3) -> list[str]:
     m = re.search(r"^## +Themes\b.*?$(.*)", markdown, re.M | re.S | re.I)
     bullets = re.findall(r"^[-*] +(.+)$", m.group(1), re.M) if m else []
@@ -84,6 +105,7 @@ def main() -> int:
     if not re.search(r"^### +\S", markdown, re.M):
         return fail("digest.md has no ### pick headings (the writer used another layout); "
                     "no PR is opened, so the next Digest Bot run drafts it again")
+    markdown, title_note = normalize_title(markdown, entry["name"])
 
     links = None
     if not args.no_links:
@@ -99,6 +121,8 @@ def main() -> int:
         source = f"a program auto-fetched by the {entry.get('fetcher', '?')} fetcher"
     stats = result.get("stats", {})
     notes = result.get("notes", [])
+    if title_note:
+        notes = [title_note, *notes]
     signal = themes(markdown)
 
     message = [f"digest: {key}", "", f"Written by {written_by} from prompts/{key}.md, built from {source}."]

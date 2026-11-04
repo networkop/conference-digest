@@ -7,7 +7,7 @@ registry_key: itnog-10
 written_by: ToFaRev (zai-org/GLM-5.3)
 -->
 
-# ITNOG10 — Operator Digest
+# ITNOG10 — Digest
 
 **Source depth note:** ITNOG10 published no abstracts — the program lists only titles, speakers, and slide links, and slide content was not retrievable in this run. Every write-up below is therefore grounded in the session title (and slide-link filename) alone; items are marked *(title only)*. Where a mechanism is described with "presumably" or "expect," it is an inference about what the talk likely covers, not a claim about its contents — verify against the linked decks before acting on it.
 

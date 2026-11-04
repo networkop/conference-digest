@@ -7,7 +7,7 @@ registry_key: ciscolive-us-2026
 written_by: ToFaRev (zai-org/GLM-5.3)
 -->
 
-# Cisco Live US 2026 (Las Vegas) — Digest for Networking / Security / Identity PM
+# Cisco Live US 2026 (Las Vegas) — Digest
 
 A note on sources: the Cisco Live on-demand library is a login-gated SPA — page fetches return only a shell with no session content, and the program carries no paper or slide links. Every write-up below is therefore grounded in the session abstract only. Cisco Live is a vendor conference: `BRK`/`TAC`/`CENETI` breakouts usually carry real technical depth, while `PSO` (Product Session Overview) sessions are product marketing and are down-ranked accordingly — though several signal genuine technology shifts worth tracking.
 

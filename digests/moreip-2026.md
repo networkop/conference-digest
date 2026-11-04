@@ -7,7 +7,7 @@ registry_key: moreip-2026
 written_by: ToFaRev (zai-org/GLM-5.3)
 -->
 
-# MORE-IP 2026 — Operator Digest
+# MORE-IP 2026 — Digest
 
 A note on depth: this program is unusually thin on abstracts — most sessions list only a title and speakers, and no `page:` or `pdf:` links were available for enrichment. Every write-up below is therefore grounded in the title, the speaker's affiliation, and (where available) the one-line abstract, and is marked accordingly. Where the talk content is unknown, I say so rather than guess.
 

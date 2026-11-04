@@ -7,7 +7,7 @@ registry_key: autocon-5
 written_by: ToFaRev (zai-org/GLM-5.3)
 -->
 
-# AutoCon 5 (Munich) — Operator Program Digest
+# AutoCon 5 (Munich) — Digest
 
 AutoCon 5 is a network-automation operator conference, so nothing here touches optics, RDMA/lossless fabrics, eBPF/Cilium, or FIDO/SPIFFE directly. The value for this PM is in the physical-fabric and WAN automation war stories (EVPN/VXLAN, SRv6 backbones, an 800G pan-European migration), one genuinely strong network-security automation case, and the agentic-AI governance debate that dominated the leadership track. Picks below are grouped accordingly.
 

@@ -126,9 +126,14 @@ pipeline.
     the manual-paste path (below).
 11. **Digests start with the HTML-comment metadata block** (`conference`,
     `type`, `source_url`, `generated`, `registry_key`, plus `written_by` on
-    bot-written digests, which the site uses for attribution), then `##` tier sections
+    bot-written digests, which the site uses for attribution), then a single
+    `#` heading and `##` tier sections
     (Core / Adjacent / Wildcard) and a final `## Themes`. GitHub-flavored
-    markdown only. Each `###` pick heading is the program item's title, and the
+    markdown only. The `#` heading is the conference name alone, as the
+    registry's `name` gives it, optionally followed by ` — Digest` — never an
+    audience or type qualifier ("for a Networking / Identity PM", "Operator",
+    "Standards", a tagline); `propose_digest.py` rewrites it to
+    `# <name> — Digest` regardless. Each `###` pick heading is the program item's title, and the
     line under it is the code-built `**Links:**` row (see Links rows above);
     the writer adds no links of its own beyond exact program URLs.
 12. **Discovery only ever appends, and only what it confirmed.**

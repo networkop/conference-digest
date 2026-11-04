@@ -7,7 +7,7 @@ registry_key: netuk-3
 written_by: ToFaRev (zai-org/GLM-5.3)
 -->
 
-# NetUK3 (The Brewery) — Digest for a networking/identity PM
+# NetUK3 (The Brewery) — Digest
 
 A compact UK operator event (~24 sessions). The program skews heavily toward exactly this reader's core interests this cycle: physical-layer optics and fibre, routing security, and source-of-truth/automation tooling. Picks below are grouped by relevance; sponsor sessions with pitch-like abstracts (Infoblox "Protocol-as-a-Service", Megaport agentic NaaS) were skipped as picks, though Megaport's topic is noted in Themes.
 

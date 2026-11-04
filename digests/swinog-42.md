@@ -7,7 +7,7 @@ registry_key: swinog-42
 written_by: ToFaRev (zai-org/GLM-5.3)
 -->
 
-# SwiNOG #42 — Operator Digest
+# SwiNOG #42 — Digest
 
 ## Core
 

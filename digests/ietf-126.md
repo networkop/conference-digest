@@ -7,7 +7,7 @@ registry_key: ietf-126
 written_by: ToFaRev (zai-org/GLM-5.3)
 -->
 
-# IETF 126 (Vienna) — Digest for a networking, security, and identity PM
+# IETF 126 (Vienna) — Digest
 
 A standards meeting, so the unit of value is the draft, not the talk. Maturity matters: below, WG-adopted / WGLC documents (BGP-LS BGP-only fabric, EVPN First Hop Security, WIMSE credentials, Merkle Tree Certificates, OAuth-SPIFFE) are the ones closest to changing implementations; the AI-fabric drafts from IDR/RTG/SPRING are mostly early individual drafts but backed by unusually broad operator/vendor coalitions. Two clusters dominate this cycle: AI backend networking (adaptive routing, entropy, lossless WAN) and workload/agentic identity (WIMSE maturing, agent delegation exploding).
 

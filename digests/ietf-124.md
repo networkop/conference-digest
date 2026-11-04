@@ -7,7 +7,7 @@ registry_key: ietf-124
 written_by: ToFaRev (zai-org/GLM-5.3)
 -->
 
-# IETF 124 (Montreal) — Standards Digest
+# IETF 124 (Montreal) — Digest
 
 A working-group program, so this digest reads the drafts, not the talks: what is moving toward consensus, what changed in wire formats or security/identity mechanisms, and what is still an individual contribution. The dominant gravity this cycle is AI-fabric networking (FANTEL fast notifications, GLB in Clos fabrics, lossless RDMA over WAN) and a very active workload-identity cluster (WIMSE, SPIFFE–OAuth, transaction tokens).
 
