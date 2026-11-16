@@ -131,7 +131,7 @@ show in the rendered view but stays in the source:
 conference: IETF 126 (Vienna)
 type: standards
 source_url: https://datatracker.ietf.org/meeting/126/agenda.json
-generated: 2026-11-02
+generated: 2026-11-16
 registry_key: ietf-126
 -->
 
@@ -704,20 +704,15 @@ The Automatic Certificate Management Environment (ACME) protocol
    part of a federation built on top of OpenID Federation 1.0.
 
 ### Automated Certificate Management Environment (ACME) Challenge for Persistent DNS TXT Record Validation  (draft-ietf-acme-dns-persist)
-This document specifies "dns-persist-01", a new validation method for
-   the Automated Certificate Management Environment (ACME) protocol.
-   This method allows a Certification Authority (CA) to verify control
-   over a domain by confirming the presence of a persistent DNS TXT
-   record containing CA and account identification information.  This
-   method is particularly suited for environments where traditional
-   challenge methods are impractical, such as multi-tenant hosting
-   platforms, enterprise DNS environments, and IoT deployments.  The
-   validation method is designed with a strong focus on security and
-   robustness, incorporating widely adopted industry best practices for
-   persistent domain control validation.  This design aims to make it
-   suitable for Certification Authorities operating under various policy
-   environments, including those that align with the CA/Browser Forum
-   Baseline Requirements.
+This document specifies "dns-persist-01", an Automated Certificate
+   Management Environment (ACME) challenge that verifies domain or IP
+   address control using a persistent DNS TXT record.  The record
+   identifies a certification authority (CA) and binds validation to an
+   ACME account.  It can be published before certificate requests and
+   reused without per-request DNS changes, including when different
+   parties perform DNS publication and ACME operation.  Use under a
+   certificate policy or trust program remains subject to that policy's
+   requirements.
 
 ### Automated Certificate Management Environment (ACME) Delay-Tolerant Networking (DTN) Node ID Validation Extension  (draft-ietf-acme-dtnnodeid)
 This document specifies an extension to the Automated Certificate
@@ -1687,11 +1682,6 @@ The MVPN specifications provide procedures to allow a multicast
 ### CBOR Object Signing and Encryption (COSE): AES-CTR and AES-CBC  (draft-ietf-cose-aes-ctr-and-cbc)
 The Concise Binary Object Representation (CBOR) data format is designed for small code size and small message size.  CBOR Object Signing and Encryption (COSE) is specified in RFC 9052 to provide basic security services using the CBOR data format.  This document specifies the conventions for using AES-CTR and AES-CBC as content encryption algorithms with COSE.
 
-### Post-Quantum Key Encapsulation Mechanisms (PQ KEMs) for COSE  (draft-ietf-cose-pqc-kem)
-This document describes conventions for using Post-Quantum Key
-   Encapsulation Mechanisms (PQ-KEMs) with CBOR Object Signing and
-   Encryption (COSE).
-
 ### COSE "typ" (type) Header Parameter  (draft-ietf-cose-typ-header-parameter)
 This specification adds the equivalent of the JSON Object Signing and
    Encryption (JOSE) typ (type) header parameter to CBOR Object Signing
@@ -1893,6 +1883,11 @@ This document registers Post-Quantum (PQ) and Post-Quantum/
    Traditional (PQ/T) hybrid algorithm identifiers for use with CBOR
    Object Signing and Encryption (COSE), building on the Hybrid Public
    Key Encryption (HPKE) framework.
+
+### Post-Quantum Key Encapsulation Mechanisms (PQ KEMs) for COSE  (draft-ietf-cose-pqc-kem)
+This document describes conventions for using Post-Quantum Key
+   Encapsulation Mechanisms (PQ-KEMs) with CBOR Object Signing and
+   Encryption (COSE).
 
 ### CBOR Encoded X.509 Certificates (C509 Certificates)  (draft-ietf-cose-cbor-encoded-cert)
 This document specifies a CBOR encoding of X.509 certificates.  The
@@ -2793,11 +2788,6 @@ This document defines a way for HTTP/2 and HTTP/3 servers to send
 ### Extensible Prioritization Scheme for HTTP  (draft-ietf-httpbis-priority)
 This document describes a scheme that allows an HTTP client to communicate its preferences for how the upstream server prioritizes responses to its requests, and also allows a server to hint to a downstream intermediary how its responses should be prioritized when they are forwarded.  This document defines the Priority header field for communicating the initial priority in an HTTP version-independent manner, as well as HTTP/2 and HTTP/3 frames for reprioritizing responses.  These share a common format structure that is designed to provide future extensibility.
 
-### Secondary Certificate Authentication of HTTP Servers  (draft-ietf-httpbis-secondary-server-certs)
-This document defines a way for HTTP/2 and HTTP/3 servers to send
-   additional certificate-based credentials after a TLS connection is
-   established, based on TLS Exported Authenticators.
-
 ### Window Sizing for Zstandard Content Encoding  (draft-ietf-httpbis-zstd-window-size)
 Deployments of Zstandard, or "zstd", can use different window sizes
    to limit memory usage during compression and decompression.  Some
@@ -3090,6 +3080,9 @@ This document defines a new HTTP header field named "Expect-CT", which allows we
 
 ### HTTP Random Access and Live Content  (draft-ietf-httpbis-rand-access-live)
 To accommodate byte-range requests for content that has data appended over time, this document defines semantics that allow an HTTP client and a server to perform byte-range GET and HEAD requests that start at an arbitrary byte offset within the representation and end at an indeterminate offset.
+
+### Using Early Data in HTTP  (draft-ietf-httpbis-replay)
+Using TLS early data creates an exposure to the possibility of a replay attack.  This document defines mechanisms that allow clients to communicate with servers about HTTP requests that are sent in early data.  Techniques are described that use these mechanisms to mitigate the risk of replay.
 
 ## Working Group: idr
 ### Deprecation of BGP OPEN Message Error subcodes 8, 9, and 10.  (draft-ietf-idr-deprecate-8-9-10)
@@ -4131,6 +4124,19 @@ This document defines a digital credential format that uses JSON Web
    are not defined in this document, only the core serialization.  The
    credential type definition and data model follow SD-JWT VC.
 
+### BBS and Modular Sub-proofs with JSON Web Proofs  (draft-ietf-jose-jwp-modular-bbs)
+This document defines a digital credential format that uses JSON Web
+   Proofs (JWP) as its container format and Blind BBS Signatures as its
+   signature scheme combined with a modular framework for attaching
+   zero-knowledge sub-proofs.  This allows a Holder to reveal some
+   attributes directly while proving predicates such as range or
+   equality over the ones they keep hidden.  A credential can
+   additionally be bound to a Holder-held device key, with possession of
+   the key proven in every presentation without revealing the public key
+   or signature.  Concrete sub-proof and device-binding constructions
+   are not defined in this document, only the core serialization.  The
+   credential type definition and data model follow SD-JWT VC.
+
 ## Working Group: lamps
 ### DNS Certification Authority Authorization (CAA) Resource Record  (draft-hoffman-andrews-caa-simplification)
 The Certification Authority Authorization (CAA) DNS Resource Record
@@ -4647,7 +4653,7 @@ This document extends UDP Proxying over HTTP to add optimizations for
    proxied QUIC connections.  Specifically, it allows a proxy to reuse
    UDP 4-tuples for multiple proxied connections, and adds a mode of
    proxying in which QUIC short header packets can be forwarded and
-   transformed through a HTTP/3 proxy rather than being fully re-
+   transformed through an HTTP/3 proxy rather than being fully re-
    encapsulated and re-encrypted.
 
 ### Proxying Ethernet Frames in HTTP  (draft-ietf-masque-connect-ethernet)
@@ -5293,6 +5299,10 @@ This specification describes data formats as well as validation and
    processing rules to express Verifiable Digital Credentials with JSON
    payloads with and without selective disclosure based on the SD-JWT
    format.
+
+   Furthermore, this specification updates RFC7800 to allow for the
+   Confirmation Claim (cnf) to be used regardless of the presence or
+   absence of other claims.
 
 ### OAuth Client ID Metadata Document  (draft-parecki-oauth-client-id-metadata-document)
 This specification defines a mechanism through which an OAuth client
@@ -6250,6 +6260,21 @@ In the IETF Remote Attestation Procedures (RATS) architecture (RFC
    considerations on conditionally endorsed values, endorsing
    verification keys, timeliness, and multiple Endorsements.
 
+### Geographic Attestation Results  (draft-ietf-rats-geographic-results)
+Many workloads have limitations on what geography they are allowed to
+   operate in.  This is often due to a regulation that requires that the
+   computation occur in a particular jurisdiction.
+
+   There are many mechanisms by which Evidence of location may be
+   created and then evaluated by a Verifier.  No matter which mechanism
+   is appropriate for a given situation, the result of the Verification
+   can be expressed in a similiarly defined EAT Attestation Result.
+
+   This document is about encoding a variety of geographical conclusions
+   conclusions in an Attestation Result.  In addition, one mechanism of
+   directly creating a geographic result in the form of an Endorsement
+   is described in an appendix.
+
 ### An EAT Profile for Trustworthy Device Assignment  (draft-ietf-rats-eat-da)
 In confidential computing, device assignment (DA) is the method by
    which a device (e.g., network adapter, GPU), whether on-chip or
@@ -6263,6 +6288,46 @@ In confidential computing, device assignment (DA) is the method by
    standardize the representation of DA-related information in Evidence
    to ensure interoperability.  This document defines an attestation
    Evidence format for DA as an EAT (Entity Attestation Token) profile.
+
+### Verifiable Proof of Environment Attestation Profile  (draft-ietf-rats-verifiable-proof-of-environment)
+Operators of regulated, sovereign, and high-assurance deployments
+   require hardware-rooted, machine-verifiable proof that a workload
+   executes in its approved environment.  Current remote attestation
+   mechanisms address two relevant properties in isolation: platform
+   integrity — that the hardware and software stack are in an approved,
+   untampered state — and physical residency — that the hardware resides
+   within an approved geographic boundary.  Neither property alone is
+   sufficient: integrity without residency permits a valid platform to
+   operate outside approved boundaries; residency without integrity
+   permits a compromised platform to claim valid placement.
+
+   This document defines the *Verifiable Proof of Environment
+   Attestation Profile (V-PEA)*, a profile of the RATS Architecture (RFC
+   9334) in which a platform binds location Claims to its own integrity
+   Evidence in a single Evidence structure (lah-bundle) signed by a TPM
+   quote.  V-PEA does not generate location Claims: they are produced by
+   location sources, such as GNSS receivers, mobile network operators,
+   or timing-based anchors, and V-PEA binds them to the particular
+   platform that will receive a credential or key.  V-PEA defines two
+   Evidence dimensions: *WHAT* — hardware provenance (TPM Attestation
+   Key registered and manufacturer-endorsed), platform integrity
+   (firmware and OS state matching reference values), and workload agent
+   software integrity (binary digest matching an approved value); and
+   *WHERE* — physical residency within an approved geographic boundary,
+   as reported by one or more location sources.  A single TPM quote
+   binds WHAT and WHERE into one signed statement: neither dimension can
+   be forged or transplanted without invalidating the other.  This
+   document specifies the binding for TPM 2.0; the binding does not
+   depend on a TPM, and other platform roots of trust can provide it.
+
+   For the WHERE dimension, V-PEA supports Transparent Zero-Knowledge
+   Proofs (ZKPs), enabling an Attester to prove geographic compliance
+   without disclosing precise coordinates.  A positive V-PEA Attestation
+   Result enables a Relying Party to issue hardware-rooted credentials
+   or authorize operations — combining verified execution environment
+   (WHAT) with verified physical placement (WHERE) — before releasing
+   sensitive assets or granting access.  Integration with workload
+   identity systems is described in the WIMSE Integration appendix.
 
 ## Working Group: rift
 ### RIFT: Routing in Fat Trees  (draft-ietf-rift-rift)
